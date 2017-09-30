@@ -6,5 +6,8 @@
   "prettier.tabWidth": 2,
   "prettier.trailingComma": "all",
 
-  "docthis.inferTypesFromNames": true
+  "docthis.inferTypesFromNames": true,
+  "newFile.defaultFileExtension": ".js",
+  "newFile.relativeTo": "project",
+  "newFile.showPathRelativeTo": "project"
 }
