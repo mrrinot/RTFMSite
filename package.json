@@ -1,25 +1,42 @@
 {
-  "name": "rtfmsite",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "axios": "^0.16.2",
-    "prop-types": "^15.6.0",
-    "react": "^16.0.0",
-    "react-dom": "^16.0.0",
-    "react-redux": "^5.0.6",
-    "react-router": "^4.2.0",
-    "react-router-dom": "^4.2.2",
-    "react-scripts": "1.0.14",
-    "redux": "^3.7.2",
-    "redux-devtools-extension": "^2.13.2",
-    "redux-saga": "^0.15.6",
-    "semantic-ui-react": "^0.74.2"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
-  }
+    "name": "rtfmsite",
+    "version": "0.1.0",
+    "private": true,
+    "dependencies": {
+        "axios": "^0.16.2",
+        "prop-types": "^15.6.0",
+        "react": "^16.0.0",
+        "react-dom": "^16.0.0",
+        "react-redux": "^5.0.6",
+        "react-router": "^4.2.0",
+        "react-router-dom": "^4.2.2",
+        "react-scripts": "1.0.14",
+        "redux": "^3.7.2",
+        "redux-devtools-extension": "^2.13.2",
+        "redux-saga": "^0.15.6",
+        "semantic-ui-react": "^0.74.2"
+    },
+    "scripts": {
+        "start": "react-scripts start",
+        "build": "react-scripts build",
+        "test": "react-scripts test --env=jsdom",
+        "eject": "react-scripts eject",
+        "lint": "eslint \"**/*.js\"",
+        "lint:fix": "eslint --fix \"**/*.js\""
+    },
+    "devDependencies": {
+        "eslint": "^4.7.2",
+        "eslint-config-airbnb-base": "^12.0.0",
+        "eslint-config-prettier": "^2.6.0",
+        "eslint-plugin-import": "^2.7.0",
+        "eslint-plugin-prettier": "^2.3.1",
+        "eslint-plugin-react": "^7.4.0",
+        "prettier": "^1.7.3"
+    },
+    "prettier": {
+        "printWidth": 100,
+        "tabWidth": 2,
+        "trailingComma": "all"
+    },
+    "eslintIgnore": ["build/*", "dep/*", "node_modules/*"]
 }

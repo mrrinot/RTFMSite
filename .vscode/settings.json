@@ -9,5 +9,6 @@
   "docthis.inferTypesFromNames": true,
   "newFile.defaultFileExtension": ".js",
   "newFile.relativeTo": "project",
-  "newFile.showPathRelativeTo": "project"
+  "newFile.showPathRelativeTo": "project",
+  "eslint.enable": true
 }
