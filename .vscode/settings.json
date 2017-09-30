@@ -7,7 +7,5 @@
   "prettier.trailingComma": "all",
 
   "docthis.inferTypesFromNames": true,
-  "newFile.defaultFileExtension": ".js",
-  "newFile.relativeTo": "project",
-  "newFile.showPathRelativeTo": "project"
+  "newFile.defaultFileExtension": ".js"
 }
