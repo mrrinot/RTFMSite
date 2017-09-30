@@ -2,6 +2,7 @@ import { RETRIEVED_LOGIN_STATUS, LOGIN_LOADING, LOGIN_ERROR } from "../actions/t
 
 const defaultState = {
   isLoggedIn: false,
+  loading: false,
 };
 
 /**
@@ -17,13 +18,13 @@ export default function login(state = defaultState, action = {}) {
     case RETRIEVED_LOGIN_STATUS:
       return {
         ...state,
+        loading: false,
         isLoggedIn: action.isLoggedIn,
       };
     case LOGIN_LOADING:
       return {
         ...state,
-        loggingIn: true,
-        error: null,
+        loading: true,
       };
     case LOGIN_ERROR:
       return {
@@ -31,6 +32,7 @@ export default function login(state = defaultState, action = {}) {
         loggingIn: false,
         error: action.error.message,
       };
+
     default:
       return state;
   }
