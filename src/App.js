@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { Button, Message } from "semantic-ui-react";
 import { Switch, Route, Redirect } from "react-router";
-import HomePage from "./components/HomePage";
-import ItemPage from "./components/ItemPage";
+import HomePage from "./pages/HomePage";
+import ItemPage from "./pages/ItemPage";
 
 const App = () => (
   <Switch>

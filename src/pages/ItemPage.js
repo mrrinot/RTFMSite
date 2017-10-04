@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import SearchComponent from "./SearchComponent";
+import SearchComponent from "../components/SearchComponent";
+import ItemList from "../components/ItemList";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { fetchItems } from "../actions/creators";
@@ -13,6 +14,7 @@ class ItemPage extends Component {
       <div>
         <h1>Items page</h1>
         <SearchComponent onResult={this.onResult} />
+        {this.props.items.length > 0 && <ItemList items={this.props.items} />}
       </div>
     );
   }
@@ -20,7 +22,7 @@ class ItemPage extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    items: state.items.items,
+    items: state.items.items || [],
   };
 };
 
@@ -33,6 +35,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 };
 
 ItemPage.propTypes = {
+  items: PropTypes.array.isRequired,
   onResult: PropTypes.func.isRequired,
 };
 
