@@ -1,12 +1,12 @@
-import { DO_LOGIN_ATTEMPT, RETRIEVED_LOGIN_STATUS, LOGIN_LOADING } from "./types";
+import {
+  DO_LOGIN_ATTEMPT,
+  RETRIEVED_LOGIN_STATUS,
+  LOGIN_LOADING,
+  DO_FETCH_ITEMS,
+  FETCHED_ITEMS,
+} from "./types";
 
-/**
- * Returns an action of type DO_LOGIN_ATTEMPT
- *
- * @export
- * @param {object} credentials User credentials
- * @returns {object} DO_LOGIN_ATTEMPT action
- */
+// Login
 export function loginAttempt(credentials) {
   return {
     type: DO_LOGIN_ATTEMPT,
@@ -25,5 +25,20 @@ export function setLoading(isLoading) {
   return {
     type: LOGIN_LOADING,
     loading: isLoading,
+  };
+}
+
+// Items
+export function fetchItems(input) {
+  return {
+    type: DO_FETCH_ITEMS,
+    input,
+  };
+}
+
+export function onFetchedItems(items) {
+  return {
+    type: FETCHED_ITEMS,
+    items,
   };
 }

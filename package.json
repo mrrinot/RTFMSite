@@ -39,9 +39,6 @@
         "tabWidth": 2,
         "trailingComma": "all"
     },
-    "eslintIgnore": [
-        "build/*",
-        "dep/*",
-        "node_modules/*"
-    ]
+    "eslintIgnore": ["build/*", "dep/*", "node_modules/*"],
+    "proxy": "http://localhost:8080"
 }

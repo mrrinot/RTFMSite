@@ -1,38 +1,14 @@
 import React, { Component } from "react";
 import { Button, Message } from "semantic-ui-react";
-import { connect } from "react-redux";
-import { loginAttempt } from "./actions/creators";
-import PropTypes from "prop-types";
+import { Switch, Route, Redirect } from "react-router";
+import HomePage from "./components/HomePage";
+import ItemPage from "./components/ItemPage";
 
-class App extends Component {
-  onClick = () => {
-    this.props.loginAttempt();
-  };
+const App = () => (
+  <Switch>
+    <Route exact path="/" component={HomePage} />
+    <Route path="/items" component={ItemPage} />
+  </Switch>
+);
 
-  render() {
-    const { isLoggedIn, loading } = this.props;
-    return (
-      <div className="App">
-        <h1>Click the button : {"" + isLoggedIn}</h1>
-        <Button loading={loading} onClick={this.onClick} disabled={loading} primary>
-          Click me
-        </Button>
-      </div>
-    );
-  }
-}
-
-App.propTypes = {
-  isLoggedIn: PropTypes.bool.isRequired,
-  loginAttempt: PropTypes.func.isRequired,
-  loading: PropTypes.bool.isRequired,
-};
-
-const mapStateToProps = (state, ownProps) => {
-  return {
-    isLoggedIn: state.login.isLoggedIn || false,
-    loading: state.login.loading,
-  };
-};
-
-export default connect(mapStateToProps, { loginAttempt })(App);
+export default App;
