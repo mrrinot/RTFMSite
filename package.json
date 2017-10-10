@@ -15,7 +15,8 @@
         "redux-devtools-extension": "^2.13.2",
         "redux-saga": "^0.15.6",
         "semantic-ui-css": "^2.2.12",
-        "semantic-ui-react": "^0.74.2"
+        "semantic-ui-react": "^0.74.2",
+        "validator": "^9.0.0"
     },
     "scripts": {
         "start": "react-scripts start",
@@ -39,6 +40,10 @@
         "tabWidth": 2,
         "trailingComma": "all"
     },
-    "eslintIgnore": ["build/*", "dep/*", "node_modules/*"],
+    "eslintIgnore": [
+        "build/*",
+        "dep/*",
+        "node_modules/*"
+    ],
     "proxy": "http://localhost:8080"
 }

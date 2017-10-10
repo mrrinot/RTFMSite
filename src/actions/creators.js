@@ -14,10 +14,11 @@ export function loginAttempt(credentials) {
   };
 }
 
-export function loginStatus(isLoggedIn) {
+export function loginStatus(JWT, errors = {}) {
   return {
     type: RETRIEVED_LOGIN_STATUS,
-    isLoggedIn,
+    JWT,
+    errors,
   };
 }
 

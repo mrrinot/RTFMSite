@@ -1,8 +1,9 @@
 import { RETRIEVED_LOGIN_STATUS, LOGIN_LOADING, LOGIN_ERROR } from "../actions/types";
 
 const defaultState = {
-  isLoggedIn: false,
   loading: false,
+  JWT: null,
+  errors: {},
 };
 
 /**
@@ -19,18 +20,13 @@ export default function login(state = defaultState, action = {}) {
       return {
         ...state,
         loading: false,
-        isLoggedIn: action.isLoggedIn,
+        JWT: action.JWT,
+        errors: action.errors,
       };
     case LOGIN_LOADING:
       return {
         ...state,
         loading: true,
-      };
-    case LOGIN_ERROR:
-      return {
-        ...state,
-        loggingIn: false,
-        error: action.error.message,
       };
 
     default:

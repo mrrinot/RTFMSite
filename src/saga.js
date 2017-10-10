@@ -3,11 +3,17 @@ import { delay } from "redux-saga";
 import { call, all, takeLatest, put } from "redux-saga/effects";
 import { loginStatus, setLoading, onFetchedItems } from "./actions/creators";
 import { getItems } from "./api/items";
+import { login } from "./api/login";
 
 function* loginAttempt(action) {
   yield put(setLoading(true));
-  yield call(delay, 3000);
-  yield put(loginStatus(true));
+  try {
+    const ret = yield call(login, action.credentials);
+    console.log(ret);
+    yield put(loginStatus(ret.data.token, {}));
+  } catch (e) {
+    yield put(loginStatus(null, e.response.data.errors));
+  }
 }
 
 function* watchLoginAttempt() {
