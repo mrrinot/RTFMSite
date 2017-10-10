@@ -4,6 +4,7 @@ import {
   LOGIN_LOADING,
   DO_FETCH_ITEMS,
   FETCHED_ITEMS,
+  DO_LOGOUT,
 } from "./types";
 
 // Login
@@ -26,6 +27,12 @@ export function setLoading(isLoading) {
   return {
     type: LOGIN_LOADING,
     loading: isLoading,
+  };
+}
+
+export function logoutAttempt() {
+  return {
+    type: DO_LOGOUT,
   };
 }
 

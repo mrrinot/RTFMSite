@@ -8,6 +8,7 @@ import { createStore, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
 import rootReducer from "./reducers/rootReducer";
 import * as actionCreators from "./actions/creators";
+import { loginStatus } from "./actions/creators";
 import App from "./App";
 import rootSaga from "./saga";
 
@@ -16,6 +17,9 @@ const sagaMiddleware = createSagaMiddleware();
 const store = createStore(rootReducer, composeEnhancers(applyMiddleware(sagaMiddleware)));
 sagaMiddleware.run(rootSaga);
 
+if (localStorage.rtfmJWT) {
+  store.dispatch(loginStatus(localStorage.rtfmJWT));
+}
 ReactDOM.render(
   <BrowserRouter>
     <Provider store={store}>

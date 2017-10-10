@@ -28,7 +28,6 @@ export default function login(state = defaultState, action = {}) {
         ...state,
         loading: true,
       };
-
     default:
       return state;
   }

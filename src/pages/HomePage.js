@@ -1,10 +1,14 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { Form, Button, Message, Icon } from "semantic-ui-react";
+import { logoutAttempt } from "../actions/creators";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
 class HomePage extends Component {
+  onLogout = () => {
+    this.props.onLogout();
+  };
   render() {
     return (
       <div>
@@ -15,7 +19,7 @@ class HomePage extends Component {
           <div>
             <Link to="/items">ItemsPage</Link>
             <p />
-            <Button color="red">
+            <Button color="red" onClick={this.onLogout}>
               <Icon name="power" />Logout
             </Button>
           </div>
@@ -27,6 +31,7 @@ class HomePage extends Component {
 
 HomePage.propTypes = {
   isAuthenticated: PropTypes.bool.isRequired,
+  onLogout: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state, ownProps) => {
@@ -35,4 +40,12 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-export default connect(mapStateToProps)(HomePage);
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    onLogout: () => {
+      dispatch(logoutAttempt());
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomePage);

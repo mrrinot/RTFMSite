@@ -1,4 +1,4 @@
-import { DO_LOGIN_ATTEMPT, DO_FETCH_ITEMS } from "./actions/types";
+import { DO_LOGIN_ATTEMPT, DO_FETCH_ITEMS, DO_LOGOUT } from "./actions/types";
 import { delay } from "redux-saga";
 import { call, all, takeLatest, put } from "redux-saga/effects";
 import { loginStatus, setLoading, onFetchedItems } from "./actions/creators";
@@ -9,8 +9,8 @@ function* loginAttempt(action) {
   yield put(setLoading(true));
   try {
     const ret = yield call(login, action.credentials);
-    console.log(ret);
-    yield put(loginStatus(ret.data.token, {}));
+    yield put(loginStatus(ret.data.token));
+    localStorage.rtfmJWT = ret.data.token;
   } catch (e) {
     yield put(loginStatus(null, e.response.data.errors));
   }
@@ -18,6 +18,15 @@ function* loginAttempt(action) {
 
 function* watchLoginAttempt() {
   yield takeLatest(DO_LOGIN_ATTEMPT, loginAttempt);
+}
+
+function* logoutAttempt() {
+  yield put(loginStatus(null));
+  localStorage.removeItem("rtfmJWT");
+}
+
+function* watchLogoutAttempt() {
+  yield takeLatest(DO_LOGOUT, logoutAttempt);
 }
 
 function* fetchItemsAttempt({ input }) {
@@ -34,5 +43,5 @@ function* watchItemsFetch() {
 }
 
 export default function* rootSaga() {
-  yield all([watchLoginAttempt(), watchItemsFetch()]);
+  yield all([watchLoginAttempt(), watchItemsFetch(), watchLogoutAttempt()]);
 }
