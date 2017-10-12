@@ -11,7 +11,7 @@ class GuestRoute extends Component {
       <Route
         {...rest}
         // replace /items with the menu route
-        render={props => (!isAuthenticated ? <Component {...props} /> : <Redirect to="/items" />)}
+        render={props => (!isAuthenticated ? <Component {...props} /> : <Redirect to="/" />)}
       />
     );
   }
@@ -24,7 +24,7 @@ GuestRoute.propTypes = {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    isAuthenticated: !!state.login.JWT,
+    isAuthenticated: !!state.login.userInfos.token,
   };
 };
 

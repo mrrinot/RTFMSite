@@ -23,7 +23,7 @@ UserRoute.propTypes = {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    isAuthenticated: !!state.login.JWT,
+    isAuthenticated: !!state.login.userInfos.token,
   };
 };
 

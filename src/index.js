@@ -6,6 +6,7 @@ import createSagaMiddleware from "redux-saga";
 import { composeWithDevTools } from "redux-devtools-extension";
 import { createStore, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
+import decode from "jwt-decode";
 import rootReducer from "./reducers/rootReducer";
 import * as actionCreators from "./actions/creators";
 import { loginStatus } from "./actions/creators";
@@ -18,7 +19,14 @@ const store = createStore(rootReducer, composeEnhancers(applyMiddleware(sagaMidd
 sagaMiddleware.run(rootSaga);
 
 if (localStorage.rtfmJWT) {
-  store.dispatch(loginStatus(localStorage.rtfmJWT));
+  const payload = decode(localStorage.rtfmJWT);
+  const userInfos = {
+    token: localStorage.rtfmJWT,
+    email: payload.email,
+    adminLevel: payload.adminLevel,
+    pseudo: payload.pseudo,
+  };
+  store.dispatch(loginStatus(userInfos));
 }
 ReactDOM.render(
   <BrowserRouter>

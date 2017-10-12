@@ -7,7 +7,7 @@ import { loginAttempt } from "../actions/creators";
 class LoginPage extends Component {
   onSubmit = credentials => {
     this.props.onSubmit(credentials);
-    this.props.history.push("/");
+    // this.props.history.push("/");
   };
 
   render() {

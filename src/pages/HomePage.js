@@ -13,12 +13,18 @@ class HomePage extends Component {
     return (
       <div>
         <h1>Home Page</h1>
-        {!this.props.isAuthenticated ? (
+        {!this.props.userInfos.token ? (
           <Link to="/login">Login</Link>
         ) : (
           <div>
             <Link to="/items">ItemsPage</Link>
             <p />
+            {this.props.userInfos.adminLevel === 3 && (
+              <div>
+                <Link to="/invite">Create an invite</Link>
+                <p />
+              </div>
+            )}
             <Button color="red" onClick={this.onLogout}>
               <Icon name="power" />Logout
             </Button>
@@ -30,13 +36,18 @@ class HomePage extends Component {
 }
 
 HomePage.propTypes = {
-  isAuthenticated: PropTypes.bool.isRequired,
+  userInfos: PropTypes.shape({
+    token: PropTypes.string,
+    email: PropTypes.string,
+    adminLevel: PropTypes.number,
+    pseudo: PropTypes.string,
+  }).isRequired,
   onLogout: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    isAuthenticated: !!state.login.JWT,
+    userInfos: state.login.userInfos,
   };
 };
 

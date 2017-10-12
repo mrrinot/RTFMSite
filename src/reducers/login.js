@@ -2,7 +2,7 @@ import { RETRIEVED_LOGIN_STATUS, LOGIN_LOADING, LOGIN_ERROR } from "../actions/t
 
 const defaultState = {
   loading: false,
-  JWT: null,
+  userInfos: {},
   errors: {},
 };
 
@@ -20,7 +20,7 @@ export default function login(state = defaultState, action = {}) {
       return {
         ...state,
         loading: false,
-        JWT: action.JWT,
+        userInfos: action.userInfos,
         errors: action.errors,
       };
     case LOGIN_LOADING:
