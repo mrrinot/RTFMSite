@@ -1,4 +1,4 @@
-import { RETRIEVED_LOGIN_STATUS, LOGIN_LOADING, LOGIN_ERROR } from "../actions/types";
+import { RETRIEVED_LOGIN_STATUS, LOGIN_LOADING } from "../actions/types";
 
 const defaultState = {
   loading: false,

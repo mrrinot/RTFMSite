@@ -9,7 +9,7 @@ import { Provider } from "react-redux";
 import decode from "jwt-decode";
 import rootReducer from "./reducers/rootReducer";
 import * as actionCreators from "./actions/creators";
-import { loginStatus } from "./actions/creators";
+import { loginStatus } from "./actions/creators/login";
 import App from "./App";
 import rootSaga from "./saga";
 

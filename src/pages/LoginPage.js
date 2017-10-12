@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import LoginForm from "../forms/LoginForm";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { loginAttempt } from "../actions/creators";
+import { loginAttempt } from "../actions/creators/login";
 
 class LoginPage extends Component {
   onSubmit = credentials => {

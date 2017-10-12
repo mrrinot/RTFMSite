@@ -1,7 +1,6 @@
 import {
   RETRIEVED_INVITE_STATUS,
   INVITE_LOADING,
-  INVITE_ERROR,
   RETRIEVED_INVITE_CONFIRM_STATUS,
 } from "../actions/types";
 

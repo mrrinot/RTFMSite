@@ -3,7 +3,7 @@ import SearchComponent from "../components/SearchComponent";
 import ItemList from "../components/ItemList";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { fetchItems } from "../actions/creators";
+import { fetchItems } from "../actions/creators/items";
 
 class ItemPage extends Component {
   onResult = input => {

@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import ConfirmInviteForm from "../forms/ConfirmInviteForm";
 import decode from "jwt-decode";
 import { connect } from "react-redux";
-import { sendInviteConfirmationAttempt } from "../actions/creators";
+import { sendInviteConfirmationAttempt } from "../actions/creators/invite";
 
 class ConfirmInvitePage extends Component {
   onSubmit = data => {

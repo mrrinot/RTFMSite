@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import InviteForm from "../forms/InviteForm";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { sendInviteAttempt } from "../actions/creators";
+import { sendInviteAttempt } from "../actions/creators/invite";
 
 class InvitePage extends Component {
   onSubmit = inviteInfos => {
