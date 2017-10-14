@@ -4,6 +4,7 @@ import { call, all, takeLatest, put } from "redux-saga/effects";
 import { setInviteLoading, inviteStatus, inviteConfirmStatus } from "../creators/invite";
 import { loginStatus } from "../creators/login";
 import decode from "jwt-decode";
+import history from "../../history";
 import { sendInvite, sendInviteConfirmation } from "../../api/invite";
 
 function* inviteAttempt(action) {
@@ -11,6 +12,7 @@ function* inviteAttempt(action) {
   try {
     const ret = yield call(sendInvite, action.inviteInfos);
     yield put(inviteStatus(ret));
+    history.push("/");
   } catch (e) {
     yield put(inviteStatus(null, e.response.data.errors));
   }
@@ -34,6 +36,7 @@ function* inviteConfirmAttempt(action) {
       pseudo: payload.pseudo,
     };
     yield put(loginStatus(userInfos));
+    history.push("/");
   } catch (e) {
     yield put(inviteConfirmStatus(null, e.response.data.errors));
   }

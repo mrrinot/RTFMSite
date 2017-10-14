@@ -6,7 +6,6 @@ import { connect } from "react-redux";
 class UserRoute extends Component {
   render() {
     const { component: Component, isAuthenticated, ...rest } = this.props;
-    console.log(isAuthenticated);
     return (
       <Route
         {...rest}
@@ -23,7 +22,7 @@ UserRoute.propTypes = {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    isAuthenticated: !!state.login.userInfos.token,
+    isAuthenticated: !!state.login.userInfos.email,
   };
 };
 

@@ -5,9 +5,8 @@ import { connect } from "react-redux";
 import { loginAttempt } from "../actions/creators/login";
 
 class LoginPage extends Component {
-  onSubmit = credentials => {
+  onSubmit = async credentials => {
     this.props.onSubmit(credentials);
-    // this.props.history.push("/");
   };
 
   render() {
@@ -22,8 +21,8 @@ class LoginPage extends Component {
 
 LoginPage.propTypes = {
   onSubmit: PropTypes.func.isRequired,
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
+  errors: PropTypes.shape({
+    global: PropTypes.string,
   }).isRequired,
 };
 
@@ -35,4 +34,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(LoginPage);
+const mapStateToProps = (state, ownProps) => {
+  return {
+    errors: state.login.errors,
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);
