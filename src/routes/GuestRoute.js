@@ -6,11 +6,10 @@ import { connect } from "react-redux";
 class GuestRoute extends Component {
   render() {
     const { component: Component, isAuthenticated, ...rest } = this.props;
-    console.log(isAuthenticated);
+    console.log("IS AUTH ? ", isAuthenticated);
     return (
       <Route
         {...rest}
-        // replace /items with the menu route
         render={props => (!isAuthenticated ? <Component {...props} /> : <Redirect to="/" />)}
       />
     );
@@ -24,7 +23,7 @@ GuestRoute.propTypes = {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    isAuthenticated: !!state.login.userInfos.token,
+    isAuthenticated: !!state.login.userInfos.email,
   };
 };
 

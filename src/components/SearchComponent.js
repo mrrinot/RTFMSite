@@ -8,7 +8,6 @@ class SearchComponent extends Component {
   onInputChanged = (e, data) => {
     clearTimeout(this.lastInputChangeRequest);
     this.lastInputChangeRequest = setTimeout(() => {
-      console.log(data);
       this.props.onResult(data.value);
     }, 500);
   };

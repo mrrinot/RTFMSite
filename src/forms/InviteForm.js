@@ -20,7 +20,7 @@ class InviteForm extends Component {
     const errors = this.validate(this.state.data);
     this.setState({ errors });
     if (Object.keys(errors).length === 0) {
-      this.props.onSubmit({ ...this.state.data, token: this.props.token });
+      this.props.onSubmit({ ...this.state.data, userInfos: this.props.userInfos });
     }
   };
 
@@ -57,7 +57,7 @@ class InviteForm extends Component {
         </Form.Field>
         <Form.Field>
           <label htmlFor="adminLevel">Admin Level</label>
-          <select value={data.password} onChange={this.onChange}>
+          <select name="adminLevel" value={data.password} onChange={this.onChange}>
             <option value="1">1 - Basic readonly user</option>
             <option value="2">2 - Bot API Access</option>
             <option value="3">3 - Maximum admin level</option>
@@ -73,16 +73,20 @@ InviteForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
   errors: PropTypes.shape({
-    global: PropTypes.string.isRequired,
+    global: PropTypes.string,
   }).isRequired,
-  token: PropTypes.string.isRequired,
+  userInfos: PropTypes.shape({
+    email: PropTypes.string.isRequired,
+    adminLevel: PropTypes.number.isRequired,
+    pseudo: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 const mapStateToProps = (state, ownProps) => {
   return {
     loading: state.invite.loading,
     errors: state.invite.errors,
-    token: state.login.userInfos.token,
+    userInfos: state.login.userInfos,
   };
 };
 

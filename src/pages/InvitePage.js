@@ -7,7 +7,6 @@ import { sendInviteAttempt } from "../actions/creators/invite";
 class InvitePage extends Component {
   onSubmit = inviteInfos => {
     this.props.onSubmit(inviteInfos);
-    this.props.history.push("/");
   };
 
   render() {
@@ -22,9 +21,6 @@ class InvitePage extends Component {
 
 InvitePage.propTypes = {
   onSubmit: PropTypes.func.isRequired,
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-  }).isRequired,
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {

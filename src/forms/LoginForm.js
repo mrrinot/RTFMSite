@@ -77,7 +77,7 @@ LoginForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
   errors: PropTypes.shape({
-    global: PropTypes.string.isRequired,
+    global: PropTypes.string,
   }).isRequired,
 };
 

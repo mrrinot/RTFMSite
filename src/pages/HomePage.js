@@ -13,7 +13,7 @@ class HomePage extends Component {
     return (
       <div>
         <h1>Home Page</h1>
-        {!this.props.userInfos.token ? (
+        {!this.props.userInfos.email ? (
           <Link to="/login">Login</Link>
         ) : (
           <div>
