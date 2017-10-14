@@ -6,7 +6,6 @@ import { connect } from "react-redux";
 class GuestRoute extends Component {
   render() {
     const { component: Component, isAuthenticated, ...rest } = this.props;
-    console.log("IS AUTH ? ", isAuthenticated);
     return (
       <Route
         {...rest}

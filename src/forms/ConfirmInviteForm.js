@@ -94,7 +94,7 @@ ConfirmInviteForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
   errors: PropTypes.shape({
-    global: PropTypes.string.isRequired,
+    global: PropTypes.string,
   }).isRequired,
   invitationToken: PropTypes.string.isRequired,
   email: PropTypes.string.isRequired,

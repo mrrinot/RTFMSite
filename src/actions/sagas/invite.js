@@ -27,15 +27,8 @@ function* inviteConfirmAttempt(action) {
   try {
     const ret = yield call(sendInviteConfirmation, action.inviteConfirmationInfos);
     yield put(inviteConfirmStatus(ret));
-    localStorage.rtfmJWT = ret.data.token;
-    const payload = yield call(decode, localStorage.rtfmJWT);
-    const userInfos = {
-      token: localStorage.rtfmJWT,
-      email: payload.email,
-      adminLevel: payload.adminLevel,
-      pseudo: payload.pseudo,
-    };
-    yield put(loginStatus(userInfos));
+    localStorage.rtfmUserInfos = JSON.stringify(ret.data);
+    yield put(loginStatus(ret.data));
     history.push("/");
   } catch (e) {
     yield put(inviteConfirmStatus(null, e.response.data.errors));

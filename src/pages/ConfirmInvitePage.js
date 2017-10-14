@@ -11,7 +11,6 @@ class ConfirmInvitePage extends Component {
   };
   render() {
     const payload = decode(this.props.match.params.token);
-    console.log("payload : ", payload);
     return (
       <div>
         <h1>Create your account</h1>
