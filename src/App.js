@@ -17,6 +17,15 @@ const App = () => (
       <UserRoute path="/items" component={ItemPage} />
       <UserRoute exact path="/invite" component={InvitePage} />
       <GuestRoute exact path="/invite/:token" component={ConfirmInvitePage} />
+
+      <Route // Always last route. Helps track 404
+        render={({ staticContext }) => {
+          if (staticContext) {
+            staticContext.status = 404;
+          }
+          return <Redirect push to="/" />;
+        }}
+      />
     </Switch>
   </div>
 );

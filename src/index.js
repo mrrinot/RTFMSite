@@ -28,6 +28,7 @@ if (localStorage.rtfmJWT) {
   };
   store.dispatch(loginStatus(userInfos));
 }
+
 ReactDOM.render(
   <BrowserRouter>
     <Provider store={store}>
