@@ -21,6 +21,7 @@ sagaMiddleware.run(rootSaga);
 if (localStorage.rtfmUserInfos) {
   store.dispatch(loginStatus(JSON.parse(localStorage.rtfmUserInfos)));
 }
+
 ReactDOM.render(
   <Router history={history}>
     <Provider store={store}>
