@@ -1,21 +1,17 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Image, Table } from "semantic-ui-react";
+import { Image, Grid } from "semantic-ui-react";
+import ItemComponent from "./ItemComponent";
 
 const ItemList = props => {
   return (
-    <Table celled>
-      <Table.Body>
-        {props.items.map(item => (
-          <Table.Row key={item.id}>
-            <Table.Cell>
-              <Image src={`/img/${item.iconId}.png`} />
-            </Table.Cell>
-            <Table.Cell>{item.name}</Table.Cell>
-          </Table.Row>
-        ))}
-      </Table.Body>
-    </Table>
+    <Grid columns={5} celled>
+      {props.items.map((item, key) => (
+        <Grid.Column key={key / 5}>
+          <ItemComponent item={item} key={key} />
+        </Grid.Column>
+      ))}
+    </Grid>
   );
 };
 
