@@ -52,10 +52,10 @@ class ItemComponent extends Component {
         {item.possibleEffects.map((effect, key) => (
           <div key={key}>
             {this.isEffectWeaponUse(effect) && (
-              <text>
+              <div>
                 <font color="SeaGreen"> {effect.description}</font>
                 <br />
-              </text>
+              </div>
             )}
           </div>
         ))}
@@ -70,10 +70,10 @@ class ItemComponent extends Component {
         {item.possibleEffects.map((effect, key) => (
           <div key={key}>
             {!this.isEffectWeaponUse(effect) && (
-              <text>
+              <div>
                 <font color="SeaGreen"> {effect.description}</font>
                 <br />
-              </text>
+              </div>
             )}
           </div>
         ))}
@@ -81,93 +81,122 @@ class ItemComponent extends Component {
     );
   }
 
+  renderWeaponSecondaryStats() {
+    const { item } = this.props;
+    return (
+      <div>
+        <font size={2}>
+          Coût <b>52 PA</b>
+          <br />
+          Portée <b>OUI</b>
+          <br />
+          Critique <b>YY% (+MAX dommages)</b>
+          <br />
+          <b>X</b> utilisations par tour
+        </font>
+      </div>
+    );
+  }
+
+  renderWeaponDmgLines() {
+    const { item } = this.props;
+    return (
+      <div>
+        <font size={3}>
+          <b>Dommages</b>
+          <br />
+          {this.getWeaponDmgLines()}
+        </font>
+      </div>
+    );
+  }
+  renderItemEffects() {
+    const { item } = this.props;
+    return (
+      <div>
+        <font size={3}>
+          <b>Effets</b>
+          <br />
+          {this.getItemEffects()}
+        </font>
+      </div>
+    );
+  }
+
+  renderItemSecondaryStats() {
+    const { item } = this.props;
+    return (
+      <div>
+        <font size={2}>
+          Catégorie <b>{item.type.name}</b>
+          <br />
+          Poids <b>{item.weight} pods</b>
+          <br />
+          Prix moyen: <b>123 456 798 K</b>
+        </font>
+      </div>
+    );
+  }
+
+  renderDescription() {
+    const style = {
+      wordBreak: "break-word",
+      maxWidth: "500px",
+      paddingRight: "15px",
+      paddingLeft: "15px",
+    };
+    const { item } = this.props;
+    return (
+      <div style={style}>
+        <font size={2}>{item.description}</font>
+      </div>
+    );
+  }
+
+  renderCriteria() {
+    const { item } = this.props;
+    return (
+      <div>
+        <font size={3}>
+          <b>Conditions</b>
+          <br />
+          <font color="DarkOrange">{item.criteria}</font>
+        </font>
+      </div>
+    );
+  }
+
   render() {
     const { item } = this.props;
     return (
-      <Popup
-        trigger={this.renderItem()}
-        flowing
-        position="left center"
-        basic
-        offset={-500}
-        hoverable
-      >
-        <Grid divided>
+      <Popup trigger={this.renderItem()} position="bottom center" basic hoverable flowing>
+        <Grid divided padded>
           <Grid.Row>
-            <Grid.Column width={12}>
-              <h1>
-                <font size={4} color={item.etheral ? "MediumSeaGreen" : "White"}>
+            <Grid.Column width={13}>
+              <div>
+                <font size={4} as="h1" color={item.etheral ? "MediumSeaGreen" : "White"}>
                   {item.name}
                 </font>
                 <br />
                 <font size={3}>Niveau {item.level}</font>
-              </h1>
-              {this.isAWeapon() && (
-                <div>
-                  <text>
-                    <font size={2}>
-                      Coût <b>52 PA</b>
-                      <br />
-                      Portée <b>OUI</b>
-                      <br />
-                      Critique <b>YY% (+MAX dommages)</b>
-                      <br />
-                      <b>X</b> utilisations par tour
-                    </font>
-                  </text>
-                </div>
-              )}
-            </Grid.Column>
-            <Grid.Column width={4}>
-              <Image centered fluid src={`/img/${item.iconId}.png`} />
-            </Grid.Column>
-          </Grid.Row>
-          <Grid.Row>
-            <Grid.Column>
-              {this.isAWeapon() && (
-                <div>
-                  <text>
-                    <font size={3}>
-                      <b>Dommages</b>
-                      <br />
-                      {this.getWeaponDmgLines()}
-                    </font>
-                  </text>
-                </div>
-              )}
-            </Grid.Column>
-          </Grid.Row>
-          <Grid.Row>
-            <Grid.Column>
-              {item.possibleEffects.length !== 0 && (
-                <div>
-                  <text>
-                    <font size={3}>
-                      <b>Effets</b>
-                      <br />
-                      {this.getItemEffects()}
-                    </font>
-                  </text>
-                </div>
-              )}
-            </Grid.Column>
-          </Grid.Row>
-          <Grid.Row>
-            <Grid.Column>
-              <div>
-                <text>
-                  <font size={2}>
-                    Catégorie <b>{item.type.name}</b>
-                    <br />
-                    Poids <b>99999 pods</b>
-                    <br />
-                    Prix moyen: <b>123 456 798 K</b>
-                  </font>
-                </text>
+                <p />
+                {this.isAWeapon() && this.renderWeaponSecondaryStats()}
+                <p />
+                {this.isAWeapon() && this.renderWeaponDmgLines()}
+                <p />
+                {item.possibleEffects.length !== 0 && this.renderItemEffects()}
+                <p />
+                {item.criteria !== "" && this.renderCriteria()}
+                <p />
+                {this.renderItemSecondaryStats()}
               </div>
+            </Grid.Column>
+            <Grid.Column width={3}>
+              <Image centered height="75" width="75" src={`/img/${item.iconId}.png`} />
             </Grid.Column>
           </Grid.Row>
         </Grid>
+        {this.renderDescription()}
       </Popup>
     );
   }
