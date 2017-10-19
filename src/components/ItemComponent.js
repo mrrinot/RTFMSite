@@ -25,24 +25,9 @@ class ItemComponent extends Component {
     );
   }
 
-  isEffectWeaponUse(effect) {
-    if (
-      effect.description.indexOf("dommages") !== -1 ||
-      effect.description.indexOf("PV rendus") !== -1 ||
-      effect.description.indexOf("vol") !== -1
-    )
-      return true;
-    return false;
-  }
-
   isAWeapon() {
     const { item } = this.props;
-    if (item.possibleEffects.lenght === 0) return false;
-    let isWeapon = false;
-    item.possibleEffects.map(effect => {
-      if (this.isEffectWeaponUse(effect)) isWeapon = true;
-    });
-    return isWeapon;
+    return item.apCost !== -1;
   }
 
   getWeaponDmgLines() {
@@ -51,7 +36,7 @@ class ItemComponent extends Component {
       <div>
         {item.possibleEffects.map((effect, key) => (
           <div key={key}>
-            {this.isEffectWeaponUse(effect) && (
+            {effect.useInFight && (
               <div>
                 <font color="SeaGreen"> {effect.description}</font>
                 <br />
@@ -69,9 +54,11 @@ class ItemComponent extends Component {
       <div>
         {item.possibleEffects.map((effect, key) => (
           <div key={key}>
-            {!this.isEffectWeaponUse(effect) && (
+            {!effect.useInFight && (
               <div>
-                <font color="SeaGreen"> {effect.description}</font>
+                <font color={effect.bonusType === -1 ? "FireBrick" : "SeaGreen"}>
+                  {effect.description}
+                </font>
                 <br />
               </div>
             )}
@@ -86,13 +73,16 @@ class ItemComponent extends Component {
     return (
       <div>
         <font size={2}>
-          Coût <b>52 PA</b>
+          Coût <b>{item.apCost} PA</b>
           <br />
-          Portée <b>OUI</b>
+          Portée <b>{item.minRange !== 1 ? `${item.minRange} à ${item.range}` : item.range}</b>
           <br />
-          Critique <b>YY% (+MAX dommages)</b>
+          {"Critique "}
+          <b>
+            {item.criticalHitProbability}% (+{item.criticalHitBonus} dommages)
+          </b>
           <br />
-          <b>X</b> utilisations par tour
+          <b>{item.maxCastPerTurn}</b> utilisations par tour
         </font>
       </div>
     );
@@ -175,10 +165,12 @@ class ItemComponent extends Component {
             <Grid.Column width={13}>
               <div>
                 <font size={4} as="h1" color={item.etheral ? "MediumSeaGreen" : "White"}>
-                  {item.name}
+                  <b>{item.name}</b>
                 </font>
                 <br />
-                <font size={3}>Niveau {item.level}</font>
+                <font size={3}>
+                  Niveau <b>{item.level}</b>
+                </font>
                 <p />
                 {this.isAWeapon() && this.renderWeaponSecondaryStats()}
                 <p />

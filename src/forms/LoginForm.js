@@ -83,7 +83,7 @@ LoginForm.propTypes = {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    loading: state.login.loading,
+    loading: state.loading.isLoading,
     errors: state.login.errors,
   };
 };

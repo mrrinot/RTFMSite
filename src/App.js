@@ -8,6 +8,7 @@ import InvitePage from "./pages/InvitePage";
 import UserRoute from "./routes/UserRoute";
 import GuestRoute from "./routes/GuestRoute";
 import ConfirmInvitePage from "./pages/ConfirmInvitePage";
+import CreateAPIKeyPage from "./pages/CreateAPIKeyPage";
 
 const App = () => (
   <div className="ui container">
@@ -17,6 +18,7 @@ const App = () => (
       <UserRoute path="/items" component={ItemPage} />
       <UserRoute exact path="/invite" component={InvitePage} />
       <GuestRoute exact path="/invite/:token" component={ConfirmInvitePage} />
+      <UserRoute path="/createAPIKey" component={CreateAPIKeyPage} />
 
       <Route // Always last route. Helps track 404
         render={({ staticContext }) => {

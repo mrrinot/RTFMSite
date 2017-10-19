@@ -1,4 +1,4 @@
-import { DO_LOGIN_ATTEMPT, RETRIEVED_LOGIN_STATUS, LOGIN_LOADING, DO_LOGOUT } from "../types";
+import { DO_LOGIN_ATTEMPT, RETRIEVED_LOGIN_STATUS, DO_LOGOUT } from "../types";
 
 export function loginAttempt(credentials) {
   return {
@@ -12,13 +12,6 @@ export function loginStatus(userInfos, errors = {}) {
     type: RETRIEVED_LOGIN_STATUS,
     userInfos,
     errors,
-  };
-}
-
-export function setLoginLoading(isLoading) {
-  return {
-    type: LOGIN_LOADING,
-    loading: isLoading,
   };
 }
 

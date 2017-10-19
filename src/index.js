@@ -9,6 +9,7 @@ import { Provider } from "react-redux";
 import rootReducer from "./reducers/rootReducer";
 import * as actionCreators from "./actions/creators";
 import { loginStatus } from "./actions/creators/login";
+import { onCreatedAPIKey } from "./actions/creators/APIKey";
 import App from "./App";
 import rootSaga from "./saga";
 import history from "./history";
@@ -19,7 +20,9 @@ const store = createStore(rootReducer, composeEnhancers(applyMiddleware(sagaMidd
 sagaMiddleware.run(rootSaga);
 
 if (localStorage.rtfmUserInfos) {
-  store.dispatch(loginStatus(JSON.parse(localStorage.rtfmUserInfos)));
+  const userInfos = JSON.parse(localStorage.rtfmUserInfos);
+  store.dispatch(loginStatus(userInfos));
+  store.dispatch(onCreatedAPIKey(userInfos.APIKey));
 }
 
 ReactDOM.render(

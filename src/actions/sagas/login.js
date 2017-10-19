@@ -2,11 +2,12 @@ import { DO_LOGIN_ATTEMPT, DO_LOGOUT } from "../types";
 import { delay } from "redux-saga";
 import history from "../../history";
 import { call, all, takeLatest, put } from "redux-saga/effects";
-import { loginStatus, setLoginLoading } from "../creators/login";
+import { loginStatus } from "../creators/login";
+import { loading } from "../creators/loading";
 import { login } from "../../api/login";
 
 function* loginAttempt(action) {
-  yield put(setLoginLoading(true));
+  yield put(loading(true));
   try {
     const ret = yield call(login, action.credentials);
     localStorage.rtfmUserInfos = JSON.stringify(ret.data);
@@ -15,6 +16,7 @@ function* loginAttempt(action) {
   } catch (e) {
     yield put(loginStatus({}, e.response.data.errors));
   }
+  yield put(loading(false));
 }
 
 export function* watchLoginAttempt() {

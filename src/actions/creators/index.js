@@ -1,6 +1,7 @@
-import * as loginCreators from "./login.js";
-import * as inviteCreators from "./invite.js";
-import * as itemsCreators from "./items.js";
+import * as loginCreators from "./login";
+import * as inviteCreators from "./invite";
+import * as itemsCreators from "./items";
+import * as APICreators from "./APIKey";
 
-const creators = { ...loginCreators, ...itemsCreators, ...inviteCreators };
+const creators = { ...loginCreators, ...itemsCreators, ...inviteCreators, ...APICreators };
 export default creators;

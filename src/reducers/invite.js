@@ -1,11 +1,6 @@
-import {
-  RETRIEVED_INVITE_STATUS,
-  INVITE_LOADING,
-  RETRIEVED_INVITE_CONFIRM_STATUS,
-} from "../actions/types";
+import { RETRIEVED_INVITE_STATUS, RETRIEVED_INVITE_CONFIRM_STATUS } from "../actions/types";
 
 const defaultState = {
-  loading: false,
   inviteInfos: {},
   errors: {},
 };
@@ -23,19 +18,12 @@ export default function invite(state = defaultState, action = {}) {
     case RETRIEVED_INVITE_STATUS:
       return {
         ...state,
-        loading: false,
         inviteInfos: action.inviteInfos,
         errors: action.errors,
-      };
-    case INVITE_LOADING:
-      return {
-        ...state,
-        loading: true,
       };
     case RETRIEVED_INVITE_CONFIRM_STATUS:
       return {
         ...state,
-        loading: false,
         inviteConfirmationInfos: action.inviteConfirmationInfos,
         errors: action.errors,
       };

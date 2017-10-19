@@ -1,8 +1,7 @@
-import { RETRIEVED_LOGIN_STATUS } from "../actions/types";
+import { PAGE_LOADING } from "../actions/types";
 
 const defaultState = {
-  userInfos: {},
-  errors: {},
+  isLoading: false,
 };
 
 /**
@@ -13,13 +12,12 @@ const defaultState = {
  * @param {object} [action={}] Action data
  * @returns {object} New state
  */
-export default function login(state = defaultState, action = {}) {
+export default function loading(state = defaultState, action = {}) {
   switch (action.type) {
-    case RETRIEVED_LOGIN_STATUS:
+    case PAGE_LOADING:
       return {
         ...state,
-        userInfos: action.userInfos,
-        errors: action.errors,
+        isLoading: action.isLoading,
       };
     default:
       return state;

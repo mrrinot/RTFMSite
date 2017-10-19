@@ -19,6 +19,11 @@ class HomePage extends Component {
           <div>
             <Link to="/items">ItemsPage</Link>
             <p />
+            {this.props.userInfos.adminLevel >= 2 && (
+              <div>
+                <Link to="/createAPIKey">Create an API access key</Link>
+              </div>
+            )}
             {this.props.userInfos.adminLevel === 3 && (
               <div>
                 <Link to="/invite">Create an invite</Link>

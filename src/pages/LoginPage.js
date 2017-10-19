@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { loginAttempt } from "../actions/creators/login";
 
 class LoginPage extends Component {
-  onSubmit = async credentials => {
+  onSubmit = credentials => {
     this.props.onSubmit(credentials);
   };
 
