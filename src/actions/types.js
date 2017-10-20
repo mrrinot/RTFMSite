@@ -5,6 +5,8 @@ export const DO_LOGOUT = "DO_LOGOUT";
 // Items
 export const DO_FETCH_ITEMS = "DO_FETCH_ITEMS";
 export const FETCHED_ITEMS = "FETCHED_ITEMS";
+export const DO_FETCH_ITEM_STAT = "DO_FETCH_ITEM_STAT";
+export const FETCHED_ITEM_STAT = "FETCHED_ITEM_STAT";
 // Invite
 export const RETRIEVED_INVITE_STATUS = "RETRIEVED_INVITE_STATUS";
 export const DO_INVITE_SEND = "DO_INVITE_SEND";

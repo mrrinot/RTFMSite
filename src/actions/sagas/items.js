@@ -1,9 +1,9 @@
-import { DO_FETCH_ITEMS } from "../types";
+import { DO_FETCH_ITEMS, DO_FETCH_ITEM_STAT } from "../types";
 import { delay } from "redux-saga";
 import { loading } from "../creators/loading";
 import { call, all, takeLatest, put } from "redux-saga/effects";
-import { getItems } from "../../api/items";
-import { onFetchedItems } from "../creators/items";
+import { getItems, getItemStat } from "../../api/items";
+import { onFetchedItems, onFetchedItemStat } from "../creators/items";
 
 function* fetchItemsAttempt({ input }) {
   yield put(loading(true));
@@ -18,4 +18,20 @@ function* fetchItemsAttempt({ input }) {
 
 export function* watchItemsFetch() {
   yield takeLatest(DO_FETCH_ITEMS, fetchItemsAttempt);
+}
+
+function* fetchItemStatAttempt({ itemId, callback }) {
+  yield put(loading(true));
+  try {
+    const ret = yield call(getItemStat, itemId);
+    yield put(onFetchedItemStat(ret.data));
+    yield call(callback);
+  } catch (e) {
+    yield put(onFetchedItemStat([]));
+  }
+  yield put(loading(false));
+}
+
+export function* watchItemStatFetch() {
+  yield takeLatest(DO_FETCH_ITEM_STAT, fetchItemStatAttempt);
 }

@@ -7,7 +7,6 @@ import { createAPIKeyAttempt } from "../actions/creators/APIKey";
 
 class CreateAPIKeyPage extends Component {
   onClick = () => {
-    console.log("WHYYYYYY");
     this.props.onClick();
   };
   render() {

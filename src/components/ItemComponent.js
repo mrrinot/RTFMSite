@@ -1,9 +1,14 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Image, Grid, Popup, Button, Segment } from "semantic-ui-react";
+import history from "../history";
 import _ from "lodash";
 
 class ItemComponent extends Component {
+  onClick = () => {
+    history.push(`/itemStat/${this.props.item.id}`);
+  };
+
   renderItem() {
     const { item } = this.props;
     return (
@@ -17,7 +22,9 @@ class ItemComponent extends Component {
               <Image src={`/img/${item.iconId}.png`} />
             </Grid.Column>
             <Grid.Column width={1}>
-              <Button className="ui button">Inspecter</Button>
+              <Button onClick={this.onClick} className="ui button">
+                Inspecter
+              </Button>
             </Grid.Column>
           </Grid.Row>
         </Grid>
@@ -113,6 +120,30 @@ class ItemComponent extends Component {
     );
   }
 
+  renderPrices() {
+    const { item } = this.props;
+    return (
+      <div>
+        Prix moyen:
+        {item.avgPrices.length === 0 ? (
+          <b> Indisponible</b>
+        ) : (
+          item.avgPrices.map((avgPrice, key) => (
+            <div key={key}>
+              {" -"}
+              {avgPrice.server.name} :
+              <b>
+                {" "}
+                {avgPrice.averagePrice === -1 ? " Indisponible" : avgPrice.averagePrice + " K"}
+              </b>
+              <br />
+            </div>
+          ))
+        )}
+      </div>
+    );
+  }
+
   renderItemSecondaryStats() {
     const { item } = this.props;
     return (
@@ -122,7 +153,7 @@ class ItemComponent extends Component {
           <br />
           Poids <b>{item.weight} pods</b>
           <br />
-          Prix moyen: <b>123 456 798 K</b>
+          {this.renderPrices()}
         </font>
       </div>
     );

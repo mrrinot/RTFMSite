@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { fetchItems } from "../actions/creators/items";
 
-class ItemPage extends Component {
+class ItemsPage extends Component {
   onResult = input => {
     this.props.onResult(input);
   };
@@ -34,9 +34,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   };
 };
 
-ItemPage.propTypes = {
+ItemsPage.propTypes = {
   items: PropTypes.array.isRequired,
   onResult: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ItemPage);
+export default connect(mapStateToProps, mapDispatchToProps)(ItemsPage);

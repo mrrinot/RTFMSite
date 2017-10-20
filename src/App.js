@@ -3,8 +3,9 @@ import { Button, Message } from "semantic-ui-react";
 import { Switch, Route, Redirect } from "react-router";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
-import ItemPage from "./pages/ItemPage";
+import ItemsPage from "./pages/ItemsPage";
 import InvitePage from "./pages/InvitePage";
+import ItemStatPage from "./pages/ItemStatPage";
 import UserRoute from "./routes/UserRoute";
 import GuestRoute from "./routes/GuestRoute";
 import ConfirmInvitePage from "./pages/ConfirmInvitePage";
@@ -15,7 +16,8 @@ const App = () => (
     <Switch>
       <Route exact path="/" component={HomePage} />
       <GuestRoute path="/login" component={LoginPage} />
-      <UserRoute path="/items" component={ItemPage} />
+      <UserRoute path="/items" component={ItemsPage} />
+      <UserRoute path="/itemStat/:itemId" component={ItemStatPage} />
       <UserRoute exact path="/invite" component={InvitePage} />
       <GuestRoute exact path="/invite/:token" component={ConfirmInvitePage} />
       <UserRoute path="/createAPIKey" component={CreateAPIKeyPage} />
