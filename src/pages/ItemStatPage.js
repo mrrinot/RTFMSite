@@ -1,28 +1,53 @@
 import React, { Component } from "react";
-import SearchComponent from "../components/SearchComponent";
-import ItemList from "../components/ItemList";
 import HighCharts from "highcharts";
-import ReactHighcharts from "react-highcharts";
+import ReactHighstock from "react-highcharts/ReactHighstock.src";
 import { Image, Grid, Popup, Button, Segment, Message, Icon } from "semantic-ui-react";
+import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { fetchItemStat } from "../actions/creators/items";
+import HDVArchiveComponent from "../components/HDVArchiveComponent";
+import moment from "moment";
 import _ from "lodash";
 
 class ItemStatPage extends Component {
+  state = { timestampSelected: -1 };
   config = {
-    chart: { polar: true, zoomType: "x" },
+    chart: { type: "line", zoomType: "xy" },
     title: { text: "PLACEHOLDER" },
     subtitle: {
       text: "Click and drag in the plot area to zoom in",
     },
     legend: {
+      enabled: true,
       layout: "vertical",
       align: "right",
       verticalAlign: "middle",
     },
+    tooltip: {
+      shared: true,
+      crosshairs: true,
+      valueSuffix: " K/u",
+      valueDecimals: 2,
+    },
+    navigator: { adaptToUpdatedData: false },
     xAxis: { type: "datetime" },
     yAxis: { title: { text: "Prix en Kamas" } },
+    plotOptions: {
+      series: {
+        showInNavigator: true,
+        findNearestPointBy: "xy",
+        cropThreshold: 5000,
+        connectNulls: true,
+        point: {
+          events: {
+            click: e => {
+              this.pointClicked(e);
+            },
+          },
+        },
+      },
+    },
     series: [
       {
         name: "x1",
@@ -31,9 +56,24 @@ class ItemStatPage extends Component {
     ],
   };
 
+  pointClicked = e => {
+    const pointStamp = moment.parseZone(e.point.key + " +02:00", "dddd, MMM DD, HH:mm:ss.SSS Z");
+    const selected = _.findIndex(this.props.prices, price => {
+      return new Date(price.timestamp) + "" === pointStamp._d + "";
+    });
+    this.setState({ timestampSelected: selected });
+  };
+
   componentDidMount() {
     this.props.onMount(this.props.match.params.itemId, this.onItemReceived);
   }
+
+  calculateAvgForPrice = (data, price, col) => {
+    let val = 0;
+    _.each(price.itemDescriptions, desc => (val += desc.prices[col]));
+    val = val / price.itemDescriptions.length;
+    data.push([price.timestamp, val > 0 ? val : null]);
+  };
 
   onItemReceived = () => {
     const one = { name: "x1", data: [] };
@@ -41,13 +81,10 @@ class ItemStatPage extends Component {
     const hundred = { name: "x100", data: [] };
     const avg = { name: "Prix moyen", data: [] };
     _.each(this.props.prices, price => {
-      if (price.itemDescriptions.length > 1) {
-        return false;
-      }
-      one.data.push([price.timestamp, price.itemDescriptions[0].prices[0]]);
-      ten.data.push([price.timestamp, price.itemDescriptions[0].prices[1]]);
-      hundred.data.push([price.timestamp, price.itemDescriptions[0].prices[2]]);
-      avg.data.push([price.timestamp, price.averagePrice !== -1 ? price.averagePrice : null]);
+      this.calculateAvgForPrice(one.data, price, 0);
+      this.calculateAvgForPrice(ten.data, price, 1);
+      this.calculateAvgForPrice(hundred.data, price, 2);
+      avg.data.push([price.timestamp, price.averagePrice > 0 ? price.averagePrice : null]);
     });
     this.config.series = [one, ten, hundred, avg];
     this.config.title.text = `Prix de l'objet: ${this.props.item.name}`;
@@ -68,17 +105,24 @@ class ItemStatPage extends Component {
         )}
         {!this.props.loading && (
           <div>
-            <Grid stretched>
+            <Grid divided padded>
               <Grid.Row>
-                <Grid.Column>
+                <Grid.Column floated="left" width={3}>
                   <h1>{item.name}</h1>
                 </Grid.Column>
-                <Grid.Column>
-                  <Image src={`/img/${item.iconId}.png`} />
+                <Grid.Column width={5}>
+                  <Image centered src={`/img/${item.iconId}.png`} />
+                  <Link to="/items">Items list</Link>
                 </Grid.Column>
               </Grid.Row>
             </Grid>
-            <ReactHighcharts config={this.config} />
+            {this.config.title.text !== "PLACEHOLDER" && (
+              <div>
+                <ReactHighstock config={this.config} />
+                <br />
+                <HDVArchiveComponent item={item} selected={this.state.timestampSelected} />
+              </div>
+            )}
           </div>
         )}
       </div>

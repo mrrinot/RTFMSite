@@ -1,47 +1,19 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Image, Grid, Popup, Button, Segment } from "semantic-ui-react";
-import history from "../history";
 import _ from "lodash";
 
-class ItemComponent extends Component {
-  onClick = () => {
-    history.push(`/itemStat/${this.props.item.id}`);
-  };
-
-  renderItem() {
-    const { item } = this.props;
-    return (
-      <div>
-        <h3>
-          <font color={item.etheral ? "MediumSeaGreen" : "White"}>{item.name}</font>
-        </h3>
-        <Grid celled="internally">
-          <Grid.Row>
-            <Grid.Column width={7}>
-              <Image src={`/img/${item.iconId}.png`} />
-            </Grid.Column>
-            <Grid.Column width={1}>
-              <Button onClick={this.onClick} className="ui button">
-                Inspecter
-              </Button>
-            </Grid.Column>
-          </Grid.Row>
-        </Grid>
-      </div>
-    );
-  }
-
+class ItemTooltipComponent extends Component {
   isAWeapon() {
     const { item } = this.props;
     return item.apCost !== -1;
   }
 
   getWeaponDmgLines() {
-    const { item } = this.props;
+    const { effects } = this.props;
     return (
       <div>
-        {item.possibleEffects.map((effect, key) => (
+        {effects.map((effect, key) => (
           <div key={key}>
             {effect.useInFight && (
               <div>
@@ -56,10 +28,10 @@ class ItemComponent extends Component {
   }
 
   getItemEffects() {
-    const { item } = this.props;
+    const { effects } = this.props;
     return (
       <div>
-        {item.possibleEffects.map((effect, key) => (
+        {effects.map((effect, key) => (
           <div key={key}>
             {!effect.useInFight && (
               <div>
@@ -96,7 +68,6 @@ class ItemComponent extends Component {
   }
 
   renderWeaponDmgLines() {
-    const { item } = this.props;
     return (
       <div>
         <font size={3}>
@@ -108,7 +79,6 @@ class ItemComponent extends Component {
     );
   }
   renderItemEffects() {
-    const { item } = this.props;
     return (
       <div>
         <font size={3}>
@@ -121,14 +91,14 @@ class ItemComponent extends Component {
   }
 
   renderPrices() {
-    const { item } = this.props;
+    const { avgPrices } = this.props;
     return (
       <div>
         Prix moyen:
-        {item.avgPrices.length === 0 ? (
+        {avgPrices.length === 0 ? (
           <b> Indisponible</b>
         ) : (
-          item.avgPrices.map((avgPrice, key) => (
+          avgPrices.map((avgPrice, key) => (
             <div key={key}>
               {" -"}
               {avgPrice.server.name} :
@@ -188,9 +158,9 @@ class ItemComponent extends Component {
   }
 
   render() {
-    const { item } = this.props;
+    const { item, effects } = this.props;
     return (
-      <Popup trigger={this.renderItem()} position="bottom center" basic hoverable flowing>
+      <Popup trigger={this.props.toRender(item)} position="bottom center" basic hoverable flowing>
         <Grid divided padded>
           <Grid.Row>
             <Grid.Column width={13}>
@@ -207,7 +177,7 @@ class ItemComponent extends Component {
                 <p />
                 {this.isAWeapon() && this.renderWeaponDmgLines()}
                 <p />
-                {item.possibleEffects.length !== 0 && this.renderItemEffects()}
+                {effects.length !== 0 && this.renderItemEffects()}
                 <p />
                 {item.criteria !== "" && this.renderCriteria()}
                 <p />
@@ -225,7 +195,7 @@ class ItemComponent extends Component {
   }
 }
 
-ItemComponent.propTypes = {
+ItemTooltipComponent.propTypes = {
   item: PropTypes.shape({
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
@@ -235,7 +205,10 @@ ItemComponent.propTypes = {
       name: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,
+  effects: PropTypes.array.isRequired,
   key: PropTypes.number.isRequired,
+  toRender: PropTypes.func.isRequired,
+  avgPrices: PropTypes.array.isRequired,
 };
 
-export default ItemComponent;
+export default ItemTooltipComponent;
