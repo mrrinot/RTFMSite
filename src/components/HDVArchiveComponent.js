@@ -16,6 +16,10 @@ class HDVArchiveComponent extends Component {
     return opt;
   };
 
+  componentWillReceiveProps(newProps) {
+    this.setState({ selected: newProps.selected || this.props.selected });
+  }
+
   toRender = desc => {
     const { item } = this.props;
     return (
@@ -43,7 +47,7 @@ class HDVArchiveComponent extends Component {
   };
 
   renderHDV() {
-    const priceArchive = this.props.prices[this.props.selected];
+    const priceArchive = this.props.prices[this.state.selected];
     const { item } = this.props;
     return (
       <Grid streched celled>
@@ -74,10 +78,10 @@ class HDVArchiveComponent extends Component {
           fluid
           selection
           options={this.getTimestampOptions()}
-          onChange={(e, data) => (this.props.selected = data.value)}
+          onChange={(e, data) => this.setState({ selected: data.value })}
         />
         <br />
-        {this.props.selected !== -1 && this.renderHDV()}
+        {this.state.selected !== -1 && this.renderHDV()}
       </div>
     );
   }
