@@ -40,7 +40,9 @@ class ItemList extends Component {
         {this.props.items.map((item, key) => (
           <Grid.Column key={key / 5}>
             <ItemTooltipComponent
+              position="bottom center"
               item={item}
+              hoverable
               effects={item.possibleEffects}
               avgPrices={item.avgPrices}
               key={key}

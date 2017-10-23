@@ -6,6 +6,9 @@ import { connect } from "react-redux";
 import { fetchItems } from "../actions/creators/items";
 
 class ItemsPage extends Component {
+  componentDidMount() {
+    // this.props.getItemsData();
+  }
   onResult = input => {
     this.props.onResult(input);
   };
@@ -13,7 +16,7 @@ class ItemsPage extends Component {
     return (
       <div>
         <h1>Items page</h1>
-        <SearchComponent onResult={this.onResult} />
+        <SearchComponent onResult={this.onResult} loading={this.props.loading} />
         {this.props.items.length > 0 && <ItemList items={this.props.items} />}
       </div>
     );
@@ -23,6 +26,7 @@ class ItemsPage extends Component {
 const mapStateToProps = (state, ownProps) => {
   return {
     items: state.items.items || [],
+    loading: state.loading.isLoading,
   };
 };
 
@@ -31,12 +35,16 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     onResult: input => {
       dispatch(fetchItems(input));
     },
+    // getItemsMetaData: () => {
+    //   dispatch(fetchItemsMetaData);
+    // },
   };
 };
 
 ItemsPage.propTypes = {
   items: PropTypes.array.isRequired,
   onResult: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ItemsPage);

@@ -15,7 +15,7 @@ class ItemTooltipComponent extends Component {
       <div>
         {effects.map((effect, key) => (
           <div key={key}>
-            {effect.useInFight && (
+            {effect.effect.useInFight && (
               <div>
                 <font color="SeaGreen"> {effect.description}</font>
                 <br />
@@ -33,9 +33,9 @@ class ItemTooltipComponent extends Component {
       <div>
         {effects.map((effect, key) => (
           <div key={key}>
-            {!effect.useInFight && (
+            {!effect.effect.useInFight && (
               <div>
-                <font color={effect.bonusType === -1 ? "FireBrick" : "SeaGreen"}>
+                <font color={effect.effect.bonusType === -1 ? "FireBrick" : "SeaGreen"}>
                   {effect.description}
                 </font>
                 <br />
@@ -160,7 +160,7 @@ class ItemTooltipComponent extends Component {
   render() {
     const { item, effects } = this.props;
     return (
-      <Popup trigger={this.props.toRender(item)} position="bottom center" basic hoverable flowing>
+      <Popup trigger={this.props.toRender(item)} basic flowing {...this.props}>
         <Grid divided padded>
           <Grid.Row>
             <Grid.Column width={13}>

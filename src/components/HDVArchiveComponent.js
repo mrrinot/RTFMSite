@@ -23,27 +23,10 @@ class HDVArchiveComponent extends Component {
   toRender = desc => {
     const { item } = this.props;
     return (
-      <Grid.Row>
-        <Grid.Column width={4}>
-          <Image src={`/img/${item.iconId}.png`} />
-        </Grid.Column>
-        <Grid.Column width={4}>{desc.prices[0]}</Grid.Column>
-        <Grid.Column width={4}>{desc.prices[1]}</Grid.Column>
-        <Grid.Column width={4}>{desc.prices[2]}</Grid.Column>
-      </Grid.Row>
+      <Grid.Column width={4}>
+        <Image src={`/img/${item.iconId}.png`} />
+      </Grid.Column>
     );
-  };
-
-  processEffects = (theoricalEffects, descEffects) => {
-    let effects = [];
-    console.log(descEffects);
-    _.each(theoricalEffects, effect => {
-      const newEff = effect;
-      newEff.description = _.find(descEffects, { actionId: effect.effectId }).description;
-      console.log(newEff);
-      effects.push(newEff);
-    });
-    return effects;
   };
 
   renderHDV() {
@@ -57,17 +40,44 @@ class HDVArchiveComponent extends Component {
           <Grid.Column width={4}>x10</Grid.Column>
           <Grid.Column width={4}>x100</Grid.Column>
         </Grid.Row>
-        {_.orderBy(priceArchive.itemDescriptions, ["prices"], ["asc"]).map((desc, key) => (
-          <ItemTooltipComponent
-            item={item}
-            effects={this.processEffects(item.possibleEffects, desc.effects)}
-            avgPrices={[priceArchive]}
-            key={key}
-            toRender={e => this.toRender(desc)}
-          />
+        {_.sortBy(priceArchive.itemDescriptions, [
+          desc => {
+            return parseInt(desc.prices[0], 10);
+          },
+          desc => {
+            return parseInt(desc.prices[1], 10);
+          },
+          desc => {
+            return parseInt(desc.prices[2], 10);
+          },
+        ]).map((desc, key) => (
+          <Grid.Row key={key}>
+            <ItemTooltipComponent
+              item={item}
+              effects={desc.effects}
+              avgPrices={[priceArchive]}
+              key={key}
+              toRender={e => this.toRender(desc)}
+              position="right center"
+            />
+            <Grid.Column width={4}>{desc.prices[0]}</Grid.Column>
+            <Grid.Column width={4}>{desc.prices[1]}</Grid.Column>
+            <Grid.Column width={4}>{desc.prices[2]}</Grid.Column>
+          </Grid.Row>
         ))}
       </Grid>
     );
+  }
+
+  displaySelectedTimeStamp() {
+    let str = "";
+    console.log(this.state.selected);
+    if (this.state.selected !== -1 && this.props.prices !== undefined) {
+      str = `${new Date(this.props.prices[this.state.selected].timestamp)} => ${this.props.prices[
+        this.state.selected
+      ].itemDescriptions.length} items`;
+    }
+    return str;
   }
 
   render() {
@@ -79,6 +89,7 @@ class HDVArchiveComponent extends Component {
           selection
           options={this.getTimestampOptions()}
           onChange={(e, data) => this.setState({ selected: data.value })}
+          text={this.displaySelectedTimeStamp()}
         />
         <br />
         {this.state.selected !== -1 && this.renderHDV()}
