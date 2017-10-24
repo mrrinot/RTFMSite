@@ -55,6 +55,7 @@ class HDVArchiveComponent extends Component {
             <ItemTooltipComponent
               item={item}
               effects={desc.effects}
+              baseEffects={item.possibleEffects}
               avgPrices={[priceArchive]}
               key={key}
               toRender={e => this.toRender(desc)}

@@ -44,6 +44,7 @@ class ItemList extends Component {
               item={item}
               hoverable
               effects={item.possibleEffects}
+              baseEffects={item.possibleEffects}
               avgPrices={item.avgPrices}
               key={key}
               toRender={this.toRender}

@@ -4,6 +4,10 @@ import { Image, Grid, Popup, Button, Segment } from "semantic-ui-react";
 import _ from "lodash";
 
 class ItemTooltipComponent extends Component {
+  isAddedEffect = effect => {
+    return _.find(this.props.baseEffects, { effectId: effect.effectId }) === undefined;
+  };
+
   isAWeapon() {
     const { item } = this.props;
     return item.apCost !== -1;
@@ -35,7 +39,13 @@ class ItemTooltipComponent extends Component {
           <div key={key}>
             {!effect.effect.useInFight && (
               <div>
-                <font color={effect.effect.bonusType === -1 ? "FireBrick" : "SeaGreen"}>
+                <font
+                  color={
+                    effect.effect.bonusType === -1
+                      ? "FireBrick"
+                      : this.isAddedEffect(effect) ? "SteelBlue" : "SeaGreen"
+                  }
+                >
                   {effect.description}
                 </font>
                 <br />
@@ -206,6 +216,7 @@ ItemTooltipComponent.propTypes = {
     }).isRequired,
   }).isRequired,
   effects: PropTypes.array.isRequired,
+  baseEffects: PropTypes.array.isRequired,
   key: PropTypes.number.isRequired,
   toRender: PropTypes.func.isRequired,
   avgPrices: PropTypes.array.isRequired,
