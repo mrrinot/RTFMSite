@@ -1,7 +1,7 @@
 import axios from "axios";
 
-export const getItems = input => {
-  return axios.get(`/api/items/${input}`);
+export const getItems = where => {
+  return axios.post("/api/items/", { where });
 };
 
 export const getItemStat = itemId => {

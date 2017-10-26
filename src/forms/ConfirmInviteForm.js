@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Form, Button, Message, Icon } from "semantic-ui-react";
 import PropTypes from "prop-types";
-import Validator from "validator";
 import InlineError from "../messages/InlineError";
 import { connect } from "react-redux";
 
@@ -36,7 +35,7 @@ class ConfirmInviteForm extends Component {
   };
 
   render() {
-    const { loading, errors, data } = this.state;
+    const { errors, data } = this.state;
     return (
       <Form onSubmit={this.onSubmit} loading={this.props.loading}>
         {this.props.errors.global && (

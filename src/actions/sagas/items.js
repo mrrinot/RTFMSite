@@ -1,7 +1,6 @@
 import { DO_FETCH_ITEMS, DO_FETCH_ITEM_STAT } from "../types";
-import { delay } from "redux-saga";
 import { loading } from "../creators/loading";
-import { call, all, takeLatest, put } from "redux-saga/effects";
+import { call, takeLatest, put } from "redux-saga/effects";
 import { getItems, getItemStat } from "../../api/items";
 import { onFetchedItems, onFetchedItemStat } from "../creators/items";
 

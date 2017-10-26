@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import HighCharts from "highcharts";
 import ReactHighstock from "react-highcharts/ReactHighstock.src";
-import { Image, Grid, Popup, Button, Segment, Message, Icon } from "semantic-ui-react";
+import { Image, Grid, Message, Icon } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -61,6 +61,7 @@ class ItemStatPage extends Component {
     const selected = _.findIndex(this.props.prices, price => {
       return new Date(price.timestamp) + "" === pointStamp._d + "";
     });
+    console.log("selected :", selected);
     this.setState({ timestampSelected: selected });
   };
 
@@ -68,9 +69,9 @@ class ItemStatPage extends Component {
     this.props.onMount(this.props.match.params.itemId, this.onItemReceived);
   }
 
-  calculateAvgForPrice = (data, price, col) => {
+  calculateAvgForPrice = (data, price, col, pow) => {
     let val = 0;
-    _.each(price.itemDescriptions, desc => (val += desc.prices[col]));
+    _.each(price.itemDescriptions, desc => (val += parseInt(desc.prices[col], 10) / pow));
     val = val / price.itemDescriptions.length;
     data.push([price.timestamp, val > 0 ? val : null]);
   };
@@ -81,9 +82,9 @@ class ItemStatPage extends Component {
     const hundred = { name: "x100", data: [] };
     const avg = { name: "Prix moyen", data: [] };
     _.each(this.props.prices, price => {
-      this.calculateAvgForPrice(one.data, price, 0);
-      this.calculateAvgForPrice(ten.data, price, 1);
-      this.calculateAvgForPrice(hundred.data, price, 2);
+      this.calculateAvgForPrice(one.data, price, 0, 1);
+      this.calculateAvgForPrice(ten.data, price, 1, 10);
+      this.calculateAvgForPrice(hundred.data, price, 2, 100);
       avg.data.push([price.timestamp, price.averagePrice > 0 ? price.averagePrice : null]);
     });
     this.config.series = [one, ten, hundred, avg];

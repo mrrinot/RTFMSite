@@ -1,10 +1,8 @@
 import { DO_INVITE_SEND, DO_INVITE_CONFIRM } from "../types";
-import { delay } from "redux-saga";
-import { call, all, takeLatest, put } from "redux-saga/effects";
+import { call, takeLatest, put } from "redux-saga/effects";
 import { inviteStatus, inviteConfirmStatus } from "../creators/invite";
 import { loading } from "../creators/loading";
 import { loginStatus } from "../creators/login";
-import decode from "jwt-decode";
 import history from "../../history";
 import { sendInvite, sendInviteConfirmation } from "../../api/invite";
 

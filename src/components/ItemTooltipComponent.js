@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Image, Grid, Popup, Button, Segment } from "semantic-ui-react";
+import { Image, Grid, Popup } from "semantic-ui-react";
 import _ from "lodash";
 
 class ItemTooltipComponent extends Component {

@@ -32,7 +32,7 @@ class LoginForm extends Component {
   };
 
   render() {
-    const { loading, errors, data } = this.state;
+    const { errors, data } = this.state;
     return (
       <Form onSubmit={this.onSubmit} loading={this.props.loading}>
         {this.props.errors.global && (

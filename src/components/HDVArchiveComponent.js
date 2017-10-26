@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Image, Grid, Popup, Button, Segment, Message, Icon, Dropdown } from "semantic-ui-react";
+import { Image, Grid, Dropdown } from "semantic-ui-react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import _ from "lodash";
@@ -88,6 +88,7 @@ class HDVArchiveComponent extends Component {
           placeholder="Select a timestamp"
           fluid
           selection
+          search
           options={this.getTimestampOptions()}
           onChange={(e, data) => this.setState({ selected: data.value })}
           text={this.displaySelectedTimeStamp()}

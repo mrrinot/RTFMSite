@@ -1,7 +1,6 @@
 import { DO_LOGIN_ATTEMPT, DO_LOGOUT } from "../types";
-import { delay } from "redux-saga";
 import history from "../../history";
-import { call, all, takeLatest, put } from "redux-saga/effects";
+import { call, takeLatest, put } from "redux-saga/effects";
 import { loginStatus } from "../creators/login";
 import { loading } from "../creators/loading";
 import { login } from "../../api/login";

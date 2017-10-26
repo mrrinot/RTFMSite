@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { Form, Button, Message, Icon } from "semantic-ui-react";
+import { Button, Icon } from "semantic-ui-react";
 import { logoutAttempt } from "../actions/creators/login";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";

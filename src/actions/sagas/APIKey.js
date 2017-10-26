@@ -1,7 +1,6 @@
 import { DO_CREATE_API_KEY_ATTEMPT } from "../types";
-import { delay } from "redux-saga";
 import { loading } from "../creators/loading";
-import { call, all, takeLatest, put } from "redux-saga/effects";
+import { call, takeLatest, put } from "redux-saga/effects";
 import { createAPIKey } from "../../api/APIKey";
 import { onCreatedAPIKey } from "../creators/APIKey";
 
