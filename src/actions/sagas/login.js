@@ -1,9 +1,14 @@
-import { DO_LOGIN_ATTEMPT, DO_LOGOUT } from "../types";
+import {
+  DO_LOGIN_ATTEMPT,
+  DO_LOGOUT,
+  DO_RESET_PASSWORD_REQUEST,
+  DO_RESET_PASSWORD_ATTEMPT,
+} from "../types";
 import history from "../../history";
 import { call, takeLatest, put } from "redux-saga/effects";
 import { loginStatus } from "../creators/login";
 import { loading } from "../creators/loading";
-import { login } from "../../api/login";
+import { login, resetPasswordRequest, resetPassword } from "../../api/login";
 
 function* loginAttempt(action) {
   yield put(loading(true));
@@ -29,4 +34,25 @@ function* logoutAttempt() {
 
 export function* watchLogoutAttempt() {
   yield takeLatest(DO_LOGOUT, logoutAttempt);
+}
+
+function* resetPasswordRequestAttempt(action) {
+  yield put(loading(true));
+  const ret = yield call(resetPasswordRequest, action.email);
+  yield put(loading(false));
+}
+
+export function* watchResetPasswordRequestAttempt() {
+  yield takeLatest(DO_RESET_PASSWORD_REQUEST, resetPasswordRequestAttempt);
+}
+
+function* resetPasswordAttempt(action) {
+  yield put(loading(true));
+  const ret = yield call(resetPassword, action.data);
+  history.push("/login");
+  yield put(loading(false));
+}
+
+export function* watchResetPasswordAttempt() {
+  yield takeLatest(DO_RESET_PASSWORD_ATTEMPT, resetPasswordAttempt);
 }

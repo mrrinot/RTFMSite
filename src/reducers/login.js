@@ -1,4 +1,4 @@
-import { RETRIEVED_LOGIN_STATUS } from "../actions/types";
+import { RETRIEVED_LOGIN_STATUS, RETRIEVED_RESET_PASSWORD_STATUS } from "../actions/types";
 
 const defaultState = {
   userInfos: {},
@@ -21,6 +21,8 @@ export default function login(state = defaultState, action = {}) {
         userInfos: action.userInfos,
         errors: action.errors,
       };
+    case RETRIEVED_RESET_PASSWORD_STATUS:
+      return { ...state, errors: action.errors };
     default:
       return state;
   }

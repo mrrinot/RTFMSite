@@ -9,12 +9,14 @@ import UserRoute from "./routes/UserRoute";
 import GuestRoute from "./routes/GuestRoute";
 import ConfirmInvitePage from "./pages/ConfirmInvitePage";
 import CreateAPIKeyPage from "./pages/CreateAPIKeyPage";
+import ResetPasswordPage from "./pages/ResetPasswordPage";
 
 const App = () => (
   <div className="ui container">
     <Switch>
       <Route exact path="/" component={HomePage} />
-      <GuestRoute path="/login" component={LoginPage} />
+      <GuestRoute exact path="/login" component={LoginPage} />
+      <GuestRoute exact path="/login/resetPassword/:token" component={ResetPasswordPage} />
       <UserRoute path="/items" component={ItemsPage} />
       <UserRoute path="/itemStat/:itemId" component={ItemStatPage} />
       <UserRoute exact path="/invite" component={InvitePage} />
