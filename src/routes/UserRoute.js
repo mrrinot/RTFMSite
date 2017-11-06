@@ -1,13 +1,14 @@
 import React, { Component } from "react";
-import { Route, Redirect } from "react-router";
+import { Redirect } from "react-router";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import LayoutRoute from "./LayoutRoute";
 
 class UserRoute extends Component {
   render() {
     const { component: Component, isAuthenticated, ...rest } = this.props;
     return (
-      <Route
+      <LayoutRoute
         {...rest}
         render={props => (isAuthenticated ? <Component {...props} /> : <Redirect to="/login" />)}
       />
