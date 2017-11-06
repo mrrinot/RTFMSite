@@ -8,6 +8,7 @@ import history from "../../history";
 import { call, takeLatest, put } from "redux-saga/effects";
 import { loginStatus } from "../creators/login";
 import { loading } from "../creators/loading";
+import { onCreatedAPIKey } from "../creators/APIKey";
 import { login, resetPasswordRequest, resetPassword } from "../../api/login";
 
 function* loginAttempt(action) {
@@ -16,6 +17,7 @@ function* loginAttempt(action) {
     const ret = yield call(login, action.credentials);
     localStorage.rtfmUserInfos = JSON.stringify(ret.data);
     yield put(loginStatus(ret.data));
+    yield put(onCreatedAPIKey(ret.data.APIKey));
     history.push("/");
   } catch (e) {
     yield put(loginStatus({}, e.response.data.errors));
