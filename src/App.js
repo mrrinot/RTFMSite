@@ -7,6 +7,7 @@ import InvitePage from "./pages/InvitePage";
 import ItemStatPage from "./pages/ItemStatPage";
 import UserRoute from "./routes/UserRoute";
 import GuestRoute from "./routes/GuestRoute";
+import AdminLevelRoute from "./routes/AdminLevelRoute";
 import LayoutRoute from "./routes/LayoutRoute";
 import ConfirmInvitePage from "./pages/ConfirmInvitePage";
 import CreateAPIKeyPage from "./pages/CreateAPIKeyPage";
@@ -20,9 +21,9 @@ const App = () => (
       <GuestRoute exact path="/login/resetPassword/:token" component={ResetPasswordPage} />
       <UserRoute path="/items" component={ItemsPage} />
       <UserRoute path="/itemStat/:itemId" component={ItemStatPage} />
-      <UserRoute exact path="/invite" component={InvitePage} />
+      <AdminLevelRoute requiredLevel={3} exact path="/invite" component={InvitePage} />
       <GuestRoute exact path="/invite/:token" component={ConfirmInvitePage} />
-      <UserRoute path="/createAPIKey" component={CreateAPIKeyPage} />
+      <AdminLevelRoute requiredLevel={2} path="/createAPIKey" component={CreateAPIKeyPage} />
     </Switch>
   </div>
 );
