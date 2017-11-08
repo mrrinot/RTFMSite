@@ -6,7 +6,7 @@ const defaultState = {
   errors: {},
 };
 
-export default function items(state = defaultState, action = {}) {
+export default function itemStat(state = defaultState, action = {}) {
   switch (action.type) {
     case FETCHED_ITEM_STAT:
       return {

@@ -18,6 +18,7 @@ class DescriptionCondition extends Component {
               value: data.value.toLowerCase(),
             });
           }}
+          value={this.props.values.value}
         />
       </div>
     );
@@ -26,6 +27,11 @@ class DescriptionCondition extends Component {
 
 DescriptionCondition.propTypes = {
   onSubmit: PropTypes.func.isRequired,
+  values: PropTypes.shape({
+    col: PropTypes.string.isRequired,
+    operator: PropTypes.string.isRequired,
+    value: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 DescriptionCondition.ConditionName = COL_NAME;

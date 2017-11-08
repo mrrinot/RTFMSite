@@ -7,7 +7,7 @@ import _ from "lodash";
 class SearchComponent extends Component {
   state = {
     conditions: [],
-    where: {},
+    where: [{ col: "name", operator: "LIKE", value: "" }],
   };
   lastInputChangeRequest = null;
 
@@ -15,7 +15,7 @@ class SearchComponent extends Component {
     clearTimeout(this.lastInputChangeRequest);
     this.lastInputChangeRequest = setTimeout(() => {
       console.log(this.state.where);
-      if (Object.keys(this.state.where).length > 0) {
+      if (this.state.where.length > 0) {
         this.props.onResult(this.state.where);
       }
     }, 500);
@@ -24,27 +24,28 @@ class SearchComponent extends Component {
   addCondition = (e, data) => {
     const conditions = this.state.conditions;
     conditions.push(SearchConditions[data.value]);
+    const where = this.state.where;
+    where[conditions.length] = { col: "", operator: "", value: "" };
     this.setState({ conditions });
   };
 
   removeCondition = key => {
     const conditions = this.state.conditions;
-    const removed = conditions.splice(key, 1);
+    conditions.splice(key, 1);
     const where = this.state.where;
-    delete where[removed[0].ConditionName];
+    where.splice(key + 1, 1);
     this.setState({ conditions, where });
   };
 
-  onConditionSet = (name, value) => {
+  onConditionSet = (name, value, i) => {
     const where = this.state.where;
-    where[name] = value;
+    where[i + 1] = value;
     this.setState({ where });
   };
 
   renderCondition = (Condition, i) => {
     return (
       <Grid.Row key={i}>
-        <Condition onSubmit={this.onConditionSet} />
         <Grid.Column>
           <Button
             icon="remove circle"
@@ -54,6 +55,12 @@ class SearchComponent extends Component {
             }}
           />
         </Grid.Column>
+        <Condition
+          values={this.state.where[i + 1]}
+          onSubmit={(name, value) => {
+            this.onConditionSet(name, value, i);
+          }}
+        />
       </Grid.Row>
     );
   };
@@ -73,11 +80,10 @@ class SearchComponent extends Component {
           <Input
             placeholder="Search Here"
             onChange={(e, data) => {
+              const where = this.state.where;
+              where[0] = { col: "name", operator: "LIKE", value: data.value.toLowerCase() };
               this.setState({
-                where: {
-                  ...this.state.where,
-                  name: { col: "name", operator: "LIKE", value: data.value.toLowerCase() },
-                },
+                where,
               });
               this.onInputChanged();
             }}

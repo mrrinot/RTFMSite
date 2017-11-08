@@ -17,8 +17,8 @@ class ItemTooltipComponent extends Component {
     const { effects } = this.props;
     return (
       <div>
-        {effects.map((effect, key) => (
-          <div key={key}>
+        {effects.map((effect, i) => (
+          <div key={i}>
             {effect.effect.useInFight && (
               <div>
                 <font color="SeaGreen"> {effect.description}</font>
@@ -35,8 +35,8 @@ class ItemTooltipComponent extends Component {
     const { effects } = this.props;
     return (
       <div>
-        {effects.map((effect, key) => (
-          <div key={key}>
+        {effects.map((effect, i) => (
+          <div key={i}>
             {!effect.effect.useInFight && (
               <div>
                 <font
@@ -170,7 +170,13 @@ class ItemTooltipComponent extends Component {
   render() {
     const { item, effects } = this.props;
     return (
-      <Popup trigger={this.props.toRender(item)} basic flowing {...this.props}>
+      <Popup
+        trigger={this.props.toRender(item)}
+        basic
+        flowing
+        hoverable={this.props.hoverable}
+        position={this.props.position}
+      >
         <Grid divided padded>
           <Grid.Row>
             <Grid.Column width={13}>
@@ -217,9 +223,10 @@ ItemTooltipComponent.propTypes = {
   }).isRequired,
   effects: PropTypes.array.isRequired,
   baseEffects: PropTypes.array.isRequired,
-  key: PropTypes.number.isRequired,
   toRender: PropTypes.func.isRequired,
   avgPrices: PropTypes.array.isRequired,
+  hoverable: PropTypes.bool,
+  position: PropTypes.string,
 };
 
 export default ItemTooltipComponent;

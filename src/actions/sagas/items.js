@@ -1,8 +1,18 @@
-import { DO_FETCH_ITEMS, DO_FETCH_ITEM_STAT } from "../types";
+import {
+  DO_FETCH_ITEMS,
+  DO_FETCH_ITEM_STAT,
+  DO_FETCH_ITEMS_TYPES,
+  DO_FETCH_ITEM_DATA_EFFECTS,
+} from "../types";
 import { loading } from "../creators/loading";
 import { call, takeLatest, put } from "redux-saga/effects";
-import { getItems, getItemStat } from "../../api/items";
-import { onFetchedItems, onFetchedItemStat } from "../creators/items";
+import { getItems, getItemStat, getItemsTypes, getItemDataEffects } from "../../api/items";
+import {
+  onFetchedItems,
+  onFetchedItemStat,
+  onFetchedItemsTypes,
+  onFetchedItemDataEffects,
+} from "../creators/items";
 
 function* fetchItemsAttempt({ input }) {
   yield put(loading(true));
@@ -10,7 +20,7 @@ function* fetchItemsAttempt({ input }) {
     const ret = yield call(getItems, input);
     yield put(onFetchedItems(ret.data));
   } catch (e) {
-    yield put(onFetchedItems([]));
+    yield put(onFetchedItems([], e.response.data.errors));
   }
   yield put(loading(false));
 }
@@ -26,11 +36,39 @@ function* fetchItemStatAttempt({ itemId, callback }) {
     yield put(onFetchedItemStat(ret.data));
     yield call(callback);
   } catch (e) {
-    yield put(onFetchedItemStat([]));
+    yield put(onFetchedItemStat([], e.response.data.errors));
   }
   yield put(loading(false));
 }
 
 export function* watchItemStatFetch() {
   yield takeLatest(DO_FETCH_ITEM_STAT, fetchItemStatAttempt);
+}
+
+function* fetchItemsTypesAttempt() {
+  yield put(loading(true));
+  try {
+    const ret = yield call(getItemsTypes);
+    yield put(onFetchedItemsTypes(ret.data.itemsTypes));
+  } catch (e) {
+    yield put(onFetchedItemsTypes(null, e.response.data.errors));
+  }
+  yield put(loading(false));
+}
+
+export function* watchItemsTypesFetch() {
+  yield takeLatest(DO_FETCH_ITEMS_TYPES, fetchItemsTypesAttempt);
+}
+
+function* fetchItemDataEffects({ itemDataId, itemDescIds }) {
+  try {
+    const ret = yield call(getItemDataEffects, itemDescIds);
+    yield put(onFetchedItemDataEffects(ret.data, itemDataId));
+  } catch (e) {
+    yield put(onFetchedItemDataEffects(null, itemDataId, e.response.data.errors));
+  }
+}
+
+export function* watchItemDataEffectsFetch() {
+  yield takeLatest(DO_FETCH_ITEM_DATA_EFFECTS, fetchItemDataEffects);
 }

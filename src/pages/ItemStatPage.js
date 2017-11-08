@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import HighCharts from "highcharts";
 import ReactHighstock from "react-highcharts/ReactHighstock.src";
-import { Image, Grid, Message, Icon } from "semantic-ui-react";
+import { Image, Grid, Message, Icon, Loader } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -59,9 +59,8 @@ class ItemStatPage extends Component {
   pointClicked = e => {
     const pointStamp = moment.parseZone(e.point.key + " +02:00", "dddd, MMM DD, HH:mm:ss.SSS Z");
     const selected = _.findIndex(this.props.prices, price => {
-      return new Date(price.timestamp) + "" === pointStamp._d + "";
+      return new Date(price.timestamp) - pointStamp._d > 0;
     });
-    console.log("selected :", selected);
     this.setState({ timestampSelected: selected });
   };
 
@@ -104,28 +103,27 @@ class ItemStatPage extends Component {
             </p>
           </Message>
         )}
-        {!this.props.loading && (
-          <div>
-            <Grid divided padded>
-              <Grid.Row>
-                <Grid.Column floated="left" width={3}>
-                  <h1>{item.name}</h1>
-                </Grid.Column>
-                <Grid.Column width={5}>
-                  <Image centered src={`/img/${item.iconId}.png`} />
-                  <Link to="/items">Items list</Link>
-                </Grid.Column>
-              </Grid.Row>
-            </Grid>
-            {this.config.title.text !== "PLACEHOLDER" && (
-              <div>
-                <ReactHighstock config={this.config} />
-                <br />
-                <HDVArchiveComponent item={item} selected={this.state.timestampSelected} />
-              </div>
-            )}
-          </div>
-        )}
+        <Loader active={this.props.loading}>Loading</Loader>
+        <div>
+          <Grid divided padded>
+            <Grid.Row>
+              <Grid.Column floated="left" width={3}>
+                <h1>{item.name}</h1>
+              </Grid.Column>
+              <Grid.Column width={5}>
+                <Image centered src={`/img/${item.iconId}.png`} />
+                <Link to="/items">Items list</Link>
+              </Grid.Column>
+            </Grid.Row>
+          </Grid>
+          {this.config.title.text !== "PLACEHOLDER" && (
+            <div>
+              <ReactHighstock config={this.config} />
+              <br />
+              <HDVArchiveComponent item={item} selected={this.state.timestampSelected} />
+            </div>
+          )}
+        </div>
       </div>
     );
   }
@@ -150,14 +148,14 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
 ItemStatPage.propTypes = {
   item: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired,
-    iconId: PropTypes.number.isRequired,
+    id: PropTypes.number,
+    name: PropTypes.string,
+    iconId: PropTypes.number,
   }).isRequired,
   onMount: PropTypes.func.isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
-      itemId: PropTypes.number.isRequired,
+      itemId: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,
   loading: PropTypes.bool.isRequired,

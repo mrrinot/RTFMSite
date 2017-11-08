@@ -3,11 +3,11 @@ import SearchComponent from "../components/SearchComponent";
 import ItemList from "../components/ItemList";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { fetchItems } from "../actions/creators/items";
+import { fetchItems, fetchItemsTypes } from "../actions/creators/items";
 
 class ItemsPage extends Component {
   componentDidMount() {
-    // this.props.getItemsData();
+    this.props.getItemsMetaData();
   }
   onResult = input => {
     this.props.onResult(input);
@@ -35,9 +35,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     onResult: input => {
       dispatch(fetchItems(input));
     },
-    // getItemsMetaData: () => {
-    //   dispatch(fetchItemsMetaData);
-    // },
+    getItemsMetaData: () => {
+      dispatch(fetchItemsTypes());
+    },
   };
 };
 
@@ -45,6 +45,7 @@ ItemsPage.propTypes = {
   items: PropTypes.array.isRequired,
   onResult: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
+  getItemsMetaData: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ItemsPage);
