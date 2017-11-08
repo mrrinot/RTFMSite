@@ -1,0 +1,46 @@
+import React, { Component } from "react";
+import { Redirect } from "react-router";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import LayoutRoute from "./LayoutRoute";
+
+class AdminLevelRoute extends Component {
+  render() {
+    const {
+      component: Component,
+      requiredLevel,
+      userInfos: { adminLevel },
+      isAuthenticated,
+      ...rest
+    } = this.props;
+    return (
+      <LayoutRoute
+        {...rest}
+        render={props =>
+          isAuthenticated && adminLevel >= requiredLevel ? (
+            <Component {...props} />
+          ) : (
+            <Redirect to="/" />
+          )}
+      />
+    );
+  }
+}
+
+AdminLevelRoute.propTypes = {
+  component: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
+  userInfos: PropTypes.shape({
+    adminLevel: PropTypes.number.isRequired,
+  }).isRequired,
+  requiredLevel: PropTypes.number.isRequired,
+};
+
+const mapStateToProps = (state, ownProps) => {
+  return {
+    isAuthenticated: !!state.login.userInfos.email,
+    userInfos: state.login.userInfos,
+  };
+};
+
+export default connect(mapStateToProps)(AdminLevelRoute);

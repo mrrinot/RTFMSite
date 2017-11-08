@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Segment, Container } from "semantic-ui-react";
+import { Segment } from "semantic-ui-react";
 import Header from "./Header";
 import Footer from "./Footer";
 
@@ -11,7 +11,7 @@ import Footer from "./Footer";
  * @return {JSX.Node} The node representing the layout
  */
 const Layout = props => (
-  <Container>
+  <div>
     <Segment vertical>
       <Header />
     </Segment>
@@ -19,7 +19,7 @@ const Layout = props => (
     <Segment vertical>
       <Footer />
     </Segment>
-  </Container>
+  </div>
 );
 
 Layout.propTypes = {
