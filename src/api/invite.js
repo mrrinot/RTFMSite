@@ -5,5 +5,8 @@ export const sendInvite = inviteInfos => {
 };
 
 export const sendInviteConfirmation = inviteConfirmationInfos => {
-  return axios.post(`/api/invite/${inviteConfirmationInfos.inviteToken}`, inviteConfirmationInfos);
+  return axios.post(
+    `/api/invite/${inviteConfirmationInfos.invitationToken}`,
+    inviteConfirmationInfos,
+  );
 };

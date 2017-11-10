@@ -33,10 +33,10 @@ function* logoutAttempt() {
   try {
     const ret = yield call(logout);
     yield put(loginStatus({}));
-    localStorage.removeItem("rtfmUserInfos");
   } catch (e) {
     yield put(loginStatus({}, e.response.data.errors));
   }
+  localStorage.removeItem("rtfmUserInfos");
 }
 
 export function* watchLogoutAttempt() {
