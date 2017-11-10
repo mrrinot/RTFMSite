@@ -11,8 +11,7 @@ function* inviteAttempt(action) {
   yield put(loading(true));
   try {
     const ret = yield call(sendInvite, action.inviteInfos);
-    yield put(inviteStatus(ret));
-    history.push("/");
+    yield put(inviteStatus(ret.data));
   } catch (e) {
     yield put(inviteStatus(null, e.response.data.errors));
   }
