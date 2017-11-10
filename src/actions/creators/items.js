@@ -16,10 +16,11 @@ export function fetchItems(input) {
   };
 }
 
-export function onFetchedItems(items) {
+export function onFetchedItems(items, errors = {}) {
   return {
     type: FETCHED_ITEMS,
     items,
+    errors,
   };
 }
 

@@ -2,6 +2,7 @@ import { FETCHED_ITEMS } from "../actions/types";
 
 const defaultState = {
   items: [],
+  errors: {},
 };
 
 export default function items(state = defaultState, action = {}) {
@@ -10,6 +11,7 @@ export default function items(state = defaultState, action = {}) {
       return {
         ...state,
         items: action.items,
+        errors: action.errors,
       };
     default:
       return state;

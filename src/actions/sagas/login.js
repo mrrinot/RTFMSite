@@ -9,7 +9,7 @@ import { call, takeLatest, put } from "redux-saga/effects";
 import { loginStatus } from "../creators/login";
 import { loading } from "../creators/loading";
 import { onCreatedAPIKey } from "../creators/APIKey";
-import { login, resetPasswordRequest, resetPassword } from "../../api/login";
+import { login, resetPasswordRequest, resetPassword, logout } from "../../api/login";
 
 function* loginAttempt(action) {
   yield put(loading(true));
@@ -30,8 +30,13 @@ export function* watchLoginAttempt() {
 }
 
 function* logoutAttempt() {
-  yield put(loginStatus({}));
-  localStorage.removeItem("rtfmUserInfos");
+  try {
+    const ret = yield call(logout);
+    yield put(loginStatus({}));
+    localStorage.removeItem("rtfmUserInfos");
+  } catch (e) {
+    yield put(loginStatus({}, e.response.data.errors));
+  }
 }
 
 export function* watchLogoutAttempt() {

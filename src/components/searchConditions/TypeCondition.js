@@ -21,6 +21,7 @@ class TypeCondition extends Component {
             });
           }}
           selection
+          search
           options={this.props.types.map(type => {
             return { text: type.name, value: type.id };
           })}
