@@ -13,6 +13,6 @@ export const getItemsTypes = () => {
 export const getItemStat = itemId => {
   return axios.get(`/api/itemStat/${itemId}`);
 };
-export const getItemDataEffects = itemDescIds => {
-  return axios.post("/api/itemStat/effects/", { itemDescIds });
+export const getItemDataEffects = itemDesc => {
+  return axios.post("/api/itemStat/effects/", { itemDesc });
 };

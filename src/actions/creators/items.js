@@ -54,19 +54,19 @@ export function onFetchedItemsTypes(itemsTypes, errors = {}) {
   };
 }
 
-export function fetchItemDataEffects(itemDataId, itemDescIds) {
+export function fetchItemDataEffects(itemData, itemDescIds) {
   return {
     type: DO_FETCH_ITEM_DATA_EFFECTS,
-    itemDataId,
+    itemData,
     itemDescIds,
   };
 }
 
-export function onFetchedItemDataEffects(itemDataEffects, itemDataId, errors = {}) {
+export function onFetchedItemDataEffects(itemDataEffects, itemData, errors = {}) {
   return {
     type: FETCHED_ITEM_DATA_EFFECTS,
     itemDataEffects,
-    itemDataId,
+    itemData,
     errors,
   };
 }

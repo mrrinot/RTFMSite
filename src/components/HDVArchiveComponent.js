@@ -25,7 +25,7 @@ class HDVArchiveComponent extends Component {
       _.each(price.itemDescriptions, desc => {
         descIds.push(desc.id);
       });
-      this.props.onLoadEffect(price.id, descIds);
+      this.props.onLoadEffect({ id: price.id, timestamp: price.timestamp }, descIds);
     }
   };
 
@@ -71,7 +71,7 @@ class HDVArchiveComponent extends Component {
             <Grid.Row key={i}>
               <ItemTooltipComponent
                 item={item}
-                effects={effects[priceArchive.id][desc.id]}
+                effects={effects[priceArchive.id][desc.id] || []}
                 baseEffects={item.possibleEffects}
                 avgPrices={[priceArchive]}
                 key={i}

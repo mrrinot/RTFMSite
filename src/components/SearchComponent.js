@@ -100,6 +100,7 @@ class SearchComponent extends Component {
             placeholder="Add Condition"
             fluid
             selection
+            selectOnBlur={false}
             options={this.displaySearchConditions()}
             value={""}
           />

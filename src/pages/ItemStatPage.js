@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import HighCharts from "highcharts";
 import ReactHighstock from "react-highcharts/ReactHighstock.src";
-import { Image, Grid, Message, Icon, Loader } from "semantic-ui-react";
+import { Image, Grid, Message, Icon, Loader, Input, Label } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -11,9 +11,9 @@ import moment from "moment";
 import _ from "lodash";
 
 class ItemStatPage extends Component {
-  state = { timestampSelected: -1 };
+  state = { timestampSelected: -1, chartSizeValue: 100 };
   config = {
-    chart: { type: "line", zoomType: "xy" },
+    chart: { type: "line", zoomType: "xy", height: 9 / 16 * this.state.chartSizeValue + "%" },
     title: { text: "PLACEHOLDER" },
     subtitle: {
       text: "Click and drag in the plot area to zoom in",
@@ -32,7 +32,7 @@ class ItemStatPage extends Component {
     },
     navigator: { adaptToUpdatedData: false },
     xAxis: { type: "datetime" },
-    yAxis: { title: { text: "Prix en Kamas" } },
+    yAxis: { title: { text: "Prix en Kamas" }, min: 0 },
     plotOptions: {
       series: {
         showInNavigator: true,
@@ -57,9 +57,8 @@ class ItemStatPage extends Component {
   };
 
   pointClicked = e => {
-    const pointStamp = moment.parseZone(e.point.key + " +02:00", "dddd, MMM DD, HH:mm:ss.SSS Z");
     const selected = _.findIndex(this.props.prices, price => {
-      return new Date(price.timestamp) - pointStamp._d > 0;
+      return price.timestamp - e.point.x >= 0;
     });
     this.setState({ timestampSelected: selected });
   };
@@ -112,8 +111,20 @@ class ItemStatPage extends Component {
               </Grid.Column>
               <Grid.Column width={5}>
                 <Image centered src={`/img/${item.iconId}.png`} />
-                <Link to="/items">Items list</Link>
               </Grid.Column>
+            </Grid.Row>
+            <Grid.Row>
+              <Label pointing="right">Chart's height</Label>
+              <Input
+                type="range"
+                value={this.state.chartSizeValue}
+                min={50}
+                max={150}
+                onChange={(e, data) => {
+                  this.setState({ chartSizeValue: data.value });
+                  this.config.chart.height = 9 / 16 * data.value + "%";
+                }}
+              />
             </Grid.Row>
           </Grid>
           {this.config.title.text !== "PLACEHOLDER" && (

@@ -60,12 +60,12 @@ export function* watchItemsTypesFetch() {
   yield takeLatest(DO_FETCH_ITEMS_TYPES, fetchItemsTypesAttempt);
 }
 
-function* fetchItemDataEffects({ itemDataId, itemDescIds }) {
+function* fetchItemDataEffects({ itemData, itemDescIds }) {
   try {
-    const ret = yield call(getItemDataEffects, itemDescIds);
-    yield put(onFetchedItemDataEffects(ret.data, itemDataId));
+    const ret = yield call(getItemDataEffects, { timestamp: itemData.timestamp, ids: itemDescIds });
+    yield put(onFetchedItemDataEffects(ret.data, itemData));
   } catch (e) {
-    yield put(onFetchedItemDataEffects(null, itemDataId, e.response.data.errors));
+    yield put(onFetchedItemDataEffects(null, itemData, e.response.data.errors));
   }
 }
 
