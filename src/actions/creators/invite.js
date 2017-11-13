@@ -3,6 +3,7 @@ import {
   RETRIEVED_INVITE_STATUS,
   DO_INVITE_CONFIRM,
   RETRIEVED_INVITE_CONFIRM_STATUS,
+  INVITE_LOADING,
 } from "../types";
 
 export function sendInviteAttempt(inviteInfos) {
@@ -32,5 +33,12 @@ export function inviteConfirmStatus(inviteConfirmationStatus, errors = {}) {
     type: RETRIEVED_INVITE_CONFIRM_STATUS,
     inviteConfirmationStatus,
     errors,
+  };
+}
+
+export function loadingInvite(loading) {
+  return {
+    type: INVITE_LOADING,
+    loading,
   };
 }

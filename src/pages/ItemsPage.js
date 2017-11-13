@@ -40,7 +40,7 @@ class ItemsPage extends Component {
 const mapStateToProps = (state, ownProps) => {
   return {
     items: state.items.items || [],
-    loading: state.loading.isLoading,
+    loading: state.items.loading,
     errors: state.items.errors,
   };
 };

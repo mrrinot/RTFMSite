@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import LoginForm from "../forms/LoginForm";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { loginAttempt, resetPasswordRequestAttempt } from "../actions/creators/login";
+import { loginAttempt, resetPasswordRequestAttempt } from "../actions/creators/auth";
 import { Button } from "semantic-ui-react";
 import ForgotPasswordComponent from "../components/ForgotPasswordComponent";
 
@@ -56,7 +56,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    errors: state.login.errors,
+    errors: state.auth.errors,
   };
 };
 

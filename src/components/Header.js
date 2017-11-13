@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 import { withRouter } from "react-router";
 import { Icon } from "semantic-ui-react";
 import { Label, Nav, NavItem, Navbar, NavDropdown, MenuItem } from "react-bootstrap";
-import { logoutAttempt } from "../actions/creators/login";
+import { logoutAttempt } from "../actions/creators/auth";
 
 class Header extends Component {
   guest = comp => (this.props.isAuthenticated ? null : comp);
@@ -97,8 +97,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    isAuthenticated: !!state.login.userInfos.email,
-    userInfos: state.login.userInfos,
+    isAuthenticated: !!state.auth.userInfos.email,
+    userInfos: state.auth.userInfos,
   };
 };
 

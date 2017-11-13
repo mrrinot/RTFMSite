@@ -5,6 +5,9 @@ import {
   DO_RESET_PASSWORD_REQUEST,
   DO_RESET_PASSWORD_ATTEMPT,
   RETRIEVED_RESET_PASSWORD_STATUS,
+  IS_LOGGED_IN,
+  RETRIEVED_LOGGED_IN_STATUS,
+  LOGIN_LOADING,
 } from "../types";
 
 export function loginAttempt(credentials) {
@@ -46,5 +49,27 @@ export function resetPasswordStatus(errors = {}) {
   return {
     type: RETRIEVED_RESET_PASSWORD_STATUS,
     errors,
+  };
+}
+
+export function isLoggedIn(email) {
+  return {
+    type: IS_LOGGED_IN,
+    email,
+  };
+}
+
+export function loggedInStatus(userInfos, errors = {}) {
+  return {
+    type: RETRIEVED_LOGGED_IN_STATUS,
+    userInfos,
+    errors,
+  };
+}
+
+export function loadingLogin(loading) {
+  return {
+    type: LOGIN_LOADING,
+    loading,
   };
 }

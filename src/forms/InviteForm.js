@@ -84,9 +84,9 @@ InviteForm.propTypes = {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    loading: state.loading.isLoading,
+    loading: state.invite.loading,
     errors: state.invite.errors,
-    userInfos: state.login.userInfos,
+    userInfos: state.auth.userInfos,
   };
 };
 

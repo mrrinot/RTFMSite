@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import ResetPasswordForm from "../forms/ResetPasswordForm";
 import decode from "jwt-decode";
 import { connect } from "react-redux";
-import { resetPasswordAttempt } from "../actions/creators/login";
+import { resetPasswordAttempt } from "../actions/creators/auth";
 
 class ResetPasswordPage extends Component {
   onSubmit = data => {

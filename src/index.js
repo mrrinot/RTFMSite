@@ -9,7 +9,7 @@ import { createStore, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
 import rootReducer from "./reducers/rootReducer";
 import * as actionCreators from "./actions/creators";
-import { loginStatus } from "./actions/creators/login";
+import { loginStatus } from "./actions/creators/auth";
 import { onCreatedAPIKey } from "./actions/creators/APIKey";
 import App from "./App";
 import rootSaga from "./saga";

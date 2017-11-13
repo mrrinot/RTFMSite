@@ -38,8 +38,8 @@ AdminLevelRoute.propTypes = {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    isAuthenticated: !!state.login.userInfos.email,
-    userInfos: state.login.userInfos,
+    isAuthenticated: !!state.auth.userInfos.email,
+    userInfos: state.auth.userInfos,
   };
 };
 

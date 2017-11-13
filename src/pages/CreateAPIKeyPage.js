@@ -63,7 +63,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    loading: state.loading.isLoading,
+    loading: state.APIKey.loading,
     errors: state.APIKey.errors,
     APIKey: state.APIKey.key,
   };

@@ -1,9 +1,10 @@
-import { FETCHED_ITEM_DATA_EFFECTS } from "../actions/types";
+import { FETCHED_ITEM_DATA_EFFECTS, ITEM_EFFECTS_LOADING } from "../actions/types";
 import _ from "lodash";
 
 const defaultState = {
   effects: {},
   errors: {},
+  loading: false,
 };
 
 export default function itemDescEffects(state = defaultState, action = {}) {
@@ -15,6 +16,12 @@ export default function itemDescEffects(state = defaultState, action = {}) {
         ...state,
         effects,
         errors: action.errors,
+        loading: false,
+      };
+    case ITEM_EFFECTS_LOADING:
+      return {
+        ...state,
+        loading: action.loading,
       };
     default:
       return state;

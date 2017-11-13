@@ -2,13 +2,10 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Image, Grid, Button } from "semantic-ui-react";
 import history from "../history";
-import { loading } from "../actions/creators/loading";
 import ItemTooltipComponent from "./ItemTooltipComponent";
-import { connect } from "react-redux";
 
 class ItemList extends Component {
   onClick = itemId => {
-    this.props.onLoad();
     history.push(`/itemStat/${itemId}`);
   };
 
@@ -66,11 +63,4 @@ ItemList.propTypes = {
   ).isRequired,
   onLoad: PropTypes.func.isRequired,
 };
-const mapDispatchToProps = (dispatch, ownProps) => {
-  return {
-    onLoad: () => {
-      dispatch(loading(true));
-    },
-  };
-};
-export default connect(null, mapDispatchToProps)(ItemList);
+export default ItemList;

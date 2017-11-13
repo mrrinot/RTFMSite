@@ -7,6 +7,8 @@ import {
   FETCHED_ITEMS_TYPES,
   DO_FETCH_ITEM_DATA_EFFECTS,
   FETCHED_ITEM_DATA_EFFECTS,
+  ITEM_STAT_LOADING,
+  ITEM_EFFECTS_LOADING,
 } from "../types";
 
 export function fetchItems(input) {
@@ -68,5 +70,19 @@ export function onFetchedItemDataEffects(itemDataEffects, itemData, errors = {})
     itemDataEffects,
     itemData,
     errors,
+  };
+}
+
+export function loadingItemStat(loading) {
+  return {
+    type: ITEM_STAT_LOADING,
+    loading,
+  };
+}
+
+export function loadingItemEffects(loading) {
+  return {
+    type: ITEM_EFFECTS_LOADING,
+    loading,
   };
 }

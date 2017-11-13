@@ -12,11 +12,28 @@ import _ from "lodash";
 
 class ItemStatPage extends Component {
   state = { timestampSelected: -1, chartSizeValue: 100 };
+  extraButtons = [
+    {
+      type: "week",
+      count: 1,
+      text: "Week",
+    },
+    { type: "week", count: 4, text: "Month" },
+    { type: "month", count: 12, text: "Year" },
+  ];
   config = {
     chart: { type: "line", zoomType: "xy", height: 9 / 16 * this.state.chartSizeValue + "%" },
     title: { text: "PLACEHOLDER" },
     subtitle: {
       text: "Click and drag in the plot area to zoom in",
+    },
+    rangeSelector: {
+      allButtonsEnabled: true,
+      buttonTheme: {
+        width: 100,
+      },
+      buttons: [{ type: "all", text: "All" }, { type: "hour", count: 24, text: "24H" }],
+      selected: 0,
     },
     legend: {
       enabled: true,
@@ -31,7 +48,16 @@ class ItemStatPage extends Component {
       valueDecimals: 2,
     },
     navigator: { adaptToUpdatedData: false },
-    xAxis: { type: "datetime" },
+    xAxis: {
+      type: "datetime",
+      events: {
+        setExtremes: e => {
+          console.log(e);
+          if (e.rangeSelectorButton) {
+          }
+        },
+      },
+    },
     yAxis: { title: { text: "Prix en Kamas" }, min: 0 },
     plotOptions: {
       series: {
@@ -85,6 +111,15 @@ class ItemStatPage extends Component {
       this.calculateAvgForPrice(hundred.data, price, 2, 100);
       avg.data.push([price.timestamp, price.averagePrice > 0 ? price.averagePrice : null]);
     });
+    if (this.props.dates.length > 2) {
+      this.config.rangeSelector.buttons.push(this.extraButtons[0]);
+    }
+    if (this.props.dates.length > 7) {
+      this.config.rangeSelector.buttons.push(this.extraButtons[1]);
+    }
+    if (this.props.dates.length > 30) {
+      this.config.rangeSelector.buttons.push(this.extraButtons[2]);
+    }
     this.config.series = [one, ten, hundred, avg];
     this.config.title.text = `Prix de l'objet: ${this.props.item.name}`;
   };
@@ -143,9 +178,10 @@ class ItemStatPage extends Component {
 const mapStateToProps = (state, ownProps) => {
   return {
     item: state.itemStat.item || {},
-    loading: state.loading.isLoading,
+    loading: state.itemStat.loading,
     errors: state.itemStat.errors,
     prices: state.itemStat.prices,
+    dates: state.itemStat.dates,
   };
 };
 
@@ -174,6 +210,7 @@ ItemStatPage.propTypes = {
     global: PropTypes.string,
   }).isRequired,
   prices: PropTypes.array.isRequired,
+  dates: PropTypes.array.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ItemStatPage);

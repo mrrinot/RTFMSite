@@ -117,7 +117,7 @@ class HDVArchiveComponent extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    loading: state.loading.isLoading,
+    loading: state.itemStat.loading,
     errors: state.itemStat.errors,
     prices: state.itemStat.prices,
     effects: state.itemDescEffects.effects,

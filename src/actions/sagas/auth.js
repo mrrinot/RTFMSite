@@ -6,13 +6,12 @@ import {
 } from "../types";
 import history from "../../history";
 import { call, takeLatest, put } from "redux-saga/effects";
-import { loginStatus } from "../creators/login";
-import { loading } from "../creators/loading";
+import { loginStatus, loadingLogin } from "../creators/auth";
 import { onCreatedAPIKey } from "../creators/APIKey";
-import { login, resetPasswordRequest, resetPassword, logout } from "../../api/login";
+import { login, resetPasswordRequest, resetPassword, logout } from "../../api/auth";
 
 function* loginAttempt(action) {
-  yield put(loading(true));
+  yield put(loadingLogin(true));
   try {
     const ret = yield call(login, action.credentials);
     localStorage.rtfmUserInfos = JSON.stringify(ret.data);
@@ -22,7 +21,6 @@ function* loginAttempt(action) {
   } catch (e) {
     yield put(loginStatus({}, e.response.data.errors));
   }
-  yield put(loading(false));
 }
 
 export function* watchLoginAttempt() {
@@ -44,9 +42,9 @@ export function* watchLogoutAttempt() {
 }
 
 function* resetPasswordRequestAttempt(action) {
-  yield put(loading(true));
+  yield put(loadingLogin(true));
   const ret = yield call(resetPasswordRequest, action.email);
-  yield put(loading(false));
+  yield put(loadingLogin(false));
 }
 
 export function* watchResetPasswordRequestAttempt() {
@@ -54,10 +52,10 @@ export function* watchResetPasswordRequestAttempt() {
 }
 
 function* resetPasswordAttempt(action) {
-  yield put(loading(true));
+  yield put(loadingLogin(true));
   const ret = yield call(resetPassword, action.data);
   history.push("/login");
-  yield put(loading(false));
+  yield put(loadingLogin(false));
 }
 
 export function* watchResetPasswordAttempt() {

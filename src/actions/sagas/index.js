@@ -1,8 +1,8 @@
-import * as watchLogin from "./login";
+import * as watchAuth from "./auth";
 import * as watchInvite from "./invite";
 import * as watchItems from "./items";
 import * as watchAPI from "./APIKey";
 
-const watchers = { ...watchLogin, ...watchInvite, ...watchItems, ...watchAPI };
+const watchers = { ...watchAuth, ...watchInvite, ...watchItems, ...watchAPI };
 
 export default watchers;

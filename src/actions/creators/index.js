@@ -1,10 +1,10 @@
-import * as loginCreators from "./login";
+import * as authCreators from "./auth";
 import * as inviteCreators from "./invite";
 import * as itemsCreators from "./items";
 import * as APICreators from "./APIKey";
 
 const creators = {
-  ...loginCreators,
+  ...authCreators,
   ...itemsCreators,
   ...inviteCreators,
   ...APICreators,
