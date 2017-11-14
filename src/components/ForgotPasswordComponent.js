@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Modal, Button } from "semantic-ui-react";
+import { Modal } from "semantic-ui-react";
 import ResetPasswordRequestForm from "../forms/ResetPasswordRequestForm";
 
 class ForgotPasswordComponent extends Component {

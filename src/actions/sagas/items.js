@@ -3,19 +3,30 @@ import {
   DO_FETCH_ITEM_STAT,
   DO_FETCH_ITEMS_TYPES,
   DO_FETCH_ITEM_DATA_EFFECTS,
+  DO_FETCH_ADDITIONAL_ITEM_STAT,
 } from "../types";
 import { call, takeLatest, put } from "redux-saga/effects";
-import { getItems, getItemStat, getItemsTypes, getItemDataEffects } from "../../api/items";
+import {
+  getItems,
+  getItemStat,
+  getItemsTypes,
+  getItemDataEffects,
+  getAdditionalItemStat,
+} from "../../api/items";
 import {
   onFetchedItems,
   onFetchedItemStat,
+  onFetchedAdditionalItemStat,
   onFetchedItemsTypes,
   onFetchedItemDataEffects,
   loadingItemEffects,
   loadingItemStat,
+  loadingItems,
+  loadingItemtypes,
 } from "../creators/items";
 
 function* fetchItemsAttempt({ input }) {
+  yield put(loadingItems(true));
   try {
     const ret = yield call(getItems, input);
     yield put(onFetchedItems(ret.data));
@@ -29,7 +40,6 @@ export function* watchItemsFetch() {
 }
 
 function* fetchItemStatAttempt({ itemId, callback }) {
-  yield put(loadingItemStat(true));
   try {
     const ret = yield call(getItemStat, itemId);
     yield put(onFetchedItemStat(ret.data));
@@ -44,6 +54,7 @@ export function* watchItemStatFetch() {
 }
 
 function* fetchItemsTypesAttempt() {
+  yield put(loadingItemtypes(true));
   try {
     const ret = yield call(getItemsTypes);
     yield put(onFetchedItemsTypes(ret.data.itemsTypes));
@@ -68,4 +79,19 @@ function* fetchItemDataEffects({ itemData, itemDescIds }) {
 
 export function* watchItemDataEffectsFetch() {
   yield takeLatest(DO_FETCH_ITEM_DATA_EFFECTS, fetchItemDataEffects);
+}
+
+function* fetchAdditionalItemStatAttempt({ range, first, last, itemId, callback }) {
+  yield put(loadingItemStat(true));
+  try {
+    const ret = yield call(getAdditionalItemStat, { range, first, last, itemId });
+    yield put(onFetchedAdditionalItemStat(ret.data));
+    yield call(callback);
+  } catch (e) {
+    yield put(onFetchedAdditionalItemStat([], e.response.data.errors));
+  }
+}
+
+export function* watchAdditionalItemStatAttempt() {
+  yield takeLatest(DO_FETCH_ADDITIONAL_ITEM_STAT, fetchAdditionalItemStatAttempt);
 }

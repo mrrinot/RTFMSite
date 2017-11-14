@@ -10,7 +10,6 @@ class CreateAPIKeyPage extends Component {
     this.props.onClick();
   };
   render() {
-    console.log(this.props);
     return (
       <div>
         {this.props.errors.global && (

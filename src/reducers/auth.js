@@ -2,7 +2,6 @@ import {
   RETRIEVED_LOGIN_STATUS,
   RETRIEVED_RESET_PASSWORD_STATUS,
   LOGIN_LOADING,
-  RETRIEVED_LOGGED_IN_STATUS,
 } from "../actions/types";
 
 const defaultState = {
@@ -30,13 +29,6 @@ export default function auth(state = defaultState, action = {}) {
       };
     case RETRIEVED_RESET_PASSWORD_STATUS:
       return { ...state, errors: action.errors, loading: false };
-    case RETRIEVED_LOGGED_IN_STATUS:
-      return {
-        ...state,
-        userInfos: action.userInfos,
-        errors: action.errors,
-        loading: false,
-      };
     case LOGIN_LOADING:
       return {
         ...state,

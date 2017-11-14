@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import InviteForm from "../forms/InviteForm";
 import PropTypes from "prop-types";
-import { Message, Icon } from "semantic-ui-react";
+import { Message } from "semantic-ui-react";
 import { connect } from "react-redux";
 import { sendInviteAttempt } from "../actions/creators/invite";
 

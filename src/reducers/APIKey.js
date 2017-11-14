@@ -12,6 +12,7 @@ export default function APIKey(state = defaultState, action = {}) {
         ...state,
         key: action.key,
         errors: action.errors,
+        loading: false,
       };
     case API_KEY_LOADING:
       return {

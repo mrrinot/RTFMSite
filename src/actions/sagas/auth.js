@@ -29,7 +29,7 @@ export function* watchLoginAttempt() {
 
 function* logoutAttempt() {
   try {
-    const ret = yield call(logout);
+    yield call(logout);
     yield put(loginStatus({}));
   } catch (e) {
     yield put(loginStatus({}, e.response.data.errors));
@@ -43,7 +43,7 @@ export function* watchLogoutAttempt() {
 
 function* resetPasswordRequestAttempt(action) {
   yield put(loadingLogin(true));
-  const ret = yield call(resetPasswordRequest, action.email);
+  yield call(resetPasswordRequest, action.email);
   yield put(loadingLogin(false));
 }
 
@@ -53,7 +53,7 @@ export function* watchResetPasswordRequestAttempt() {
 
 function* resetPasswordAttempt(action) {
   yield put(loadingLogin(true));
-  const ret = yield call(resetPassword, action.data);
+  yield call(resetPassword, action.data);
   history.push("/login");
   yield put(loadingLogin(false));
 }

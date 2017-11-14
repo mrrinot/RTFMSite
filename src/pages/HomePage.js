@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Container, Icon, Grid } from "semantic-ui-react";
+import { Icon, Grid } from "semantic-ui-react";
 
 class HomePage extends Component {
   render() {

@@ -115,15 +115,6 @@ class HDVArchiveComponent extends Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
-  return {
-    loading: state.itemStat.loading,
-    errors: state.itemStat.errors,
-    prices: state.itemStat.prices,
-    effects: state.itemDescEffects.effects,
-  };
-};
-
 HDVArchiveComponent.propTypes = {
   item: PropTypes.shape({
     id: PropTypes.number.isRequired,
@@ -138,6 +129,14 @@ HDVArchiveComponent.propTypes = {
   selected: PropTypes.number.isRequired,
   onLoadEffect: PropTypes.func.isRequired,
   effects: PropTypes.object.isRequired,
+};
+const mapStateToProps = (state, ownProps) => {
+  return {
+    loading: state.itemStat.loading,
+    errors: state.itemStat.errors,
+    prices: state.itemStat.prices,
+    effects: state.itemDescEffects.effects,
+  };
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {

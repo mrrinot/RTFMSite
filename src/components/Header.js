@@ -1,12 +1,11 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
-import { Grid } from "semantic-ui-react";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router";
 import { Icon } from "semantic-ui-react";
-import { Label, Nav, NavItem, Navbar, NavDropdown, MenuItem } from "react-bootstrap";
+import { Label, Nav, NavItem, Navbar } from "react-bootstrap";
 import { logoutAttempt } from "../actions/creators/auth";
+import { LinkContainer } from "react-router-bootstrap";
 
 class Header extends Component {
   guest = comp => (this.props.isAuthenticated ? null : comp);
@@ -18,35 +17,45 @@ class Header extends Component {
     <Navbar.Collapse>
       <Nav>
         {this.guest(
-          <NavItem active={pathname === "/login"} href="/login">
-            Connexion
-          </NavItem>,
+          <LinkContainer to="/login">
+            <NavItem active={pathname === "/login"} href="/login">
+              Connexion
+            </NavItem>
+          </LinkContainer>,
         )}
         {this.auth(
-          <NavItem active={pathname === "/"} href="/">
-            Accueil
-          </NavItem>,
+          <LinkContainer to="/">
+            <NavItem active={pathname === "/"} href="/">
+              Accueil
+            </NavItem>
+          </LinkContainer>,
         )}
 
         {this.adminLevel(
           1,
-          <NavItem active={pathname === "/items"} href="/items">
-            Objets
-          </NavItem>,
+          <LinkContainer to="/items">
+            <NavItem active={pathname === "/items"} href="/items">
+              Objets
+            </NavItem>
+          </LinkContainer>,
         )}
 
         {this.adminLevel(
           2,
-          <NavItem active={pathname === "/createAPIKey"} href="/createAPIKey">
-            Token API
-          </NavItem>,
+          <LinkContainer to="/createAPIKey">
+            <NavItem active={pathname === "/createAPIKey"} href="/createAPIKey">
+              Token API
+            </NavItem>
+          </LinkContainer>,
         )}
 
         {this.adminLevel(
           3,
-          <NavItem active={pathname === "/invite"} href="/invite">
-            Créer une invitation
-          </NavItem>,
+          <LinkContainer to="/invite">
+            <NavItem active={pathname === "/invite"} href="/invite">
+              Créer une invitation
+            </NavItem>
+          </LinkContainer>,
         )}
       </Nav>
       <Nav pullRight>
@@ -63,7 +72,6 @@ class Header extends Component {
 
   render() {
     const { pathname } = this.props.location;
-
     return (
       <Navbar fluid>
         <Navbar.Toggle />

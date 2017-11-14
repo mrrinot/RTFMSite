@@ -2,12 +2,10 @@ import React, { Component } from "react";
 import HighCharts from "highcharts";
 import ReactHighstock from "react-highcharts/ReactHighstock.src";
 import { Image, Grid, Message, Icon, Loader, Input, Label } from "semantic-ui-react";
-import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { fetchItemStat } from "../actions/creators/items";
+import { fetchItemStat, fetchAdditionalItemStat } from "../actions/creators/items";
 import HDVArchiveComponent from "../components/HDVArchiveComponent";
-import moment from "moment";
 import _ from "lodash";
 
 class ItemStatPage extends Component {
@@ -32,7 +30,7 @@ class ItemStatPage extends Component {
       buttonTheme: {
         width: 100,
       },
-      buttons: [{ type: "all", text: "All" }, { type: "hour", count: 24, text: "24H" }],
+      buttons: [],
       selected: 0,
     },
     legend: {
@@ -52,9 +50,7 @@ class ItemStatPage extends Component {
       type: "datetime",
       events: {
         setExtremes: e => {
-          console.log(e);
-          if (e.rangeSelectorButton) {
-          }
+          this.buttonClicked(e);
         },
       },
     },
@@ -89,6 +85,25 @@ class ItemStatPage extends Component {
     this.setState({ timestampSelected: selected });
   };
 
+  buttonClicked = e => {
+    if (e.rangeSelectorButton) {
+      // console.log("selected button :", e.rangeSelectorButton);
+      const first = _.first(this.props.prices).timestamp;
+      const last = _.last(this.props.prices).timestamp;
+      const range = e.rangeSelectorButton._range;
+      const upTo = last - range;
+      if (range && upTo < first) {
+        this.props.onAdditionalLoad(
+          this.props.match.params.itemId,
+          range,
+          first,
+          last,
+          this.onItemReceived,
+        );
+      }
+    }
+  };
+
   componentDidMount() {
     this.props.onMount(this.props.match.params.itemId, this.onItemReceived);
   }
@@ -111,6 +126,10 @@ class ItemStatPage extends Component {
       this.calculateAvgForPrice(hundred.data, price, 2, 100);
       avg.data.push([price.timestamp, price.averagePrice > 0 ? price.averagePrice : null]);
     });
+    this.config.rangeSelector.buttons = [
+      { type: "all", text: "All" },
+      { type: "hour", count: 24, text: "24H" },
+    ];
     if (this.props.dates.length > 2) {
       this.config.rangeSelector.buttons.push(this.extraButtons[0]);
     }
@@ -122,6 +141,7 @@ class ItemStatPage extends Component {
     }
     this.config.series = [one, ten, hundred, avg];
     this.config.title.text = `Prix de l'objet: ${this.props.item.name}`;
+    this.setState({ chartSizeValue: 100 });
   };
 
   render() {
@@ -145,11 +165,11 @@ class ItemStatPage extends Component {
                 <h1>{item.name}</h1>
               </Grid.Column>
               <Grid.Column width={5}>
-                <Image centered src={`/img/${item.iconId}.png`} />
+                {!this.props.loading && <Image centered src={`/img/${item.iconId}.png`} />}
               </Grid.Column>
             </Grid.Row>
             <Grid.Row>
-              <Label pointing="right">Chart's height</Label>
+              <Label pointing="right">{"Chart's height"}</Label>
               <Input
                 type="range"
                 value={this.state.chartSizeValue}
@@ -190,6 +210,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     onMount: (itemId, onItemReceived) => {
       dispatch(fetchItemStat(itemId, onItemReceived));
     },
+    onAdditionalLoad: (itemId, range, first, last, onItemReceived) => {
+      dispatch(fetchAdditionalItemStat(itemId, range, first, last, onItemReceived));
+    },
   };
 };
 
@@ -200,6 +223,7 @@ ItemStatPage.propTypes = {
     iconId: PropTypes.number,
   }).isRequired,
   onMount: PropTypes.func.isRequired,
+  onAdditionalLoad: PropTypes.func.isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
       itemId: PropTypes.string.isRequired,
@@ -210,7 +234,7 @@ ItemStatPage.propTypes = {
     global: PropTypes.string,
   }).isRequired,
   prices: PropTypes.array.isRequired,
-  dates: PropTypes.array.isRequired,
+  dates: PropTypes.array,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ItemStatPage);

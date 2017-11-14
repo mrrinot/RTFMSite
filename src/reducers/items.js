@@ -1,9 +1,9 @@
-import { FETCHED_ITEMS } from "../actions/types";
+import { FETCHED_ITEMS, ITEMS_LOADING } from "../actions/types";
 
 const defaultState = {
   items: [],
   errors: {},
-  loading: true,
+  loading: false,
 };
 
 export default function items(state = defaultState, action = {}) {
@@ -14,6 +14,11 @@ export default function items(state = defaultState, action = {}) {
         items: action.items,
         errors: action.errors,
         loading: false,
+      };
+    case ITEMS_LOADING:
+      return {
+        ...state,
+        loading: action.loading,
       };
     default:
       return state;

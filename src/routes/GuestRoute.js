@@ -3,6 +3,7 @@ import { Redirect } from "react-router";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import LayoutRoute from "./LayoutRoute";
+import { LinkContainer } from "react-router-bootstrap";
 
 class GuestRoute extends Component {
   render() {
@@ -10,7 +11,14 @@ class GuestRoute extends Component {
     return (
       <LayoutRoute
         {...rest}
-        render={props => (!isAuthenticated ? <Component {...props} /> : <Redirect to="/" />)}
+        render={props =>
+          !isAuthenticated ? (
+            <Component {...props} />
+          ) : (
+            <LinkContainer to="/">
+              <Redirect to="/" />
+            </LinkContainer>
+          )}
       />
     );
   }

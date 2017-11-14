@@ -13,6 +13,11 @@ export const getItemsTypes = () => {
 export const getItemStat = itemId => {
   return axios.get(`/api/itemStat/${itemId}`);
 };
+
 export const getItemDataEffects = itemDesc => {
   return axios.post("/api/itemStat/effects/", { itemDesc });
+};
+
+export const getAdditionalItemStat = infos => {
+  return axios.post("/api/itemStat/additional/", infos);
 };

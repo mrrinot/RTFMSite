@@ -3,7 +3,6 @@ import { delay } from "redux-saga";
 import { call, takeLatest, put } from "redux-saga/effects";
 import { inviteStatus, inviteConfirmStatus, loadingInvite } from "../creators/invite";
 import { loginAttempt } from "../creators/auth";
-import history from "../../history";
 import { sendInvite, sendInviteConfirmation } from "../../api/invite";
 
 function* inviteAttempt(action) {
