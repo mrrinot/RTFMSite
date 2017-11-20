@@ -11,10 +11,12 @@ import {
   Label,
   Table,
   Divider,
+  Button,
 } from "semantic-ui-react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { fetchItemStat, fetchAdditionalItemStat } from "../actions/creators/items";
+import history from "../history";
 import HDVArchiveComponent from "../components/HDVArchiveComponent";
 import ItemTooltipComponent from "../components/ItemTooltipComponent";
 import _ from "lodash";
@@ -189,7 +191,14 @@ class ItemStatPage extends Component {
   tooltipRender = ing => {
     return (
       <Table.Cell>
-        <Image centered src={`/img/${ing.item.iconId}.png`} />
+        <Image
+          centered
+          onClick={e => {
+            history.push(`/itemStat/${ing.item.id}`);
+            this.props.onMount(ing.item.id, this.onItemReceived);
+          }}
+          src={`/img/${ing.item.iconId}.png`}
+        />
       </Table.Cell>
     );
   };
@@ -197,30 +206,32 @@ class ItemStatPage extends Component {
   displayRecipeInformations = () => {
     return (
       <Table>
-        <Table.Row>
-          {!this.props.loading &&
-            this.displayIngredientsList(
-              "Recipe",
-              this.props.recipe.ingredients,
-              ing => ing.item.s_ingredient.quantity,
-            )}
-        </Table.Row>
-        <Table.Row>
-          {!this.props.loading &&
-            this.displayIngredientsList(
-              "Recipe (All ingredients)",
-              this.props.recipe.allIngredients,
-              ing => ing.quantity,
-            )}
-        </Table.Row>
-        <Table.Row>{!this.props.loading && this.displayUsedIn()}</Table.Row>
+        <Table.Body>
+          <Table.Row>
+            {this.props.recipe.ingredients.length > 0 &&
+              this.displayIngredientsList(
+                "Recipe",
+                this.props.recipe.ingredients,
+                ing => ing.item.s_ingredient.quantity,
+              )}
+          </Table.Row>
+          <Table.Row>
+            {this.props.recipe.allIngredients.length > 0 &&
+              this.displayIngredientsList(
+                "Recipe (All ingredients)",
+                this.props.recipe.allIngredients,
+                ing => ing.quantity,
+              )}
+          </Table.Row>
+          <Table.Row>{this.props.recipe.usedIn.length > 0 && this.displayUsedIn()}</Table.Row>
+        </Table.Body>
       </Table>
     );
   };
 
   displayUsedIn = () => {
     return (
-      <div>
+      <Table.Cell>
         <span style={{ fontSize: 20 }}>Used in these: </span>
         <p />
         <Table celled>
@@ -254,7 +265,7 @@ class ItemStatPage extends Component {
             })}
           </Table.Body>
         </Table>
-      </div>
+      </Table.Cell>
     );
   };
 
@@ -262,7 +273,7 @@ class ItemStatPage extends Component {
     let totalAvg = 0;
     let totalActual = 0;
     return (
-      <div>
+      <Table.Cell>
         <span style={{ fontSize: 20 }}>{title}</span>
         <p />
         <Table celled>
@@ -314,7 +325,7 @@ class ItemStatPage extends Component {
             </Table.Row>
           </Table.Footer>
         </Table>
-      </div>
+      </Table.Cell>
     );
   };
 
@@ -332,49 +343,49 @@ class ItemStatPage extends Component {
           </Message>
         )}
         <Loader active={this.props.loading}>Loading</Loader>
-        <div>
-          <Grid divided padded columns={3}>
-            <Grid.Row>
-              <Grid.Column width={2}>
-                {!this.props.loading && <Image centered src={`/img/${item.iconId}.png`} />}
-              </Grid.Column>
-              <Grid.Column width={5}>
-                <h1>{item.name}</h1>
-              </Grid.Column>
-              <Grid.Column width={9}>
-                {!this.props.loading && (
+        {!this.props.loading && (
+          <div>
+            <Grid divided padded columns={3}>
+              <Grid.Row>
+                <Grid.Column width={2}>
+                  <Image centered src={`/img/${item.iconId}.png`} />
+                </Grid.Column>
+                <Grid.Column width={5}>
+                  <h1>{item.name}</h1>
+                </Grid.Column>
+                <Grid.Column width={9}>
                   <h1>
                     {"Prix moyen: "}
                     {prices.length > 0
                       ? prices[prices.length - 1].averagePrice.toLocaleString() + " K"
                       : "Indisponible"}
                   </h1>
-                )}
-              </Grid.Column>
-            </Grid.Row>
-            <Grid.Row>
-              <Label pointing="right">{"Chart's height"}</Label>
-              <Input
-                type="range"
-                value={this.state.chartSizeValue}
-                min={50}
-                max={150}
-                onChange={(e, data) => {
-                  this.setState({ chartSizeValue: data.value });
-                  this.config.chart.height = 9 / 16 * data.value + "%";
-                }}
-              />
-            </Grid.Row>
-          </Grid>
-          {this.config.title.text !== "PLACEHOLDER" && (
-            <div>
-              <ReactHighstock config={this.config} />
-              <br />
-              <HDVArchiveComponent item={item} selected={this.state.timestampSelected} />
-            </div>
-          )}
-          {!this.props.loading && this.displayRecipeInformations()}
-        </div>
+                </Grid.Column>
+              </Grid.Row>
+              <Grid.Row>
+                <Label pointing="right">{"Chart's height"}</Label>
+                <Input
+                  type="range"
+                  value={this.state.chartSizeValue}
+                  min={50}
+                  max={150}
+                  onChange={(e, data) => {
+                    this.setState({ chartSizeValue: data.value });
+                    this.config.chart.height = 9 / 16 * data.value + "%";
+                  }}
+                />
+              </Grid.Row>
+            </Grid>
+            {this.config.title.text !== "PLACEHOLDER" && (
+              <div>
+                <ReactHighstock config={this.config} />
+                <br />
+                <HDVArchiveComponent item={item} selected={this.state.timestampSelected} />
+              </div>
+            )}
+            {this.displayRecipeInformations()}
+          </div>
+        )}
       </div>
     );
   }

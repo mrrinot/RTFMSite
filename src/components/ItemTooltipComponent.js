@@ -142,7 +142,7 @@ class ItemTooltipComponent extends Component {
   renderDescription() {
     const style = {
       wordBreak: "break-word",
-      maxWidth: "500px",
+      maxWidth: "350px",
       paddingRight: "15px",
       paddingLeft: "15px",
     };
@@ -178,8 +178,8 @@ class ItemTooltipComponent extends Component {
         position={this.props.position}
       >
         <Grid divided padded>
-          <Grid.Row>
-            <Grid.Column width={13}>
+          <Grid.Row columns={2}>
+            <Grid.Column>
               <div>
                 <font size={4} as="h1" color={item.etheral ? "MediumSeaGreen" : "White"}>
                   <b>{item.name}</b>
@@ -200,8 +200,8 @@ class ItemTooltipComponent extends Component {
                 {this.renderItemSecondaryStats()}
               </div>
             </Grid.Column>
-            <Grid.Column width={3}>
-              <Image centered height="75" width="75" src={`/img/${item.iconId}.png`} />
+            <Grid.Column>
+              <Image centered src={`/img/${item.iconId}.png`} />
             </Grid.Column>
           </Grid.Row>
         </Grid>

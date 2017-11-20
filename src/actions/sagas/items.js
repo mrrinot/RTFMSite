@@ -40,6 +40,7 @@ export function* watchItemsFetch() {
 }
 
 function* fetchItemStatAttempt({ itemId, callback }) {
+  yield put(loadingItemStat(true));
   try {
     const ret = yield call(getItemStat, itemId);
     yield put(onFetchedItemStat(ret.data));
