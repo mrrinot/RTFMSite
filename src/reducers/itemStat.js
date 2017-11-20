@@ -20,6 +20,7 @@ export default function itemStat(state = defaultState, action = {}) {
         item: action.itemStat.item,
         prices: action.itemStat.prices,
         dates: action.itemStat.dates,
+        recipe: action.itemStat.recipe,
         errors: action.errors,
         loading: false,
       };

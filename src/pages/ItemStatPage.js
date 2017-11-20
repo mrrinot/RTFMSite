@@ -1,15 +1,31 @@
 import React, { Component } from "react";
 import HighCharts from "highcharts";
 import ReactHighstock from "react-highcharts/ReactHighstock.src";
-import { Image, Grid, Message, Icon, Loader, Input, Label } from "semantic-ui-react";
+import {
+  Image,
+  Grid,
+  Message,
+  Icon,
+  Loader,
+  Input,
+  Label,
+  Table,
+  Divider,
+} from "semantic-ui-react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { fetchItemStat, fetchAdditionalItemStat } from "../actions/creators/items";
 import HDVArchiveComponent from "../components/HDVArchiveComponent";
+import ItemTooltipComponent from "../components/ItemTooltipComponent";
 import _ from "lodash";
 
 class ItemStatPage extends Component {
-  state = { timestampSelected: -1, chartSizeValue: 100 };
+  state = {
+    timestampSelected: -1,
+    chartSizeValue: 100,
+    recipeIngTotalAvgPrice: 0,
+    recipeIngTotalActualPrice: 0,
+  };
   extraButtons = [
     {
       type: "week",
@@ -86,8 +102,7 @@ class ItemStatPage extends Component {
   };
 
   buttonClicked = e => {
-    if (e.rangeSelectorButton) {
-      // console.log("selected button :", e.rangeSelectorButton);
+    if (e.rangeSelectorButton && this.props.prices.length > 0) {
       const first = _.first(this.props.prices).timestamp;
       const last = _.last(this.props.prices).timestamp;
       const range = e.rangeSelectorButton._range;
@@ -144,8 +159,167 @@ class ItemStatPage extends Component {
     this.setState({ chartSizeValue: 100 });
   };
 
+  computeAvgPrice = price => {
+    if (price.length === 0 || price[0].averagePrice === -1) return 0;
+    return price[0].averagePrice;
+  };
+
+  computeActualPrice = price => {
+    if (price.length === 0) return 0;
+    let avg = 0;
+    _.each(price[0].itemDescriptions, desc => {
+      let locAvg = 0;
+      let cpt = 0;
+      _.forEach(desc.prices, (descPrices, quant) => {
+        if (descPrices !== 0) {
+          locAvg += descPrices / Math.pow(10, quant);
+          cpt++;
+        }
+      });
+      avg += locAvg / cpt;
+    });
+    return Math.round(avg / price[0].itemDescriptions.length);
+  };
+
+  displayPrice = (price, quantity) => {
+    if (price === 0) return "Indisponible";
+    return Math.round(price * quantity).toLocaleString() + " K";
+  };
+
+  tooltipRender = ing => {
+    return (
+      <Table.Cell>
+        <Image centered src={`/img/${ing.item.iconId}.png`} />
+      </Table.Cell>
+    );
+  };
+
+  displayRecipeInformations = () => {
+    return (
+      <Table>
+        <Table.Row>
+          {!this.props.loading &&
+            this.displayIngredientsList(
+              "Recipe",
+              this.props.recipe.ingredients,
+              ing => ing.item.s_ingredient.quantity,
+            )}
+        </Table.Row>
+        <Table.Row>
+          {!this.props.loading &&
+            this.displayIngredientsList(
+              "Recipe (All ingredients)",
+              this.props.recipe.allIngredients,
+              ing => ing.quantity,
+            )}
+        </Table.Row>
+        <Table.Row>{!this.props.loading && this.displayUsedIn()}</Table.Row>
+      </Table>
+    );
+  };
+
+  displayUsedIn = () => {
+    return (
+      <div>
+        <span style={{ fontSize: 20 }}>Used in these: </span>
+        <p />
+        <Table celled>
+          <Table.Header>
+            <Table.Row>
+              <Table.HeaderCell colSpan="2">Object</Table.HeaderCell>
+              <Table.HeaderCell>Average Price</Table.HeaderCell>
+              <Table.HeaderCell>Actual Price</Table.HeaderCell>
+            </Table.Row>
+          </Table.Header>
+          <Table.Body>
+            {this.props.recipe.usedIn.map((obj, i) => {
+              const avg = this.computeAvgPrice(obj.price);
+              const actual = this.computeActualPrice(obj.price);
+              return (
+                <Table.Row key={i}>
+                  <ItemTooltipComponent
+                    item={obj.item}
+                    effects={obj.item.possibleEffects}
+                    baseEffects={obj.item.possibleEffects}
+                    avgPrices={obj.price}
+                    key={i}
+                    toRender={e => this.tooltipRender(obj)}
+                    position="right center"
+                  />
+                  <Table.Cell>{obj.item.name}</Table.Cell>
+                  <Table.Cell>{this.displayPrice(avg, 1)}</Table.Cell>
+                  <Table.Cell>{this.displayPrice(actual, 1)}</Table.Cell>
+                </Table.Row>
+              );
+            })}
+          </Table.Body>
+        </Table>
+      </div>
+    );
+  };
+
+  displayIngredientsList = (title, ingredientList, getQuantity) => {
+    let totalAvg = 0;
+    let totalActual = 0;
+    return (
+      <div>
+        <span style={{ fontSize: 20 }}>{title}</span>
+        <p />
+        <Table celled>
+          <Table.Header>
+            <Table.Row>
+              <Table.HeaderCell colSpan="3">Object</Table.HeaderCell>
+              <Table.HeaderCell>Average Price</Table.HeaderCell>
+              <Table.HeaderCell>Batch Average Price</Table.HeaderCell>
+              <Table.HeaderCell>Actual Price</Table.HeaderCell>
+              <Table.HeaderCell>Batch Actual Price</Table.HeaderCell>
+            </Table.Row>
+          </Table.Header>
+          <Table.Body>
+            {ingredientList.map((ing, i) => {
+              const avg = this.computeAvgPrice(ing.price);
+              const actual = this.computeActualPrice(ing.price);
+              totalAvg += avg * getQuantity(ing);
+              totalActual += actual * getQuantity(ing);
+              return (
+                <Table.Row key={i}>
+                  <Table.Cell textAlign="center">{getQuantity(ing)}x</Table.Cell>
+                  <ItemTooltipComponent
+                    item={ing.item}
+                    effects={ing.item.possibleEffects}
+                    baseEffects={ing.item.possibleEffects}
+                    avgPrices={ing.price}
+                    key={i}
+                    toRender={e => this.tooltipRender(ing)}
+                    position="right center"
+                  />
+                  <Table.Cell>{ing.item.name}</Table.Cell>
+                  <Table.Cell>{this.displayPrice(avg, 1)}</Table.Cell>
+                  <Table.Cell>{this.displayPrice(avg, getQuantity(ing))}</Table.Cell>
+                  <Table.Cell>{this.displayPrice(actual, 1)}</Table.Cell>
+                  <Table.Cell>{this.displayPrice(actual, getQuantity(ing))}</Table.Cell>
+                </Table.Row>
+              );
+            })}
+          </Table.Body>
+          <Table.Footer>
+            <Table.Row>
+              <Table.HeaderCell colSpan={4}>Total:</Table.HeaderCell>
+              <Table.HeaderCell colSpan={2}>
+                {Math.round(totalAvg).toLocaleString()} K
+              </Table.HeaderCell>
+              <Table.HeaderCell colSpan={1}>
+                {Math.round(totalActual).toLocaleString()} K
+              </Table.HeaderCell>
+            </Table.Row>
+          </Table.Footer>
+        </Table>
+      </div>
+    );
+  };
+
   render() {
-    const { item } = this.props;
+    const { item, prices } = this.props;
     return (
       <div>
         {this.props.errors.global && (
@@ -159,13 +333,23 @@ class ItemStatPage extends Component {
         )}
         <Loader active={this.props.loading}>Loading</Loader>
         <div>
-          <Grid divided padded>
+          <Grid divided padded columns={3}>
             <Grid.Row>
-              <Grid.Column floated="left" width={3}>
-                <h1>{item.name}</h1>
+              <Grid.Column width={2}>
+                {!this.props.loading && <Image centered src={`/img/${item.iconId}.png`} />}
               </Grid.Column>
               <Grid.Column width={5}>
-                {!this.props.loading && <Image centered src={`/img/${item.iconId}.png`} />}
+                <h1>{item.name}</h1>
+              </Grid.Column>
+              <Grid.Column width={9}>
+                {!this.props.loading && (
+                  <h1>
+                    {"Prix moyen: "}
+                    {prices.length > 0
+                      ? prices[prices.length - 1].averagePrice.toLocaleString() + " K"
+                      : "Indisponible"}
+                  </h1>
+                )}
               </Grid.Column>
             </Grid.Row>
             <Grid.Row>
@@ -189,6 +373,7 @@ class ItemStatPage extends Component {
               <HDVArchiveComponent item={item} selected={this.state.timestampSelected} />
             </div>
           )}
+          {!this.props.loading && this.displayRecipeInformations()}
         </div>
       </div>
     );
@@ -202,6 +387,7 @@ const mapStateToProps = (state, ownProps) => {
     errors: state.itemStat.errors,
     prices: state.itemStat.prices,
     dates: state.itemStat.dates,
+    recipe: state.itemStat.recipe,
   };
 };
 
@@ -235,6 +421,11 @@ ItemStatPage.propTypes = {
   }).isRequired,
   prices: PropTypes.array.isRequired,
   dates: PropTypes.array,
+  recipe: PropTypes.shape({
+    ingredients: PropTypes.array,
+    usedIn: PropTypes.array,
+    allIngredients: PropTypes.array,
+  }),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ItemStatPage);
