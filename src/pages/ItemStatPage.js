@@ -125,6 +125,12 @@ class ItemStatPage extends Component {
     this.props.onMount(this.props.match.params.itemId, this.onItemReceived);
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (this.props.location.pathname !== nextProps.location.pathname) {
+      this.props.onMount(nextProps.match.params.itemId, this.onItemReceived);
+    }
+  }
+
   calculateAvgForPrice = (data, price, col, pow) => {
     let val = 0;
     _.each(price.itemDescriptions, desc => (val += parseInt(desc.prices[col], 10) / pow));
@@ -168,23 +174,35 @@ class ItemStatPage extends Component {
 
   computeActualPrice = price => {
     if (price.length === 0) return 0;
+    const lowest = _.chain(price[0].itemDescriptions)
+      .sortBy([
+        desc => {
+          return parseInt(desc.prices[0], 10);
+        },
+        desc => {
+          return parseInt(desc.prices[1], 10);
+        },
+        desc => {
+          return parseInt(desc.prices[2], 10);
+        },
+      ])
+      .first()
+      .value();
     let avg = 0;
-    _.each(price[0].itemDescriptions, desc => {
-      let locAvg = 0;
-      let cpt = 0;
-      _.forEach(desc.prices, (descPrices, quant) => {
-        if (descPrices !== 0) {
-          locAvg += descPrices / Math.pow(10, quant);
-          cpt++;
-        }
-      });
-      avg += locAvg / cpt;
+    let cpt = 0;
+    _.forEach(lowest.prices, (descPrices, quant) => {
+      if (descPrices !== 0) {
+        avg += descPrices / Math.pow(10, quant);
+        cpt++;
+      }
     });
-    return Math.round(avg / price[0].itemDescriptions.length);
+    avg = avg / cpt;
+    return Math.round(avg);
   };
 
   displayPrice = (price, quantity) => {
-    if (price === 0) return "Indisponible";
+    if (price === 0)
+      return <span style={{ color: "FireBrick", fontWeight: "bold" }}>Indisponible</span>;
     return Math.round(price * quantity).toLocaleString() + " K";
   };
 
@@ -195,7 +213,6 @@ class ItemStatPage extends Component {
           centered
           onClick={e => {
             history.push(`/itemStat/${ing.item.id}`);
-            this.props.onMount(ing.item.id, this.onItemReceived);
           }}
           src={`/img/${ing.item.iconId}.png`}
         />
@@ -272,6 +289,7 @@ class ItemStatPage extends Component {
   displayIngredientsList = (title, ingredientList, getQuantity) => {
     let totalAvg = 0;
     let totalActual = 0;
+    let unknown = [false, false];
     return (
       <Table.Cell>
         <span style={{ fontSize: 20 }}>{title}</span>
@@ -290,6 +308,8 @@ class ItemStatPage extends Component {
             {ingredientList.map((ing, i) => {
               const avg = this.computeAvgPrice(ing.price);
               const actual = this.computeActualPrice(ing.price);
+              if (avg === 0) unknown[0] = true;
+              if (actual === 0) unknown[1] = true;
               totalAvg += avg * getQuantity(ing);
               totalActual += actual * getQuantity(ing);
               return (
@@ -318,9 +338,19 @@ class ItemStatPage extends Component {
               <Table.HeaderCell colSpan={4}>Total:</Table.HeaderCell>
               <Table.HeaderCell colSpan={2}>
                 {Math.round(totalAvg).toLocaleString()} K
+                {unknown[0] && (
+                  <span style={{ color: "DarkOrange" }}>
+                    <p />(Contains unknown prices)
+                  </span>
+                )}
               </Table.HeaderCell>
               <Table.HeaderCell colSpan={1}>
                 {Math.round(totalActual).toLocaleString()} K
+                {unknown[1] && (
+                  <span style={{ color: "DarkOrange" }}>
+                    <p />(Contains unknown prices)
+                  </span>
+                )}
               </Table.HeaderCell>
             </Table.Row>
           </Table.Footer>
@@ -437,6 +467,9 @@ ItemStatPage.propTypes = {
     usedIn: PropTypes.array,
     allIngredients: PropTypes.array,
   }),
+  location: PropTypes.shape({
+    pathname: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ItemStatPage);

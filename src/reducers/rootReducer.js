@@ -6,6 +6,7 @@ import APIKey from "./APIKey";
 import itemStat from "./itemStat";
 import metaData from "./metaData";
 import itemDescEffects from "./itemDescEffects";
+import { routerReducer } from "react-router-redux";
 
 export default combineReducers({
   auth,
@@ -15,4 +16,5 @@ export default combineReducers({
   itemStat,
   metaData,
   itemDescEffects,
+  router: routerReducer,
 });
