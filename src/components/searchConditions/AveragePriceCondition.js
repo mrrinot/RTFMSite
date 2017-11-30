@@ -14,13 +14,16 @@ const operators = [
 ];
 
 class AveragePriceCondition extends Component {
-  state = { price: 0, operator: ">" };
+  constructor(props) {
+    super(props);
+    this.state = { value: 0, operator: ">" };
+  }
 
   submit = () => {
-    this.props.onSubmit(COL_NAME, {
+    this.props.onSubmit({
       col: "averagePrice",
       operator: this.state.operator,
-      value: this.state.price,
+      value: this.state.value,
     });
   };
 
@@ -35,14 +38,14 @@ class AveragePriceCondition extends Component {
           selection
           options={operators}
           value={">"}
-          text={this.props.values.operator}
+          text={this.state.operator}
         />
         <Input
           placeholder="Enter a price"
           onChange={(e, data) => {
-            this.setState({ price: data.value }, this.submit);
+            this.setState({ value: data.value }, this.submit);
           }}
-          value={this.props.values.value}
+          value={this.state.value}
         />
       </div>
     );
@@ -51,12 +54,6 @@ class AveragePriceCondition extends Component {
 
 AveragePriceCondition.propTypes = {
   onSubmit: PropTypes.func.isRequired,
-  values: PropTypes.shape({
-    col: PropTypes.string.isRequired,
-    operator: PropTypes.string.isRequired,
-    value: PropTypes.oneOfType([PropTypes.number.isRequired, PropTypes.string.isRequired])
-      .isRequired,
-  }).isRequired,
 };
 
 AveragePriceCondition.ConditionName = COL_NAME;

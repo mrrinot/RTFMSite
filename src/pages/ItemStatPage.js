@@ -131,6 +131,23 @@ class ItemStatPage extends Component {
     }
   }
 
+  getLowestPrice = descs => {
+    return _.chain(descs)
+      .sortBy([
+        desc => {
+          return parseInt(desc.prices[0], 10);
+        },
+        desc => {
+          return parseInt(desc.prices[1], 10);
+        },
+        desc => {
+          return parseInt(desc.prices[2], 10);
+        },
+      ])
+      .first()
+      .value();
+  };
+
   calculateAvgForPrice = (data, price, col, pow) => {
     let val = 0;
     _.each(price.itemDescriptions, desc => (val += parseInt(desc.prices[col], 10) / pow));
@@ -140,13 +157,16 @@ class ItemStatPage extends Component {
 
   onItemReceived = () => {
     const one = { name: "x1", data: [] };
+    const oneAvg = { name: "x1Avg", data: [] };
     const ten = { name: "x10", data: [] };
     const hundred = { name: "x100", data: [] };
     const avg = { name: "Prix moyen", data: [] };
     _.each(this.props.prices, price => {
-      this.calculateAvgForPrice(one.data, price, 0, 1);
+      this.calculateAvgForPrice(oneAvg.data, price, 0, 1);
       this.calculateAvgForPrice(ten.data, price, 1, 10);
       this.calculateAvgForPrice(hundred.data, price, 2, 100);
+      const lowest = this.getLowestPrice(price.itemDescriptions);
+      one.data.push([price.timestamp, lowest.prices[0] > 0 ? lowest.prices[0] : null]);
       avg.data.push([price.timestamp, price.averagePrice > 0 ? price.averagePrice : null]);
     });
     this.config.rangeSelector.buttons = [
@@ -162,7 +182,7 @@ class ItemStatPage extends Component {
     if (this.props.dates.length > 30) {
       this.config.rangeSelector.buttons.push(this.extraButtons[2]);
     }
-    this.config.series = [one, ten, hundred, avg];
+    this.config.series = [one, oneAvg, ten, hundred, avg];
     this.config.title.text = `Prix de l'objet: ${this.props.item.name}`;
     this.setState({ chartSizeValue: 100 });
   };
@@ -174,20 +194,7 @@ class ItemStatPage extends Component {
 
   computeActualPrice = price => {
     if (price.length === 0) return 0;
-    const lowest = _.chain(price[0].itemDescriptions)
-      .sortBy([
-        desc => {
-          return parseInt(desc.prices[0], 10);
-        },
-        desc => {
-          return parseInt(desc.prices[1], 10);
-        },
-        desc => {
-          return parseInt(desc.prices[2], 10);
-        },
-      ])
-      .first()
-      .value();
+    const lowest = this.getLowestPrice(price[0].itemDescriptions);
     let avg = 0;
     let cpt = 0;
     _.forEach(lowest.prices, (descPrices, quant) => {

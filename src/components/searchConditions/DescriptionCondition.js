@@ -5,6 +5,12 @@ import { Input } from "semantic-ui-react";
 const COL_NAME = "Description";
 
 class DescriptionCondition extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      value: "",
+    };
+  }
   render() {
     return (
       <div>
@@ -12,13 +18,14 @@ class DescriptionCondition extends Component {
         <Input
           placeholder="Search a description"
           onChange={(e, data) => {
-            this.props.onSubmit(COL_NAME, {
+            this.setState({ value: data.value });
+            this.props.onSubmit({
               col: "description",
               operator: "LIKE",
               value: data.value.toLowerCase(),
             });
           }}
-          value={this.props.values.value}
+          value={this.state.value}
         />
       </div>
     );
@@ -27,11 +34,6 @@ class DescriptionCondition extends Component {
 
 DescriptionCondition.propTypes = {
   onSubmit: PropTypes.func.isRequired,
-  values: PropTypes.shape({
-    col: PropTypes.string.isRequired,
-    operator: PropTypes.string.isRequired,
-    value: PropTypes.string.isRequired,
-  }).isRequired,
 };
 
 DescriptionCondition.ConditionName = COL_NAME;

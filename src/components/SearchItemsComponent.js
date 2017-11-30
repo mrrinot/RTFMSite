@@ -3,44 +3,39 @@ import PropTypes from "prop-types";
 import { Input, Button, Grid, Dropdown } from "semantic-ui-react";
 import SearchConditions from "./searchConditions";
 import _ from "lodash";
+import uuidv4 from "uuid/v4";
 
-class SearchComponent extends Component {
-  state = {
-    conditions: [],
-    where: [{ col: "name", operator: "LIKE", value: "" }],
-  };
-  lastInputChangeRequest = null;
+class SearchItemsComponent extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      conditions: [],
+      where: { 0: { col: "name", operator: "LIKE", value: "" } },
+    };
+    this.lastInputChangeRequest = null;
+  }
 
   onInputChanged = () => {
     clearTimeout(this.lastInputChangeRequest);
     this.lastInputChangeRequest = setTimeout(() => {
-      console.log(this.state.where);
-      if (this.state.where.length > 0) {
-        this.props.onResult(this.state.where);
-      }
+      if (this.state.conditions.length !== 0 || this.state.where[0].value !== "")
+        this.props.onResult(_.toArray(this.state.where));
     }, 500);
   };
 
   addCondition = (e, data) => {
     const conditions = this.state.conditions;
-    conditions.push(SearchConditions[data.value]);
-    const where = this.state.where;
-    where[conditions.length] = { col: "", operator: "", value: "" };
+    const key = uuidv4();
+    conditions.push({ condition: SearchConditions[data.value], key });
     this.setState({ conditions });
   };
 
   removeCondition = key => {
     const conditions = this.state.conditions;
-    conditions.splice(key, 1);
     const where = this.state.where;
-    where.splice(key + 1, 1);
-    this.setState({ conditions, where });
-  };
-
-  onConditionSet = (name, value, i) => {
-    const where = this.state.where;
-    where[i + 1] = value;
-    this.setState({ where });
+    _.remove(conditions, cond => cond.key === key);
+    delete where[key];
+    this.setState({ conditions, where }, this.onInputChanged());
   };
 
   renderCondition = (Condition, i) => {
@@ -56,9 +51,10 @@ class SearchComponent extends Component {
           />
         </Grid.Column>
         <Condition
-          values={this.state.where[i + 1]}
-          onSubmit={(name, value) => {
-            this.onConditionSet(name, value, i);
+          onSubmit={value => {
+            const where = this.state.where;
+            where[i] = value;
+            this.setState({ where }, this.onInputChanged());
           }}
         />
       </Grid.Row>
@@ -93,7 +89,9 @@ class SearchComponent extends Component {
             Search
           </Button>
         </Grid.Row>
-        {this.state.conditions.map((condition, key) => this.renderCondition(condition, key))}
+        {this.state.conditions.map(condition =>
+          this.renderCondition(condition.condition, condition.key),
+        )}
         <Grid.Row>
           <Dropdown
             onChange={this.addCondition}
@@ -110,9 +108,9 @@ class SearchComponent extends Component {
   }
 }
 
-SearchComponent.propTypes = {
+SearchItemsComponent.propTypes = {
   onResult: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
 };
 
-export default SearchComponent;
+export default SearchItemsComponent;

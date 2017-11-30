@@ -179,7 +179,7 @@ class ItemTooltipComponent extends Component {
       >
         <Grid divided padded>
           <Grid.Row columns={2}>
-            <Grid.Column>
+            <Grid.Column width={12}>
               <div>
                 <font size={4} as="h1" color={item.etheral ? "MediumSeaGreen" : "White"}>
                   <b>{item.name}</b>
@@ -200,8 +200,8 @@ class ItemTooltipComponent extends Component {
                 {this.renderItemSecondaryStats()}
               </div>
             </Grid.Column>
-            <Grid.Column>
-              <Image centered src={`/img/${item.iconId}.png`} />
+            <Grid.Column width={4}>
+              <Image fluid centered src={`/img/${item.iconId}.png`} />
             </Grid.Column>
           </Grid.Row>
         </Grid>

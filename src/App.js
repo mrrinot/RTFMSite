@@ -12,6 +12,7 @@ import LayoutRoute from "./routes/LayoutRoute";
 import ConfirmInvitePage from "./pages/ConfirmInvitePage";
 import CreateAPIKeyPage from "./pages/CreateAPIKeyPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
+import LeaderboardRecipePage from "./pages/LeaderboardRecipePage";
 
 class App extends Component {
   render() {
@@ -23,6 +24,7 @@ class App extends Component {
           <GuestRoute exact path="/login/resetPassword/:token" component={ResetPasswordPage} />
           <UserRoute path="/items" component={ItemsPage} />
           <UserRoute path="/itemStat/:itemId" component={ItemStatPage} />
+          <UserRoute path="/leaderboard/recipes" component={LeaderboardRecipePage} />
           <AdminLevelRoute requiredLevel={3} exact path="/invite" component={InvitePage} />
           <GuestRoute exact path="/invite/:token" component={ConfirmInvitePage} />
           <AdminLevelRoute requiredLevel={2} path="/createAPIKey" component={CreateAPIKeyPage} />

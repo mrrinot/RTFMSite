@@ -8,7 +8,7 @@ import history from "../../history";
 import { call, takeLatest, put } from "redux-saga/effects";
 import { loginStatus, loadingLogin } from "../creators/auth";
 import { onCreatedAPIKey } from "../creators/APIKey";
-import { login, resetPasswordRequest, resetPassword, logout } from "../../api/auth";
+import { login, resetPasswordRequest, resetPassword, logout, isLoggedIn } from "../../api/auth";
 
 function* loginAttempt(action) {
   yield put(loadingLogin(true));

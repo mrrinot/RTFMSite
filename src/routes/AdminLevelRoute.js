@@ -3,7 +3,6 @@ import { Redirect } from "react-router";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import LayoutRoute from "./LayoutRoute";
-import { LinkContainer } from "react-router-bootstrap";
 
 class AdminLevelRoute extends Component {
   render() {
@@ -21,10 +20,9 @@ class AdminLevelRoute extends Component {
           isAuthenticated && adminLevel >= requiredLevel ? (
             <Component {...props} />
           ) : (
-            <LinkContainer to="/">
-              <Redirect to="/" />
-            </LinkContainer>
-          )}
+            <Redirect to="/" />
+          )
+        }
       />
     );
   }

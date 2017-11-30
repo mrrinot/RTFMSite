@@ -1,12 +1,13 @@
 import React, { Component } from "react";
 import SearchItemsComponent from "../components/SearchItemsComponent";
-import ItemList from "../components/ItemList";
+import RecipeList from "../components/RecipeList";
 import { Message, Icon } from "semantic-ui-react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { fetchItems, fetchItemsTypes } from "../actions/creators/items";
+import { fetchItemsTypes } from "../actions/creators/items";
+import { fetchRecipes } from "../actions/creators/recipes";
 
-class ItemsPage extends Component {
+class LeaderboardRecipePage extends Component {
   componentDidMount() {
     if (this.props.itemsTypes.length === 0) {
       this.props.getItemsMetaData();
@@ -20,9 +21,9 @@ class ItemsPage extends Component {
       return (
         <div>
           {" "}
-          <h1>Items page</h1>
+          <h1>Recipe Leaderboard page</h1>
           <SearchItemsComponent onResult={this.onResult} loading={this.props.loading} />
-          {this.props.items.length > 0 && <ItemList items={this.props.items} />}
+          {this.props.recipes.length > 0 && <RecipeList recipes={this.props.recipes} />}
         </div>
       );
     return (
@@ -39,9 +40,9 @@ class ItemsPage extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    items: state.items.items || [],
-    loading: state.items.loading,
-    errors: state.items.errors,
+    recipes: state.recipes.recipes || [],
+    loading: state.recipes.loading,
+    errors: state.recipes.errors,
     itemsTypes: state.metaData.itemsTypes,
   };
 };
@@ -49,7 +50,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     onResult: input => {
-      dispatch(fetchItems(input));
+      dispatch(fetchRecipes(input));
     },
     getItemsMetaData: () => {
       dispatch(fetchItemsTypes());
@@ -57,8 +58,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   };
 };
 
-ItemsPage.propTypes = {
-  items: PropTypes.array.isRequired,
+LeaderboardRecipePage.propTypes = {
+  recipes: PropTypes.array.isRequired,
   onResult: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
   getItemsMetaData: PropTypes.func.isRequired,
@@ -68,4 +69,4 @@ ItemsPage.propTypes = {
   itemsTypes: PropTypes.array.isRequired,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ItemsPage);
+export default connect(mapStateToProps, mapDispatchToProps)(LeaderboardRecipePage);

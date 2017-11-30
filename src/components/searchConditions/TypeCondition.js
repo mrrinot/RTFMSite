@@ -7,6 +7,11 @@ import _ from "lodash";
 const COL_NAME = "Type";
 
 class TypeCondition extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { value: "" };
+  }
+
   render() {
     return (
       <div>
@@ -14,11 +19,14 @@ class TypeCondition extends Component {
         <Dropdown
           placeholder="Select an item type"
           onChange={(e, data) => {
-            this.props.onSubmit(COL_NAME, {
-              col: "typeId",
-              operator: "=",
-              value: data.value,
-            });
+            this.setState(
+              { value: data.value },
+              this.props.onSubmit(COL_NAME, {
+                col: "typeId",
+                operator: "=",
+                value: data.value,
+              }),
+            );
           }}
           selection
           search
@@ -26,11 +34,9 @@ class TypeCondition extends Component {
             return { text: type.name, value: type.id };
           })}
           text={
-            this.props.values.value === ""
-              ? ""
-              : _.find(this.props.types, { id: this.props.values.value }).name
+            this.state.value === "" ? "" : _.find(this.props.types, { id: this.state.value }).name
           }
-          value={this.props.values.value === "" ? "" : this.props.values.value}
+          value={this.state.value === "" ? "" : this.state.value}
         />
       </div>
     );
@@ -45,12 +51,6 @@ TypeCondition.propTypes = {
       name: PropTypes.string.isRequired,
     }).isRequired,
   ).isRequired,
-  values: PropTypes.shape({
-    col: PropTypes.string.isRequired,
-    operator: PropTypes.string.isRequired,
-    value: PropTypes.oneOfType([PropTypes.number.isRequired, PropTypes.string.isRequired])
-      .isRequired,
-  }).isRequired,
 };
 
 TypeCondition.ConditionName = COL_NAME;

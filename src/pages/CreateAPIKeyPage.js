@@ -32,11 +32,6 @@ class CreateAPIKeyPage extends Component {
               <Label>Key : {this.props.APIKey}</Label>
             </Grid.Column>
           </Grid.Row>
-          <Grid.Row>
-            <Grid.Column width={3}>
-              <Link to="/">Home page</Link>
-            </Grid.Column>
-          </Grid.Row>
         </Grid>
       </div>
     );

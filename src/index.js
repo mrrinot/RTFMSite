@@ -17,6 +17,7 @@ import history from "./history";
 import axios from "axios";
 import { Message, Icon } from "semantic-ui-react";
 import { ConnectedRouter, routerReducer, routerMiddleware } from "react-router-redux";
+import { isLoggedIn } from "./api/auth";
 
 const composeEnhancers = composeWithDevTools({ actionCreators });
 const sagaMiddleware = createSagaMiddleware();
@@ -51,8 +52,7 @@ function renderDOM(loaded) {
 if (localStorage.rtfmUserInfos) {
   const userInfos = JSON.parse(localStorage.rtfmUserInfos);
   renderDOM(true);
-  axios
-    .post("/api/auth/isLoggedIn", { email: userInfos.email })
+  isLoggedIn(userInfos.email)
     .then(ret => {
       store.dispatch(loginStatus(ret.data));
       store.dispatch(createAPIKeyAttempt(ret.data.APIKey));

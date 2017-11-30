@@ -32,7 +32,7 @@ const LayoutRoute = props => {
 };
 
 LayoutRoute.propTypes = {
-  component: PropTypes.node,
+  component: PropTypes.func,
   render: PropTypes.func,
 };
 

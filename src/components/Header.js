@@ -3,9 +3,9 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router";
 import { Icon } from "semantic-ui-react";
-import { Label, Nav, NavItem, Navbar } from "react-bootstrap";
 import { logoutAttempt } from "../actions/creators/auth";
-import { LinkContainer } from "react-router-bootstrap";
+import { Link } from "react-router-dom";
+import { Menu, Label, Sidebar, Segment, Container } from "semantic-ui-react";
 
 class Header extends Component {
   guest = comp => (this.props.isAuthenticated ? null : comp);
@@ -14,69 +14,70 @@ class Header extends Component {
     this.props.isAuthenticated && this.props.userInfos.adminLevel >= lvl ? comp : null;
 
   stuff = pathname => (
-    <Navbar.Collapse>
-      <Nav>
+    <Sidebar as={Menu} direction="top" visible={true}>
+      <Menu.Menu>
         {this.guest(
-          <LinkContainer to="/login">
-            <NavItem active={pathname === "/login"} href="/login">
-              Connexion
-            </NavItem>
-          </LinkContainer>,
+          <Menu.Item as={Link} active={pathname === "/login"} to="/login">
+            Connexion
+          </Menu.Item>,
         )}
         {this.auth(
-          <LinkContainer to="/">
-            <NavItem active={pathname === "/"} href="/">
-              Accueil
-            </NavItem>
-          </LinkContainer>,
+          <Menu.Item as={Link} active={pathname === "/"} to="/">
+            Accueil
+          </Menu.Item>,
         )}
 
         {this.adminLevel(
           1,
-          <LinkContainer to="/items">
-            <NavItem active={pathname === "/items"} href="/items">
-              Objets
-            </NavItem>
-          </LinkContainer>,
+          <Menu.Item as={Link} active={pathname === "/items"} to="/items">
+            Objets
+          </Menu.Item>,
         )}
 
         {this.adminLevel(
+          1,
+          <Menu.Item
+            as={Link}
+            active={pathname === "/leaderboard/recipes"}
+            to="/leaderboard/recipes"
+          >
+            Leaderboard: Recettes
+          </Menu.Item>,
+        )}
+        {this.adminLevel(
           2,
-          <LinkContainer to="/createAPIKey">
-            <NavItem active={pathname === "/createAPIKey"} href="/createAPIKey">
-              Token API
-            </NavItem>
-          </LinkContainer>,
+          <Menu.Item as={Link} active={pathname === "/createAPIKey"} to="/createAPIKey">
+            Token API
+          </Menu.Item>,
         )}
 
         {this.adminLevel(
           3,
-          <LinkContainer to="/invite">
-            <NavItem active={pathname === "/invite"} href="/invite">
-              Créer une invitation
-            </NavItem>
-          </LinkContainer>,
+          <Menu.Item as={Link} active={pathname === "/invite"} to="/invite">
+            Créer une invitation
+          </Menu.Item>,
         )}
-      </Nav>
-      <Nav pullRight>
+      </Menu.Menu>
+      <Menu.Menu position="right">
         {this.auth(
-          <NavItem onClick={this.props.onLogout}>
-            <Label bsStyle="danger">
+          <Menu.Item onClick={this.props.onLogout}>
+            {this.props.userInfos.pseudo}
+            <Label color="red">
               <Icon name="power" />Déconnexion
             </Label>
-          </NavItem>,
+          </Menu.Item>,
         )}
-      </Nav>
-    </Navbar.Collapse>
+      </Menu.Menu>
+    </Sidebar>
   );
 
   render() {
     const { pathname } = this.props.location;
     return (
-      <Navbar fluid>
-        <Navbar.Toggle />
+      <Container>
         {this.stuff(pathname)}
-      </Navbar>
+        <br />
+      </Container>
     );
   }
 }

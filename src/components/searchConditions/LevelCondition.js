@@ -14,13 +14,16 @@ const operators = [
 ];
 
 class LevelCondition extends Component {
-  state = { level: 0, operator: ">" };
+  constructor(props) {
+    super(props);
+    this.state = { value: 0, operator: ">" };
+  }
 
   submit = () => {
-    this.props.onSubmit(COL_NAME, {
+    this.props.onSubmit({
       col: "level",
       operator: this.state.operator,
-      value: this.state.level,
+      value: this.state.value,
     });
   };
 
@@ -35,15 +38,15 @@ class LevelCondition extends Component {
           selection
           options={operators}
           value={">"}
-          text={this.props.values.operator}
+          text={this.state.operator}
         />
         <Input
           placeholder="Choose a level (1-200)"
           onChange={(e, data) => {
             const finalLevel = Math.min(Math.max(data.value, 0), 200);
-            this.setState({ level: finalLevel }, this.submit);
+            this.setState({ value: finalLevel }, this.submit);
           }}
-          value={this.props.values.value}
+          value={this.state.value}
         />
       </div>
     );
@@ -52,12 +55,6 @@ class LevelCondition extends Component {
 
 LevelCondition.propTypes = {
   onSubmit: PropTypes.func.isRequired,
-  values: PropTypes.shape({
-    col: PropTypes.string.isRequired,
-    operator: PropTypes.string.isRequired,
-    value: PropTypes.oneOfType([PropTypes.number.isRequired, PropTypes.string.isRequired])
-      .isRequired,
-  }).isRequired,
 };
 
 LevelCondition.ConditionName = COL_NAME;
