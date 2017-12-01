@@ -21,7 +21,7 @@ class TypeCondition extends Component {
           onChange={(e, data) => {
             this.setState(
               { value: data.value },
-              this.props.onSubmit(COL_NAME, {
+              this.props.onSubmit({
                 col: "typeId",
                 operator: "=",
                 value: data.value,

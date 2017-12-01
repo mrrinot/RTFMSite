@@ -19,7 +19,8 @@ class SearchItemsComponent extends Component {
     clearTimeout(this.lastInputChangeRequest);
     this.lastInputChangeRequest = setTimeout(() => {
       if (this.state.conditions.length !== 0 || this.state.where[0].value !== "")
-        this.props.onResult(_.toArray(this.state.where));
+        console.log("WHERE: ", this.state.where);
+      this.props.onResult(_.toArray(this.state.where));
     }, 500);
   };
 

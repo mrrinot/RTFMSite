@@ -20,7 +20,6 @@ class LeaderboardRecipePage extends Component {
     if (this.props.errors.global === undefined)
       return (
         <div>
-          {" "}
           <h1>Recipe Leaderboard page</h1>
           <SearchItemsComponent onResult={this.onResult} loading={this.props.loading} />
           {this.props.recipes.length > 0 && <RecipeList recipes={this.props.recipes} />}
