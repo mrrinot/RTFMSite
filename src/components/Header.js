@@ -73,6 +73,7 @@ class Header extends Component {
 
   render() {
     const { pathname } = this.props.location;
+    console.log("pathname =", pathname);
     return (
       <Container>
         {this.stuff(pathname)}
@@ -111,4 +112,4 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Header));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Header));
