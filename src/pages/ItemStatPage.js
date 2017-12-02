@@ -229,35 +229,57 @@ class ItemStatPage extends Component {
 
   displayRecipeInformations = () => {
     return (
-      <Table>
-        <Table.Body>
-          <Table.Row>
-            {this.props.recipe.ingredients.length > 0 &&
-              this.displayIngredientsList(
-                "Recipe",
-                this.props.recipe.ingredients,
-                ing => ing.item.s_ingredient.quantity,
+      <div>
+        <Table celled striped>
+          <Table.Body>
+            <Table.Row>
+              {this.props.recipe.ingredients.length > 0 ? (
+                this.displayIngredientsList(
+                  "Recipe",
+                  this.props.recipe.ingredients,
+                  ing => ing.item.s_ingredient.quantity,
+                )
+              ) : (
+                <Table.Cell>
+                  <div style={{ textAlign: "center" }}>
+                    <span style={{ fontSize: 28, fontWeight: "bold" }}>
+                      This item can't be crafted
+                    </span>
+                    <p />
+                  </div>
+                </Table.Cell>
               )}
-          </Table.Row>
-          <Table.Row>
-            {this.props.recipe.allIngredients.length > 0 &&
-              this.displayIngredientsList(
-                "Recipe (All ingredients)",
-                this.props.recipe.allIngredients,
-                ing => ing.quantity,
-              )}
-          </Table.Row>
-          <Table.Row>{this.props.recipe.usedIn.length > 0 && this.displayUsedIn()}</Table.Row>
-        </Table.Body>
-      </Table>
+            </Table.Row>
+          </Table.Body>
+        </Table>
+        <Table celled striped>
+          <Table.Body>
+            <Table.Row>
+              {this.props.recipe.allIngredients.length > 0 &&
+                this.displayIngredientsList(
+                  "Recipe (All ingredients)",
+                  this.props.recipe.allIngredients,
+                  ing => ing.quantity,
+                )}
+            </Table.Row>
+          </Table.Body>
+        </Table>
+        <Table celled striped>
+          <Table.Body>
+            <Table.Row>{this.props.recipe.usedIn.length > 0 && this.displayUsedIn()}</Table.Row>
+          </Table.Body>
+        </Table>
+      </div>
     );
   };
 
   displayUsedIn = () => {
     return (
       <Table.Cell>
-        <span style={{ fontSize: 20 }}>Used in these: </span>
-        <p />
+        <div style={{ textAlign: "center" }}>
+          <span style={{ fontSize: 28, fontWeight: "bold" }}>Usage in recipes</span>
+          <p />
+        </div>
         <Table celled>
           <Table.Header>
             <Table.Row>
@@ -299,8 +321,10 @@ class ItemStatPage extends Component {
     let unknown = [false, false];
     return (
       <Table.Cell>
-        <span style={{ fontSize: 20 }}>{title}</span>
-        <p />
+        <div style={{ textAlign: "center" }}>
+          <span style={{ fontSize: 28, fontWeight: "bold" }}>{title}</span>
+          <p />
+        </div>
         <Table celled>
           <Table.Header>
             <Table.Row>

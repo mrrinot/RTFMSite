@@ -33,7 +33,7 @@ class ItemList extends Component {
 
   render() {
     return (
-      <Grid columns={5} celled>
+      <Grid columns={5} celled divided="vertically">
         {this.props.items.map((item, key) => (
           <Grid.Column key={key / 5}>
             <ItemTooltipComponent
