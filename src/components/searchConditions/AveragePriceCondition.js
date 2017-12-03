@@ -39,6 +39,7 @@ class AveragePriceCondition extends Component {
           options={operators}
           value={">"}
           text={this.state.operator}
+          selectOnBlur={false}
         />
         <Input
           placeholder="Enter a price"

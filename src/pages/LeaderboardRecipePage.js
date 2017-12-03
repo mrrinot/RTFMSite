@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import SearchItemsComponent from "../components/SearchItemsComponent";
+import SearchRecipesComponent from "../components/SearchRecipesComponent";
 import RecipeList from "../components/RecipeList";
 import { Message, Icon } from "semantic-ui-react";
 import PropTypes from "prop-types";
@@ -21,8 +21,16 @@ class LeaderboardRecipePage extends Component {
       return (
         <div>
           <h1>Recipe Leaderboard page</h1>
-          <SearchItemsComponent onResult={this.onResult} loading={this.props.loading} />
-          {this.props.recipes.length > 0 && <RecipeList recipes={this.props.recipes} />}
+          <SearchRecipesComponent onResult={this.onResult} loading={this.props.loading} />
+          {this.props.recipes.length > 0 && (
+            <div>
+              <div>
+                Last update:{" "}
+                {new Date(parseInt(this.props.recipes[0].timestamp, 10)).toLocaleString("fr-FR")}
+              </div>
+              <RecipeList recipes={this.props.recipes} loading={this.props.loading} />
+            </div>
+          )}
         </div>
       );
     return (

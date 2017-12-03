@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Input, Button, Grid, Dropdown } from "semantic-ui-react";
-import OptionalSearchConditions from "./searchConditions/ItemOptionalConditionList";
-import MandatorySearchConditions from "./searchConditions/ItemMandatoryConditionList";
+import OptionalSearchConditions from "./searchConditions/RecipeOptionalConditionList";
+import MandatorySearchConditions from "./searchConditions/RecipeMandatoryConditionList";
 import _ from "lodash";
 import uuidv4 from "uuid/v4";
 
-class SearchItemsComponent extends Component {
+class SearchRecipesComponent extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -102,9 +102,9 @@ class SearchItemsComponent extends Component {
   }
 }
 
-SearchItemsComponent.propTypes = {
+SearchRecipesComponent.propTypes = {
   onResult: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
 };
 
-export default SearchItemsComponent;
+export default SearchRecipesComponent;

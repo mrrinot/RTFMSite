@@ -78,9 +78,9 @@ class HDVArchiveComponent extends Component {
                 toRender={e => this.toRender(desc)}
                 position="right center"
               />
-              <Grid.Column width={4}>{desc.prices[0]}</Grid.Column>
-              <Grid.Column width={4}>{desc.prices[1]}</Grid.Column>
-              <Grid.Column width={4}>{desc.prices[2]}</Grid.Column>
+              <Grid.Column width={4}>{desc.prices[0].toLocaleString("fr-FR")}</Grid.Column>
+              <Grid.Column width={4}>{desc.prices[1].toLocaleString("fr-FR")}</Grid.Column>
+              <Grid.Column width={4}>{desc.prices[2].toLocaleString("fr-FR")}</Grid.Column>
             </Grid.Row>
           ))}
       </Grid>
@@ -90,9 +90,9 @@ class HDVArchiveComponent extends Component {
   displaySelectedTimeStamp() {
     let str = "";
     if (this.state.selected !== -1 && this.props.prices !== undefined) {
-      str = `${new Date(this.props.prices[this.state.selected].timestamp)} => ${this.props.prices[
-        this.state.selected
-      ].itemDescriptions.length} items`;
+      str = `${new Date(this.props.prices[this.state.selected].timestamp)} => ${
+        this.props.prices[this.state.selected].itemDescriptions.length
+      } items`;
     }
     return str;
   }

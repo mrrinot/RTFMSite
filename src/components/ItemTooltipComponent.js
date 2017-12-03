@@ -114,7 +114,9 @@ class ItemTooltipComponent extends Component {
               {avgPrice.server.name} :
               <b>
                 {" "}
-                {avgPrice.averagePrice === -1 ? " Indisponible" : avgPrice.averagePrice + " K"}
+                {avgPrice.averagePrice === -1
+                  ? " Indisponible"
+                  : avgPrice.averagePrice.toLocaleString("fr-FR") + " K"}
               </b>
               <br />
             </div>
@@ -157,7 +159,7 @@ class ItemTooltipComponent extends Component {
   renderCriteria() {
     const { item } = this.props;
     return (
-      <div>
+      <div style={{ wordBreak: "break-word", maxWidth: "300px" }}>
         <font size={3}>
           <b>Conditions</b>
           <br />

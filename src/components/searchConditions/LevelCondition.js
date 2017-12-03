@@ -39,6 +39,7 @@ class LevelCondition extends Component {
           options={operators}
           value={">"}
           text={this.state.operator}
+          selectOnBlur={false}
         />
         <Input
           placeholder="Choose a level (1-200)"

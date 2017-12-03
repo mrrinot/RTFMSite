@@ -156,8 +156,8 @@ class ItemStatPage extends Component {
   };
 
   onItemReceived = () => {
-    const one = { name: "x1", data: [] };
-    const oneAvg = { name: "x1Avg", data: [] };
+    const one = { name: "x1 (lowest)", data: [] };
+    const oneAvg = { name: "x1 (average)", data: [] };
     const ten = { name: "x10", data: [] };
     const hundred = { name: "x100", data: [] };
     const avg = { name: "Prix moyen", data: [] };
@@ -210,7 +210,7 @@ class ItemStatPage extends Component {
   displayPrice = (price, quantity) => {
     if (price === 0)
       return <span style={{ color: "FireBrick", fontWeight: "bold" }}>Indisponible</span>;
-    return Math.round(price * quantity).toLocaleString() + " K";
+    return Math.round(price * quantity).toLocaleString("fr-FR") + " K";
   };
 
   tooltipRender = ing => {
@@ -344,7 +344,7 @@ class ItemStatPage extends Component {
             <Table.Row>
               <Table.HeaderCell colSpan={4}>Total:</Table.HeaderCell>
               <Table.HeaderCell colSpan={2}>
-                {Math.round(totalAvg).toLocaleString()} K
+                {Math.round(totalAvg).toLocaleString("fr-FR")} K
                 {unknown[0] && (
                   <span style={{ color: "DarkOrange" }}>
                     <p />(Contains unknown prices)
@@ -352,7 +352,7 @@ class ItemStatPage extends Component {
                 )}
               </Table.HeaderCell>
               <Table.HeaderCell colSpan={1}>
-                {Math.round(totalActual).toLocaleString()} K
+                {Math.round(totalActual).toLocaleString("fr-FR")} K
                 {unknown[1] && (
                   <span style={{ color: "DarkOrange" }}>
                     <p />(Contains unknown prices)

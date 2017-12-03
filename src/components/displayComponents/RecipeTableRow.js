@@ -40,7 +40,8 @@ const bold = text => {
 };
 
 const RecipeTableRow = ({ recipe, keyId }) => {
-  const avgUn = recipe.averagePrice === -1;
+  const avgUn = recipe.containsAverageUnknown;
+  const actUn = recipe.containsActualUnknown;
   return (
     <Table.Row key={keyId}>
       <Table.Cell textAlign="center">{recipe.item.name}</Table.Cell>
@@ -59,22 +60,24 @@ const RecipeTableRow = ({ recipe, keyId }) => {
         Average:
       </Table.Cell>
       <Table.Cell textAlign="center" singleLine={true}>
-        {bold(formatText(recipe.lowestActualPrice))}
+        {actUn ? "Indisponible" : bold(formatText(recipe.lowestActualPrice))}
         <br />
         {avgUn ? "Indisponible" : formatText(recipe.averagePrice)}
       </Table.Cell>
       <Table.Cell textAlign="center" singleLine={true}>
-        {bold(formatText(recipe.totalIngredientsActualPrice))}
+        {actUn ? "Indisponible" : bold(formatText(recipe.totalIngredientsActualPrice))}
         <br />
         {avgUn ? "Indisponible" : formatText(recipe.totalIngredientsAveragePrice)}
       </Table.Cell>
       <Table.Cell textAlign="center" singleLine={true}>
-        {bold(colorText(recipe.actualCostDifference))}
+        {actUn ? "Indisponible" : bold(colorText(recipe.actualCostDifference))}
         <br />
         {avgUn ? "Indisponible" : colorText(recipe.averageCostDifference)}
       </Table.Cell>
       <Table.Cell textAlign="center" singleLine={true}>
-        {bold(colorText(parseInt(recipe.actualCostDifferencePercentage, 10), " %"))}
+        {actUn
+          ? "Indisponible"
+          : bold(colorText(parseInt(recipe.actualCostDifferencePercentage, 10), " %"))}
         <br />
         {avgUn
           ? "Indisponible"

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Image, Table, Button } from "semantic-ui-react";
+import { Image, Table, Button, Loader } from "semantic-ui-react";
 import history from "../history";
 import ItemTooltipComponent from "./ItemTooltipComponent";
 import RecipeTableRow from "./displayComponents/RecipeTableRow";
@@ -14,7 +14,7 @@ class RecipeList extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.recipes) {
-      this.setState({ data: nextProps.recipes });
+      this.setState({ data: nextProps.recipes, column: null, direction: null });
     }
   }
 
@@ -27,7 +27,6 @@ class RecipeList extends Component {
         data: _.sortBy(data, [cb]),
         direction: "ascending",
       });
-
       return;
     }
 
@@ -39,8 +38,9 @@ class RecipeList extends Component {
 
   render() {
     const { column, data, direction } = this.state;
+    if (this.props.loading) return <Loader content="Loading" active />;
     return (
-      <Table celled sortable>
+      <Table sortable striped>
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell
@@ -52,27 +52,30 @@ class RecipeList extends Component {
             </Table.HeaderCell>
             <Table.HeaderCell
               sorted={column === "Price" ? direction : null}
-              onClick={this.handleSort("Price", recipe => recipe.lowestActualPrice)}
+              onClick={this.handleSort("Price", recipe => parseInt(recipe.lowestActualPrice, 10))}
             >
               Price
             </Table.HeaderCell>
             <Table.HeaderCell
               sorted={column === "Total" ? direction : null}
-              onClick={this.handleSort("Total", recipe => recipe.totalIngredientsActualPrice)}
+              onClick={this.handleSort("Total", recipe =>
+                parseInt(recipe.totalIngredientsActualPrice, 10),
+              )}
             >
               Total Ingredients Price
             </Table.HeaderCell>
             <Table.HeaderCell
               sorted={column === "CostDiff" ? direction : null}
-              onClick={this.handleSort("CostDiff", recipe => recipe.actualCostDifference)}
+              onClick={this.handleSort("CostDiff", recipe =>
+                parseInt(recipe.actualCostDifference, 10),
+              )}
             >
               Cost Difference
             </Table.HeaderCell>
             <Table.HeaderCell
               sorted={column === "CostDiffPer" ? direction : null}
-              onClick={this.handleSort(
-                "CostDiffPer",
-                recipe => recipe.actualCostDifferencePercentage,
+              onClick={this.handleSort("CostDiffPer", recipe =>
+                parseInt(recipe.actualCostDifferencePercentage, 10),
               )}
             >
               Cost Difference %
@@ -100,5 +103,6 @@ RecipeList.propTypes = {
       item: PropTypes.object.isRequired,
     }).isRequired,
   ).isRequired,
+  loading: PropTypes.bool.isRequired,
 };
 export default RecipeList;
