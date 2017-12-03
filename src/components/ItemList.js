@@ -35,7 +35,7 @@ class ItemList extends Component {
   toRender = item => {
     return (
       <Card onClick={e => this.onClick(item.id)}>
-        <Image centered bordered size="small" src={`/img/${item.iconId}.png`} />
+        <Image centered bordered size="tiny" src={`/img/${item.iconId}.png`} />
         <Card.Content>
           <Card.Header style={{ fontColor: item.etheral ? "MediumSeaGreen" : "White" }}>
             {item.name}
