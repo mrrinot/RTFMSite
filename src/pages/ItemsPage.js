@@ -5,6 +5,7 @@ import { Message, Icon } from "semantic-ui-react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { fetchItems, fetchItemsTypes } from "../actions/creators/items";
+import { Helmet } from "react-helmet";
 
 class ItemsPage extends Component {
   componentDidMount() {
@@ -20,6 +21,9 @@ class ItemsPage extends Component {
       return (
         <div>
           {" "}
+          <Helmet>
+            <title>Search item - RTFM</title>
+          </Helmet>
           <h1>Items page</h1>
           <SearchItemsComponent onResult={this.onResult} loading={this.props.loading} />
           {this.props.items.length > 0 && <ItemList items={this.props.items} />}

@@ -6,6 +6,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { fetchItemsTypes } from "../actions/creators/items";
 import { fetchRecipes } from "../actions/creators/recipes";
+import { Helmet } from "react-helmet";
 
 class LeaderboardRecipePage extends Component {
   componentDidMount() {
@@ -20,6 +21,9 @@ class LeaderboardRecipePage extends Component {
     if (this.props.errors.global === undefined)
       return (
         <div>
+          <Helmet>
+            <title>Recipes - RTFM</title>
+          </Helmet>
           <h1>Recipe Leaderboard page</h1>
           <SearchItemsComponent onResult={this.onResult} loading={this.props.loading} />
           {this.props.recipes.length > 0 && <RecipeList recipes={this.props.recipes} />}

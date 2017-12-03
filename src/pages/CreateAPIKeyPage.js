@@ -4,6 +4,7 @@ import { Button, Grid, Label, Message, Icon } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { createAPIKeyAttempt } from "../actions/creators/APIKey";
+import { Helmet } from "react-helmet";
 
 class CreateAPIKeyPage extends Component {
   onClick = () => {
@@ -12,6 +13,9 @@ class CreateAPIKeyPage extends Component {
   render() {
     return (
       <div>
+        <Helmet>
+          <title>Api key - RTFM</title>
+        </Helmet>
         {this.props.errors.global && (
           <Message negative icon>
             <Icon name="warning sign" />

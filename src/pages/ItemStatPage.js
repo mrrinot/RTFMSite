@@ -20,6 +20,7 @@ import history from "../history";
 import HDVArchiveComponent from "../components/HDVArchiveComponent";
 import ItemTooltipComponent from "../components/ItemTooltipComponent";
 import _ from "lodash";
+import { Helmet } from "react-helmet";
 
 class ItemStatPage extends Component {
   state = {
@@ -243,7 +244,7 @@ class ItemStatPage extends Component {
                 <Table.Cell>
                   <div style={{ textAlign: "center" }}>
                     <span style={{ fontSize: 28, fontWeight: "bold" }}>
-                      This item can't be crafted
+                      This item can&apos;t be crafted
                     </span>
                     <p />
                   </div>
@@ -394,6 +395,9 @@ class ItemStatPage extends Component {
     const { item, prices } = this.props;
     return (
       <div>
+        <Helmet>
+          <title>{item.name} - RTFM</title>
+        </Helmet>
         {this.props.errors.global && (
           <Message negative icon>
             <Icon name="warning sign" />

@@ -73,7 +73,6 @@ class Header extends Component {
 
   render() {
     const { pathname } = this.props.location;
-    console.log("pathname =", pathname);
     return (
       <Container>
         {this.stuff(pathname)}
