@@ -1,6 +1,6 @@
 {
     "name": "rtfmsite",
-    "version": "0.3.3",
+    "version": "0.3.4",
     "private": true,
     "dependencies": {
         "axios": "^0.16.2",
@@ -11,6 +11,7 @@
         "prop-types": "^15.6.0",
         "react": "^16.1.1",
         "react-dom": "^16.1.1",
+        "react-helmet": "^5.2.0",
         "react-highcharts": "^13.0.0",
         "react-redux": "^5.0.6",
         "react-router": "^4.2.0",
@@ -48,10 +49,6 @@
         "tabWidth": 2,
         "trailingComma": "all"
     },
-    "eslintIgnore": [
-        "build/*",
-        "dep/*",
-        "node_modules/*"
-    ],
+    "eslintIgnore": ["build/*", "dep/*", "node_modules/*"],
     "proxy": "http://localhost:8080"
 }

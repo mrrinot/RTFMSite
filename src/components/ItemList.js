@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Image, Grid, Button } from "semantic-ui-react";
+import { Image, Card, Button, List } from "semantic-ui-react";
 import history from "../history";
 import ItemTooltipComponent from "./ItemTooltipComponent";
 
@@ -9,46 +9,60 @@ class ItemList extends Component {
     history.push(`/itemStat/${itemId}`);
   };
 
-  toRender = item => {
+  renderPrices(avgPrices) {
     return (
       <div>
-        <h3>
-          <font color={item.etheral ? "MediumSeaGreen" : "White"}>{item.name}</font>
-        </h3>
-        <Grid celled="internally">
-          <Grid.Row>
-            <Grid.Column width={7}>
-              <Image src={`/img/${item.iconId}.png`} />
-            </Grid.Column>
-            <Grid.Column width={1}>
-              <Button onClick={e => this.onClick(item.id)} className="ui button">
-                Inspecter
-              </Button>
-            </Grid.Column>
-          </Grid.Row>
-        </Grid>
+        Prix moyen:
+        {avgPrices.length === 0 ? (
+          <b> Indisponible</b>
+        ) : (
+          <List bulleted>
+            {avgPrices.map((avgPrice, key) => (
+              <List.Item key={key}>
+                {avgPrice.server.name} :
+                <b>
+                  {" "}
+                  {avgPrice.averagePrice === -1 ? " Indisponible" : avgPrice.averagePrice + " K"}
+                </b>
+              </List.Item>
+            ))}
+          </List>
+        )}
       </div>
+    );
+  }
+
+  toRender = item => {
+    return (
+      <Card onClick={e => this.onClick(item.id)}>
+        <Image centered bordered size="tiny" src={`/img/${item.iconId}.png`} />
+        <Card.Content>
+          <Card.Header style={{ fontColor: item.etheral ? "MediumSeaGreen" : "White" }}>
+            {item.name}
+          </Card.Header>
+          <Card.Meta>{item.type.name}</Card.Meta>
+          <Card.Description>{this.renderPrices(item.avgPrices)}</Card.Description>
+        </Card.Content>
+      </Card>
     );
   };
 
   render() {
     return (
-      <Grid columns={5} celled>
+      <Card.Group itemsPerRow="4">
         {this.props.items.map((item, key) => (
-          <Grid.Column key={key / 5}>
-            <ItemTooltipComponent
-              position="bottom center"
-              item={item}
-              hoverable
-              effects={item.possibleEffects}
-              baseEffects={item.possibleEffects}
-              avgPrices={item.avgPrices}
-              key={key}
-              toRender={this.toRender}
-            />
-          </Grid.Column>
+          <ItemTooltipComponent
+            key={item.id}
+            position="bottom center"
+            item={item}
+            hoverable
+            effects={item.possibleEffects}
+            baseEffects={item.possibleEffects}
+            avgPrices={item.avgPrices}
+            toRender={this.toRender}
+          />
         ))}
-      </Grid>
+      </Card.Group>
     );
   }
 }

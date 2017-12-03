@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { Message } from "semantic-ui-react";
 import { connect } from "react-redux";
 import { sendInviteAttempt } from "../actions/creators/invite";
+import { Helmet } from "react-helmet";
 
 class InvitePage extends Component {
   state = { timeout: false };
@@ -23,6 +24,9 @@ class InvitePage extends Component {
   render() {
     return (
       <div>
+        <Helmet>
+          <title>Invite - RTFM</title>
+        </Helmet>
         {this.props.infos.email &&
           this.state.timeout && (
             <Message color="green" icon="info">

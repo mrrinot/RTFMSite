@@ -4,6 +4,7 @@ import ConfirmInviteForm from "../forms/ConfirmInviteForm";
 import decode from "jwt-decode";
 import { connect } from "react-redux";
 import { sendInviteConfirmationAttempt } from "../actions/creators/invite";
+import { Helmet } from "react-helmet";
 
 class ConfirmInvitePage extends Component {
   onSubmit = data => {
@@ -13,6 +14,9 @@ class ConfirmInvitePage extends Component {
     const payload = decode(this.props.match.params.token);
     return (
       <div>
+        <Helmet>
+          <title>Welcome! - RTFM</title>
+        </Helmet>
         <h1>Create your account</h1>
         <ConfirmInviteForm
           onSubmit={this.onSubmit}

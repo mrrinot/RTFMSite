@@ -4,6 +4,7 @@ import ResetPasswordForm from "../forms/ResetPasswordForm";
 import decode from "jwt-decode";
 import { connect } from "react-redux";
 import { resetPasswordAttempt } from "../actions/creators/auth";
+import { Helmet } from "react-helmet";
 
 class ResetPasswordPage extends Component {
   onSubmit = data => {
@@ -13,6 +14,9 @@ class ResetPasswordPage extends Component {
     const payload = decode(this.props.match.params.token);
     return (
       <div>
+        <Helmet>
+          <title>Reset password - RTFM</title>
+        </Helmet>
         <h1>Reset your password</h1>
         <ResetPasswordForm
           onSubmit={this.onSubmit}

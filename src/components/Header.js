@@ -111,4 +111,4 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Header));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Header));

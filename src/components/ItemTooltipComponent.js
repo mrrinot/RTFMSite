@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Image, Grid, Popup } from "semantic-ui-react";
+import { Image, Grid, Popup, List } from "semantic-ui-react";
 import _ from "lodash";
 
 class ItemTooltipComponent extends Component {
@@ -108,19 +108,19 @@ class ItemTooltipComponent extends Component {
         {avgPrices.length === 0 ? (
           <b> Indisponible</b>
         ) : (
-          avgPrices.map((avgPrice, key) => (
-            <div key={key}>
-              {" -"}
-              {avgPrice.server.name} :
-              <b>
-                {" "}
-                {avgPrice.averagePrice === -1
-                  ? " Indisponible"
-                  : avgPrice.averagePrice.toLocaleString("fr-FR") + " K"}
-              </b>
-              <br />
-            </div>
-          ))
+          <List bulleted>
+            {avgPrices.map((avgPrice, key) => (
+              <List.Item key={key}>
+                {avgPrice.server.name} :
+                <b>
+                  {" "}
+                  {avgPrice.averagePrice === -1
+                    ? " Indisponible"
+                    : avgPrice.averagePrice.toLocaleString("fr-FR") + " K"}
+                </b>
+              </List.Item>
+            ))}
+          </List>
         )}
       </div>
     );

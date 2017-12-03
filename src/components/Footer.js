@@ -6,8 +6,8 @@ class Footer extends Component {
     return (
       <Container textAlign="center">
         <div style={{ display: "inline-block", textAlign: "left" }}>
-          <Label content="Serveur" detail="%RTFMSERVER_VERSION%" />
-          <Label content="Client" detail="%RTFMSITE_VERSION%" />
+          <Label content="Serveur" detail="0.5.3" />
+          <Label content="Client" detail="0.3.3" />
         </div>
       </Container>
     );

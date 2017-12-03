@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { loginAttempt, resetPasswordRequestAttempt } from "../actions/creators/auth";
 import { Button } from "semantic-ui-react";
 import ForgotPasswordComponent from "../components/ForgotPasswordComponent";
+import { Helmet } from "react-helmet";
 
 class LoginPage extends Component {
   onSubmit = credentials => {
@@ -18,6 +19,9 @@ class LoginPage extends Component {
   toRender = () => {
     return (
       <div>
+        <Helmet>
+          <title>Login - RTFM</title>
+        </Helmet>
         <Button color="red">Forgot password ?</Button>
       </div>
     );
