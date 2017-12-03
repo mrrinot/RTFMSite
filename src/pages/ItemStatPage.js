@@ -396,7 +396,7 @@ class ItemStatPage extends Component {
     return (
       <div>
         <Helmet>
-          <title>{item.name} - RTFM</title>
+          <title>{`${item.name} - RTFM`}</title>
         </Helmet>
         {this.props.errors.global && (
           <Message negative icon>
