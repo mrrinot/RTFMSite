@@ -26,7 +26,7 @@ class SearchRecipesComponent extends Component {
     if (search !== "") {
       const mandatoryConditions = this.state.mandatoryConditions;
       const optionalConditions = this.state.optionalConditions;
-      const conds = search.substr(1).split("|");
+      const conds = search.substr(1).split("_");
       _.each(conds, cond => {
         const vals = cond.split(";");
         if (vals.length !== 3) return;
@@ -64,14 +64,14 @@ class SearchRecipesComponent extends Component {
     let uri = "";
     _.each(this.state.mandatoryConditions, Cond => {
       if (Cond.val.value !== null) {
-        if (uri !== "") uri += "|";
+        if (uri !== "") uri += "_";
         uri += Cond.Condition.ConditionName + ";" + Cond.val.operator + ";" + Cond.val.value;
         where.push(Cond.val);
       }
     });
     _.each(this.state.optionalConditions, Cond => {
       if (Cond.val.value !== null) {
-        if (uri !== "") uri += "|";
+        if (uri !== "") uri += "_";
         uri += Cond.Condition.ConditionName + ";" + Cond.val.operator + ";" + Cond.val.value;
         where.push(Cond.val);
       }

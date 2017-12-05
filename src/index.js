@@ -9,7 +9,7 @@ import { Provider } from "react-redux";
 import rootReducer from "./reducers/rootReducer";
 import * as actionCreators from "./actions/creators";
 import { loginStatus } from "./actions/creators/auth";
-import { createAPIKeyAttempt } from "./actions/creators/APIKey";
+import { onCreatedAPIKey } from "./actions/creators/APIKey";
 import App from "./App";
 import rootSaga from "./saga";
 import history from "./history";
@@ -49,12 +49,12 @@ if (localStorage.rtfmUserInfos) {
   isLoggedIn(userInfos.email)
     .then(ret => {
       store.dispatch(loginStatus(ret.data));
-      store.dispatch(createAPIKeyAttempt(ret.data.APIKey));
+      store.dispatch(onCreatedAPIKey({ key: ret.data.APIKey }));
       renderDOM(false);
     })
     .catch(e => {
       store.dispatch(loginStatus({}));
-      store.dispatch(createAPIKeyAttempt({}));
+      store.dispatch(onCreatedAPIKey({}));
       localStorage.removeItem("rtfmUserInfos");
       renderDOM(false);
     });

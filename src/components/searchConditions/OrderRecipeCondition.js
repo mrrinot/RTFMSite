@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Input, Dropdown } from "semantic-ui-react";
 
-const DISPLAY_NAME = "Order By";
+const DISPLAY_NAME = "OrderBy";
 const COL_NAME = "orderBy";
 
 const orders = [{ text: "ASC", value: "ASC" }, { text: "DESC", value: "DESC" }];
