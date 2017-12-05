@@ -7,7 +7,6 @@ import itemStat from "./itemStat";
 import metaData from "./metaData";
 import itemDescEffects from "./itemDescEffects";
 import recipes from "./recipes";
-import { routerReducer } from "react-router-redux";
 
 export default combineReducers({
   auth,
@@ -18,5 +17,4 @@ export default combineReducers({
   metaData,
   itemDescEffects,
   recipes,
-  router: routerReducer,
 });

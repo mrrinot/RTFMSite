@@ -15,16 +15,11 @@ import rootSaga from "./saga";
 import history from "./history";
 import axios from "axios";
 import { Message, Icon } from "semantic-ui-react";
-import { ConnectedRouter, routerReducer, routerMiddleware } from "react-router-redux";
 import { isLoggedIn } from "./api/auth";
 
 const composeEnhancers = composeWithDevTools({ actionCreators });
 const sagaMiddleware = createSagaMiddleware();
-const routerMiddlewares = routerMiddleware(history);
-const store = createStore(
-  rootReducer,
-  composeEnhancers(applyMiddleware(sagaMiddleware, routerMiddlewares)),
-);
+const store = createStore(rootReducer, composeEnhancers(applyMiddleware(sagaMiddleware)));
 sagaMiddleware.run(rootSaga);
 
 function renderAuthLoading() {
@@ -42,7 +37,7 @@ function renderAuthLoading() {
 function renderDOM(loaded) {
   ReactDOM.render(
     <Provider store={store}>
-      <ConnectedRouter history={history}>{loaded ? renderAuthLoading() : <App />}</ConnectedRouter>
+      <Router history={history}>{loaded ? renderAuthLoading() : <App />}</Router>
     </Provider>,
     document.getElementById("root"),
   );

@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Input, Dropdown } from "semantic-ui-react";
 
-const COL_NAME = "Level";
+const DISPLAY_NAME = "Level";
+const COL_NAME = "level";
 
 const operators = [
   { text: ">", value: ">" },
@@ -16,12 +17,12 @@ const operators = [
 class LevelCondition extends Component {
   constructor(props) {
     super(props);
-    this.state = { value: 0, operator: ">" };
+    this.state = { value: this.props.value.value || 0, operator: this.props.value.operator || ">" };
   }
 
   submit = () => {
     this.props.onSubmit({
-      col: "level",
+      col: COL_NAME,
       operator: this.state.operator,
       value: this.state.value,
     });
@@ -56,8 +57,14 @@ class LevelCondition extends Component {
 
 LevelCondition.propTypes = {
   onSubmit: PropTypes.func.isRequired,
+  value: PropTypes.shape({
+    col: PropTypes.string.isRequired,
+    operator: PropTypes.string.isRequired,
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  }).isRequired,
 };
 
-LevelCondition.ConditionName = COL_NAME;
+LevelCondition.ConditionName = DISPLAY_NAME;
+LevelCondition.ColName = COL_NAME;
 
 export default LevelCondition;

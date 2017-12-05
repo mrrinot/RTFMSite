@@ -4,7 +4,8 @@ import { Dropdown } from "semantic-ui-react";
 import { connect } from "react-redux";
 import _ from "lodash";
 
-const COL_NAME = "Type";
+const DISPLAY_NAME = "Type";
+const COL_NAME = "typeId";
 
 class TypeCondition extends Component {
   constructor(props) {
@@ -22,7 +23,7 @@ class TypeCondition extends Component {
             this.setState(
               { value: data.value },
               this.props.onSubmit({
-                col: "typeId",
+                col: COL_NAME,
                 operator: "=",
                 value: data.value,
               }),
@@ -51,9 +52,15 @@ TypeCondition.propTypes = {
       name: PropTypes.string.isRequired,
     }).isRequired,
   ).isRequired,
+  value: PropTypes.shape({
+    col: PropTypes.string.isRequired,
+    operator: PropTypes.string.isRequired,
+    value: PropTypes.object.isRequired,
+  }).isRequired,
 };
 
-TypeCondition.ConditionName = COL_NAME;
+TypeCondition.ConditionName = DISPLAY_NAME;
+TypeCondition.ColName = COL_NAME;
 
 const mapStateToProps = (state, ownProps) => {
   return {

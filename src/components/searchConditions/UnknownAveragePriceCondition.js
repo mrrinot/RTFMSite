@@ -2,11 +2,14 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Checkbox } from "semantic-ui-react";
 
+const DISPLAY_NAME = "UnAvgPrc";
+const COL_NAME = "containsAverageUnknown";
+
 class UnknownAveragePrice extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: null,
+      value: this.props.value.value,
     };
   }
   render() {
@@ -32,7 +35,7 @@ class UnknownAveragePrice extends Component {
             this.setState(
               { value: val },
               this.props.onSubmit({
-                col: "containsAverageUnknown",
+                col: COL_NAME,
                 operator: "=",
                 value: val === null ? val : !val,
               }),
@@ -46,6 +49,14 @@ class UnknownAveragePrice extends Component {
 
 UnknownAveragePrice.propTypes = {
   onSubmit: PropTypes.func.isRequired,
+  value: PropTypes.shape({
+    col: PropTypes.string.isRequired,
+    operator: PropTypes.string.isRequired,
+    value: PropTypes.PropTypes.oneOfType([PropTypes.bool]),
+  }).isRequired,
 };
+
+UnknownAveragePrice.ConditionName = DISPLAY_NAME;
+UnknownAveragePrice.ColName = COL_NAME;
 
 export default UnknownAveragePrice;

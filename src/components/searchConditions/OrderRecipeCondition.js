@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Input, Dropdown } from "semantic-ui-react";
 
-const COL_NAME = "Order By";
+const DISPLAY_NAME = "Order By";
+const COL_NAME = "orderBy";
 
 const orders = [{ text: "ASC", value: "ASC" }, { text: "DESC", value: "DESC" }];
 const columns = [
@@ -24,7 +25,7 @@ class OrderCondition extends Component {
 
   submit = () => {
     this.props.onSubmit({
-      col: "orderBy",
+      col: COL_NAME,
       operator: this.state.col,
       value: this.state.order,
     });
@@ -64,8 +65,13 @@ class OrderCondition extends Component {
 
 OrderCondition.propTypes = {
   onSubmit: PropTypes.func.isRequired,
+  value: PropTypes.shape({
+    col: PropTypes.string.isRequired,
+    operator: PropTypes.string.isRequired,
+    value: PropTypes.object.isRequired,
+  }).isRequired,
 };
 
-OrderCondition.ConditionName = COL_NAME;
-
+OrderCondition.ConditionName = DISPLAY_NAME;
+OrderCondition.ColName = COL_NAME;
 export default OrderCondition;

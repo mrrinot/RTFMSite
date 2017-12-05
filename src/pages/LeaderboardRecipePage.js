@@ -25,7 +25,11 @@ class LeaderboardRecipePage extends Component {
             <title>Recipes - RTFM</title>
           </Helmet>
           <h1>Recipe Leaderboard page</h1>
-          <SearchRecipesComponent onResult={this.onResult} loading={this.props.loading} />
+          <SearchRecipesComponent
+            onResult={this.onResult}
+            loading={this.props.loading}
+            location={this.props.location}
+          />
           {this.props.recipes.length > 0 && (
             <div>
               <div>
@@ -70,6 +74,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 };
 
 LeaderboardRecipePage.propTypes = {
+  location: PropTypes.object.isRequired,
   recipes: PropTypes.array.isRequired,
   onResult: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,

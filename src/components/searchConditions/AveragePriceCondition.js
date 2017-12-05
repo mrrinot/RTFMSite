@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Input, Dropdown } from "semantic-ui-react";
 
-const COL_NAME = "Average price";
+const DISPLAY_NAME = "AveragePrice";
+const COL_NAME = "averagePrice";
 
 const operators = [
   { text: ">", value: ">" },
@@ -16,12 +17,12 @@ const operators = [
 class AveragePriceCondition extends Component {
   constructor(props) {
     super(props);
-    this.state = { value: 0, operator: ">" };
+    this.state = { value: this.props.value.value || 0, operator: this.props.value.operator || ">" };
   }
 
   submit = () => {
     this.props.onSubmit({
-      col: "averagePrice",
+      col: COL_NAME,
       operator: this.state.operator,
       value: this.state.value,
     });
@@ -55,8 +56,14 @@ class AveragePriceCondition extends Component {
 
 AveragePriceCondition.propTypes = {
   onSubmit: PropTypes.func.isRequired,
+  value: PropTypes.shape({
+    col: PropTypes.string.isRequired,
+    operator: PropTypes.string.isRequired,
+    value: PropTypes.object,
+  }).isRequired,
 };
 
-AveragePriceCondition.ConditionName = COL_NAME;
+AveragePriceCondition.ConditionName = DISPLAY_NAME;
+AveragePriceCondition.ColName = COL_NAME;
 
 export default AveragePriceCondition;

@@ -2,11 +2,14 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Checkbox } from "semantic-ui-react";
 
+const DISPLAY_NAME = "UnActPrc";
+const COL_NAME = "containsActualUnknown";
+
 class UnknownActualPriceCondition extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: null,
+      value: this.props.value.value,
     };
   }
   render() {
@@ -32,7 +35,7 @@ class UnknownActualPriceCondition extends Component {
             this.setState(
               { value: val },
               this.props.onSubmit({
-                col: "containsActualUnknown",
+                col: COL_NAME,
                 operator: "=",
                 value: val === null ? val : !val,
               }),
@@ -46,6 +49,14 @@ class UnknownActualPriceCondition extends Component {
 
 UnknownActualPriceCondition.propTypes = {
   onSubmit: PropTypes.func.isRequired,
+  value: PropTypes.shape({
+    col: PropTypes.string.isRequired,
+    operator: PropTypes.string.isRequired,
+    value: PropTypes.PropTypes.oneOfType([PropTypes.bool]),
+  }).isRequired,
 };
+
+UnknownActualPriceCondition.ConditionName = DISPLAY_NAME;
+UnknownActualPriceCondition.ColName = COL_NAME;
 
 export default UnknownActualPriceCondition;
