@@ -75,6 +75,5 @@ ItemList.propTypes = {
       iconId: PropTypes.number.isRequired,
     }).isRequired,
   ).isRequired,
-  onLoad: PropTypes.func.isRequired,
 };
 export default ItemList;

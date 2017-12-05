@@ -25,7 +25,11 @@ class ItemsPage extends Component {
             <title>Search item - RTFM</title>
           </Helmet>
           <h1>Items page</h1>
-          <SearchItemsComponent onResult={this.onResult} loading={this.props.loading} />
+          <SearchItemsComponent
+            onResult={this.onResult}
+            loading={this.props.loading}
+            location={this.props.location}
+          />
           {this.props.items.length > 0 && <ItemList items={this.props.items} />}
         </div>
       );
@@ -62,6 +66,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 };
 
 ItemsPage.propTypes = {
+  location: PropTypes.object.isRequired,
   items: PropTypes.array.isRequired,
   onResult: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
