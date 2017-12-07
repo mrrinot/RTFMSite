@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Image, Card, Button, List } from "semantic-ui-react";
 import history from "../history";
 import ItemTooltipComponent from "./ItemTooltipComponent";
-
+import { Link } from "react-router-dom";
 class ItemList extends Component {
   onClick = itemId => {
     history.push(`/itemStat/${itemId}`);
@@ -35,7 +35,14 @@ class ItemList extends Component {
   toRender = item => {
     return (
       <Card onClick={e => this.onClick(item.id)}>
-        <Image centered bordered size="tiny" src={`/img/${item.iconId}.png`} />
+        <Image
+          centered
+          as={Link}
+          to={`/itemStat/${item.id}`}
+          bordered
+          size="tiny"
+          src={`/img/${item.iconId}.png`}
+        />
         <Card.Content>
           <Card.Header style={{ fontColor: item.etheral ? "MediumSeaGreen" : "White" }}>
             {item.name}

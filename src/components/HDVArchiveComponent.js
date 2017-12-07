@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import _ from "lodash";
 import ItemTooltipComponent from "./ItemTooltipComponent";
 import { fetchItemDataEffects } from "../actions/creators/items";
+import { Link } from "react-router-dom";
 
 class HDVArchiveComponent extends Component {
   state = { selected: -1 };
@@ -39,7 +40,7 @@ class HDVArchiveComponent extends Component {
   toRender = item => {
     return (
       <div>
-        <Image src={`/img/${item.iconId}.png`} />
+        <Image as={Link} to={`/itemStat/${item.id}`} src={`/img/${item.iconId}.png`} />
       </div>
     );
   };

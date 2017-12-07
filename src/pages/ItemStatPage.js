@@ -21,6 +21,7 @@ import HDVArchiveComponent from "../components/HDVArchiveComponent";
 import ItemTooltipComponent from "../components/ItemTooltipComponent";
 import _ from "lodash";
 import { Helmet } from "react-helmet";
+import { Link } from "react-router-dom";
 
 class ItemStatPage extends Component {
   state = {
@@ -218,13 +219,7 @@ class ItemStatPage extends Component {
   tooltipRender = item => {
     return (
       <div>
-        <Image
-          centered
-          onClick={e => {
-            history.push(`/itemStat/${item.id}`);
-          }}
-          src={`/img/${item.iconId}.png`}
-        />
+        <Image as={Link} to={`/itemStat/${item.id}`} centered src={`/img/${item.iconId}.png`} />
       </div>
     );
   };
@@ -454,14 +449,14 @@ class ItemStatPage extends Component {
                 />
               </Grid.Row>
             </Grid>
-            {this.config.title.text !== "PLACEHOLDER" && (
-              <div>
-                <ReactHighstock config={this.config} />
-                <br />
-                <HDVArchiveComponent item={item} selected={this.state.timestampSelected} />
-              </div>
-            )}
-            {/* {this.displayRecipeInformations()} */}
+
+            <div>
+              <ReactHighstock config={this.config} />
+              <br />
+              <HDVArchiveComponent item={item} selected={this.state.timestampSelected} />
+            </div>
+
+            {this.displayRecipeInformations()}
           </div>
         )}
       </div>

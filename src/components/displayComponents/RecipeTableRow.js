@@ -3,17 +3,11 @@ import PropTypes from "prop-types";
 import { Table, Image, Icon } from "semantic-ui-react";
 import history from "../../history";
 import ItemTooltipComponent from "../ItemTooltipComponent";
-
+import { Link } from "react-router-dom";
 const tooltipRender = item => {
   return (
     <div>
-      <Image
-        centered
-        onClick={e => {
-          history.push(`/itemStat/${item.id}`);
-        }}
-        src={`/img/${item.iconId}.png`}
-      />
+      <Image as={Link} to={`/itemStat/${item.id}`} centered src={`/img/${item.iconId}.png`} />
     </div>
   );
 };
