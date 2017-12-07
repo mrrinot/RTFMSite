@@ -123,6 +123,7 @@ class ItemStatPage extends Component {
   };
 
   componentDidMount() {
+    HighCharts.setOptions({ global: { useUTC: false } });
     this.props.onMount(this.props.match.params.itemId, this.onItemReceived);
   }
 
