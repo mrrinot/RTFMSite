@@ -13,6 +13,14 @@ class TypeCondition extends Component {
     this.state = { value: "" };
   }
 
+  componentWillReceiveProps(props) {
+    if (props.value && props.value.value) {
+      this.setState({
+        value: props.value.value,
+      });
+    }
+  }
+
   render() {
     return (
       <div>

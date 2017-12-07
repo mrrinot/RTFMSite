@@ -214,17 +214,17 @@ class ItemStatPage extends Component {
     return Math.round(price * quantity).toLocaleString("fr-FR") + " K";
   };
 
-  tooltipRender = ing => {
+  tooltipRender = item => {
     return (
-      <Table.Cell>
+      <div>
         <Image
           centered
           onClick={e => {
-            history.push(`/itemStat/${ing.item.id}`);
+            history.push(`/itemStat/${item.id}`);
           }}
-          src={`/img/${ing.item.iconId}.png`}
+          src={`/img/${item.iconId}.png`}
         />
-      </Table.Cell>
+      </div>
     );
   };
 
@@ -295,15 +295,17 @@ class ItemStatPage extends Component {
               const actual = this.computeActualPrice(obj.price);
               return (
                 <Table.Row key={i}>
-                  <ItemTooltipComponent
-                    item={obj.item}
-                    effects={obj.item.possibleEffects}
-                    baseEffects={obj.item.possibleEffects}
-                    avgPrices={obj.price}
-                    key={i}
-                    toRender={e => this.tooltipRender(obj)}
-                    position="right center"
-                  />
+                  <Table.Cell>
+                    <ItemTooltipComponent
+                      item={obj.item}
+                      effects={obj.item.possibleEffects}
+                      baseEffects={obj.item.possibleEffects}
+                      avgPrices={obj.price}
+                      key={i}
+                      toRender={this.tooltipRender}
+                      position="right center"
+                    />
+                  </Table.Cell>
                   <Table.Cell>{obj.item.name}</Table.Cell>
                   <Table.Cell>{this.displayPrice(avg, 1)}</Table.Cell>
                   <Table.Cell>{this.displayPrice(actual, 1)}</Table.Cell>
@@ -347,15 +349,17 @@ class ItemStatPage extends Component {
               return (
                 <Table.Row key={i}>
                   <Table.Cell textAlign="center">{getQuantity(ing)}x</Table.Cell>
-                  <ItemTooltipComponent
-                    item={ing.item}
-                    effects={ing.item.possibleEffects}
-                    baseEffects={ing.item.possibleEffects}
-                    avgPrices={ing.price}
-                    key={i}
-                    toRender={e => this.tooltipRender(ing)}
-                    position="right center"
-                  />
+                  <Table.Cell>
+                    <ItemTooltipComponent
+                      item={ing.item}
+                      effects={ing.item.possibleEffects}
+                      baseEffects={ing.item.possibleEffects}
+                      avgPrices={ing.price}
+                      key={i}
+                      toRender={this.tooltipRender}
+                      position="right center"
+                    />
+                  </Table.Cell>
                   <Table.Cell>{ing.item.name}</Table.Cell>
                   <Table.Cell>{this.displayPrice(avg, 1)}</Table.Cell>
                   <Table.Cell>{this.displayPrice(avg, getQuantity(ing))}</Table.Cell>
@@ -413,7 +417,15 @@ class ItemStatPage extends Component {
             <Grid divided padded columns={3}>
               <Grid.Row>
                 <Grid.Column width={2}>
-                  <Image centered src={`/img/${item.iconId}.png`} />
+                  <ItemTooltipComponent
+                    item={item}
+                    effects={item.possibleEffects}
+                    baseEffects={item.possibleEffects}
+                    avgPrices={[prices[prices.length - 1]]}
+                    key={-52}
+                    toRender={this.tooltipRender}
+                    position="right center"
+                  />
                 </Grid.Column>
                 <Grid.Column width={5}>
                   <h1>{item.name}</h1>
@@ -422,7 +434,7 @@ class ItemStatPage extends Component {
                   <h1>
                     {"Prix moyen: "}
                     {prices.length > 0
-                      ? prices[prices.length - 1].averagePrice.toLocaleString() + " K"
+                      ? prices[prices.length - 1].averagePrice.toLocaleString("fr-FR") + " K"
                       : "Indisponible"}
                   </h1>
                 </Grid.Column>
@@ -448,7 +460,7 @@ class ItemStatPage extends Component {
                 <HDVArchiveComponent item={item} selected={this.state.timestampSelected} />
               </div>
             )}
-            {this.displayRecipeInformations()}
+            {/* {this.displayRecipeInformations()} */}
           </div>
         )}
       </div>

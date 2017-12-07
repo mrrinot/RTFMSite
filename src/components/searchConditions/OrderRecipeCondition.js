@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Input, Dropdown } from "semantic-ui-react";
+import _ from "lodash";
 
 const DISPLAY_NAME = "OrderBy";
 const COL_NAME = "orderBy";
@@ -21,6 +22,13 @@ class OrderCondition extends Component {
   constructor(props) {
     super(props);
     this.state = { value: "", order: "ASC", col: "" };
+  }
+
+  componentWillReceiveProps(props) {
+    if (props.value && props.value.value) {
+      const selected = _.find(columns, col => col.colname === props.value.operator);
+      this.setState({ order: props.value.value, value: selected ? selected.colname : "" });
+    }
   }
 
   submit = () => {
@@ -68,7 +76,7 @@ OrderCondition.propTypes = {
   value: PropTypes.shape({
     col: PropTypes.string.isRequired,
     operator: PropTypes.string.isRequired,
-    value: PropTypes.object.isRequired,
+    value: PropTypes.string,
   }).isRequired,
 };
 

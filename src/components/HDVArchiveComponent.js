@@ -36,12 +36,11 @@ class HDVArchiveComponent extends Component {
     }
   }
 
-  toRender = desc => {
-    const { item } = this.props;
+  toRender = item => {
     return (
-      <Grid.Column width={4}>
+      <div>
         <Image src={`/img/${item.iconId}.png`} />
-      </Grid.Column>
+      </div>
     );
   };
 
@@ -69,15 +68,17 @@ class HDVArchiveComponent extends Component {
             },
           ]).map((desc, i) => (
             <Grid.Row key={i}>
-              <ItemTooltipComponent
-                item={item}
-                effects={effects[priceArchive.id][desc.id] || []}
-                baseEffects={item.possibleEffects}
-                avgPrices={[priceArchive]}
-                key={i}
-                toRender={e => this.toRender(desc)}
-                position="right center"
-              />
+              <Grid.Column width={4}>
+                <ItemTooltipComponent
+                  item={item}
+                  effects={effects[priceArchive.id][desc.id] || []}
+                  baseEffects={item.possibleEffects}
+                  avgPrices={[priceArchive]}
+                  key={i}
+                  toRender={this.toRender}
+                  position="right center"
+                />
+              </Grid.Column>
               <Grid.Column width={4}>{desc.prices[0].toLocaleString("fr-FR")}</Grid.Column>
               <Grid.Column width={4}>{desc.prices[1].toLocaleString("fr-FR")}</Grid.Column>
               <Grid.Column width={4}>{desc.prices[2].toLocaleString("fr-FR")}</Grid.Column>

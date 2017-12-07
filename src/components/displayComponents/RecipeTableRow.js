@@ -6,7 +6,7 @@ import ItemTooltipComponent from "../ItemTooltipComponent";
 
 const tooltipRender = item => {
   return (
-    <Table.Cell>
+    <div>
       <Image
         centered
         onClick={e => {
@@ -14,7 +14,7 @@ const tooltipRender = item => {
         }}
         src={`/img/${item.iconId}.png`}
       />
-    </Table.Cell>
+    </div>
   );
 };
 
@@ -45,15 +45,17 @@ const RecipeTableRow = ({ recipe, keyId }) => {
   return (
     <Table.Row key={keyId}>
       <Table.Cell textAlign="center">{recipe.item.name}</Table.Cell>
-      <ItemTooltipComponent
-        item={recipe.item}
-        effects={recipe.item.possibleEffects}
-        baseEffects={recipe.item.possibleEffects}
-        avgPrices={recipe.avgPrices}
-        key={keyId}
-        toRender={e => tooltipRender(recipe.item)}
-        position="right center"
-      />
+      <Table.Cell>
+        <ItemTooltipComponent
+          item={recipe.item}
+          effects={recipe.item.possibleEffects}
+          baseEffects={recipe.item.possibleEffects}
+          avgPrices={recipe.avgPrices}
+          key={keyId}
+          toRender={tooltipRender}
+          position="right center"
+        />
+      </Table.Cell>
       <Table.Cell textAlign="center" singleLine={true}>
         Actual:
         <br />

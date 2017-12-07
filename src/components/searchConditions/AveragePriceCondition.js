@@ -17,7 +17,13 @@ const operators = [
 class AveragePriceCondition extends Component {
   constructor(props) {
     super(props);
-    this.state = { value: this.props.value.value || 0, operator: this.props.value.operator || ">" };
+    this.state = { value: 0, operator: ">" };
+  }
+
+  componentWillReceiveProps(props) {
+    if (props.value && props.value.value) {
+      this.setState({ value: props.value.value, operator: props.value.operator });
+    }
   }
 
   submit = () => {

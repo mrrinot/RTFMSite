@@ -9,8 +9,16 @@ class UnknownAveragePrice extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: this.props.value.value,
+      value: null,
     };
+  }
+  componentWillReceiveProps(props) {
+    if (props.value) {
+      const val = props.value.value === "null" ? null : props.value.value === "true";
+      this.setState({
+        value: val === null ? val : !val,
+      });
+    }
   }
   render() {
     return (
@@ -52,7 +60,7 @@ UnknownAveragePrice.propTypes = {
   value: PropTypes.shape({
     col: PropTypes.string.isRequired,
     operator: PropTypes.string.isRequired,
-    value: PropTypes.PropTypes.oneOfType([PropTypes.bool]),
+    value: PropTypes.string,
   }).isRequired,
 };
 

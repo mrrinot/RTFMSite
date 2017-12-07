@@ -20,8 +20,8 @@ class NameCondition extends Component {
     });
   };
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.value.value) this.setState({ value: nextProps.value.value });
+  componentWillReceiveProps(props) {
+    if (props.value && props.value.value) this.setState({ value: props.value.value });
   }
 
   render() {

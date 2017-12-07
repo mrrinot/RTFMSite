@@ -8,8 +8,11 @@ class DescriptionCondition extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: this.props.value.value || "",
+      value: "",
     };
+  }
+  componentWillReceiveProps(props) {
+    if (props.value && props.value.value) this.setState({ value: props.value.value });
   }
   render() {
     return (
