@@ -31,28 +31,33 @@ class ItemTooltipComponent extends Component {
     );
   }
 
-  getItemEffects() {
-    const { effects } = this.props;
+  getItemEffects(isBase) {
+    const { effects, baseEffects } = this.props;
+    const sorted = _.keyBy(baseEffects, effect => effect.effectId);
     return (
       <div>
-        {effects.map((effect, i) => (
-          <div key={i}>
-            {!effect.effect.useInFight && (
-              <div>
-                <font
-                  color={
-                    effect.effect.bonusType === -1
-                      ? "FireBrick"
-                      : this.isAddedEffect(effect) ? "SteelBlue" : "SeaGreen"
-                  }
-                >
-                  {effect.description}
-                </font>
-                <br />
-              </div>
-            )}
-          </div>
-        ))}
+        {effects.map((effect, i) => {
+          const base = sorted[effect.effectId];
+          return (
+            <div key={i}>
+              {!effect.effect.useInFight && (
+                <div>
+                  <font
+                    color={
+                      effect.effect.bonusType === -1
+                        ? "FireBrick"
+                        : this.isAddedEffect(effect) ? "SteelBlue" : "SeaGreen"
+                    }
+                  >
+                    {effect.description}
+                  </font>
+                  <span color={"Gainsboro"}>{!isBase && ` ( ${base.min} à ${base.max} )`}</span>
+                  <br />
+                </div>
+              )}
+            </div>
+          );
+        })}
       </div>
     );
   }
@@ -88,13 +93,13 @@ class ItemTooltipComponent extends Component {
       </div>
     );
   }
-  renderItemEffects() {
+  renderItemEffects(isBase) {
     return (
       <div>
         <font size={3}>
           <b>Effets</b>
           <br />
-          {this.getItemEffects()}
+          {this.getItemEffects(isBase)}
         </font>
       </div>
     );
@@ -171,6 +176,7 @@ class ItemTooltipComponent extends Component {
 
   render() {
     const { item, effects } = this.props;
+    const isBase = effects === this.props.baseEffects;
     return (
       <Popup
         trigger={this.props.toRender(item)}
@@ -195,7 +201,7 @@ class ItemTooltipComponent extends Component {
                 <p />
                 {this.isAWeapon() && this.renderWeaponDmgLines()}
                 <p />
-                {effects.length !== 0 && this.renderItemEffects()}
+                {effects.length !== 0 && this.renderItemEffects(isBase)}
                 <p />
                 {item.criteria !== "" && this.renderCriteria()}
                 <p />

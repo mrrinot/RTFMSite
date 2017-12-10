@@ -65,7 +65,7 @@ AveragePriceCondition.propTypes = {
   value: PropTypes.shape({
     col: PropTypes.string.isRequired,
     operator: PropTypes.string.isRequired,
-    value: PropTypes.object,
+    value: PropTypes.string,
   }).isRequired,
 };
 

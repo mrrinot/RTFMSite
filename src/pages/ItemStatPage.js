@@ -417,7 +417,7 @@ class ItemStatPage extends Component {
                     item={item}
                     effects={item.possibleEffects}
                     baseEffects={item.possibleEffects}
-                    avgPrices={[prices[prices.length - 1]]}
+                    avgPrices={prices.length > 0 ? [prices[prices.length - 1]] : []}
                     key={-52}
                     toRender={this.tooltipRender}
                     position="right center"
@@ -455,7 +455,6 @@ class ItemStatPage extends Component {
               <br />
               <HDVArchiveComponent item={item} selected={this.state.timestampSelected} />
             </div>
-
             {this.displayRecipeInformations()}
           </div>
         )}

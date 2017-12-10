@@ -14,7 +14,10 @@ class UnknownAveragePrice extends Component {
   }
   componentWillReceiveProps(props) {
     if (props.value) {
-      const val = props.value.value === "null" ? null : props.value.value === "true";
+      const val =
+        props.value.value === "null" || props.value.value === null
+          ? null
+          : props.value.value === "true";
       this.setState({
         value: val === null ? val : !val,
       });
