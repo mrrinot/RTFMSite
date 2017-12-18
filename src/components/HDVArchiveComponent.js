@@ -31,7 +31,7 @@ class HDVArchiveComponent extends Component {
   };
 
   componentWillReceiveProps(newProps) {
-    const selected = newProps.selected || this.props.selected;
+    const selected = newProps.selected !== -1 ? newProps.selected : this.props.selected;
     if (selected !== -1) {
       this.setState({ selected }, this.loadEffects);
     }
@@ -108,6 +108,7 @@ class HDVArchiveComponent extends Component {
           selection
           options={this.getTimestampOptions()}
           onChange={(e, data) => this.setState({ selected: data.value }, this.loadEffects)}
+          selectOnBlur={false}
           text={this.displaySelectedTimeStamp()}
         />
         <br />

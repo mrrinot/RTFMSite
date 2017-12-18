@@ -31,6 +31,15 @@ class ItemTooltipComponent extends Component {
     );
   }
 
+  displayBaseEffect(base) {
+    let str = " ( " + base.min;
+    if (base.max > base.min) {
+      str += " à " + base.max;
+    }
+    str += " )";
+    return <span color={"Gainsboro"}>{str}</span>;
+  }
+
   getItemEffects(isBase) {
     const { effects, baseEffects } = this.props;
     const sorted = _.keyBy(baseEffects, effect => effect.effectId);
@@ -51,7 +60,7 @@ class ItemTooltipComponent extends Component {
                   >
                     {effect.description}
                   </font>
-                  <span color={"Gainsboro"}>{!isBase && ` ( ${base.min} à ${base.max} )`}</span>
+                  {base && !isBase && this.displayBaseEffect(base)}
                   <br />
                 </div>
               )}
@@ -109,7 +118,7 @@ class ItemTooltipComponent extends Component {
     const { avgPrices } = this.props;
     return (
       <div>
-        Prix moyen:
+        Prix:
         {avgPrices.length === 0 ? (
           <b> Indisponible</b>
         ) : (

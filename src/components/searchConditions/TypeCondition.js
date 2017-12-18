@@ -43,7 +43,9 @@ class TypeCondition extends Component {
             return { text: type.name, value: type.id };
           })}
           text={
-            this.state.value === "" ? "" : _.find(this.props.types, { id: this.state.value }).name
+            this.state.value === ""
+              ? ""
+              : _.find(this.props.types, { id: parseInt(this.state.value, 10) }).name
           }
           value={this.state.value === "" ? "" : this.state.value}
         />
